@@ -88,9 +88,18 @@ The engine turns the contracts from prose-with-types into behavior:
   convention. Course definitions load from `dist/courses/*.json`, falling back to the TS
   source in a fresh checkout.
 
+- **`brief.ts`** — the bridge to the conversational layer. `sessionBrief()` runs `advise`
+  and renders everything a session needs — contract moves with verbatim instructions and
+  their evidence, ethics-spine due-tracking (one weekly reading owed per completed program
+  week; owed readings open the session), phase-boundary flags, openings, chain integrity —
+  as one markdown document. The conversational model reads it under the stance in
+  `FACILITATOR.md`: the engine decides, Elle speaks. Refusal lines (the completion gate,
+  never ghost-writing readings, the spine cannot be deferred indefinitely) live in that
+  stance file, not in model temperament.
+
 Time always arrives as an argument (`now: Date`), never from inside the engine — every
 behavior is reproducible in tests. The CLI (`src/cli.ts`, `npm run elle`) is the first
-consumer; Elle's conversational runtime is the intended second.
+consumer; Elle's conversational runtime reads `elle brief` output as its session context.
 
 ## Data flow
 

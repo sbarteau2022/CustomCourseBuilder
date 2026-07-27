@@ -8,6 +8,7 @@
  *                          [--unit <id>] [--phase <id>]
  *                          --tier1 "..." --tier2 "..." --tier3 "..."
  *   elle advise  <learner>          # detect signals, execute contracts, print moves
+ *   elle brief   <learner>          # emit the session brief for Elle's conversational layer
  *   elle complete <learner> --unit <id>
  *   elle status  <learner>
  *   elle review  <learner> --phase <id>
@@ -27,6 +28,7 @@ import {
   unitById,
 } from "./runtime/engine.ts";
 import { evidenceFraction } from "./runtime/signals.ts";
+import { sessionBrief } from "./runtime/brief.ts";
 import { loadCourse, loadState, saveState } from "./runtime/store.ts";
 
 const DEFAULT_COURSE = "ai-engineer-stack";
@@ -185,6 +187,15 @@ switch (command) {
         console.log(`    ${u.decision.instruction}`);
       }
     }
+    break;
+  }
+
+  case "brief": {
+    const state = await requireState(learnerId);
+    const course = await loadCourse(state.courseId);
+    const brief = sessionBrief(course, state, now);
+    await saveState(state); // brief runs advise(); the witness log grew
+    console.log(brief.markdown);
     break;
   }
 
