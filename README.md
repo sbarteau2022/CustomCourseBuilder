@@ -61,7 +61,14 @@ npm run elle -- advise stewart      # detect signals, execute contracts
 npm run elle -- complete stewart --unit b1-ai-for-everyone   # gated
 npm run elle -- review stewart --phase p1-foundations        # witness review
 npm run elle -- verify stewart      # verify the sealed-corpus hash chain
+npm run elle -- brief stewart       # session brief for Elle's conversational layer
 ```
+
+`elle brief` is the bridge to Elle's voice: it packages the engine's decisions (contract
+moves with verbatim instructions and evidence), ethics-spine obligations (owed weekly
+readings open the session), phase-boundary flags, and corpus integrity into one markdown
+document. The conversational model reads it under the stance in
+[`docs/FACILITATOR.md`](docs/FACILITATOR.md) — the engine decides, Elle speaks.
 
 ## Repo layout
 
