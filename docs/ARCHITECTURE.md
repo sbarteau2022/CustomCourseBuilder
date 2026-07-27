@@ -63,6 +63,35 @@ Every unit states what the learner does under **Structure** (map the system firs
 of the real system). The build target throughout the AI Engineer Stack is Elle herself —
 the learner builds the system that is teaching them, and both of them know it.
 
+## The runtime (`src/runtime/`)
+
+The engine turns the contracts from prose-with-types into behavior:
+
+- **`state.ts`** — learner state: sessions (minutes, blockers, pillar evidence), per-unit
+  progress, the sealed-reading chain, and the adaptation log.
+- **`signals.ts`** — pure, deterministic detection. Every threshold is named
+  (`PACE_MARGIN`, `DISENGAGEMENT_DAYS`, `BLOCKED_STREAK`, …) so any signal can be explained
+  to the learner in the witness review. Blocker texts are compared across consecutive
+  sessions to tell *stuck on the same wall* (`struggle-blocked`) from *moving through
+  different hard things* (`struggle-productive`).
+- **`engine.ts`** — scheduling (phase windows + prerequisites), the signal → move mapping
+  (`mastery-early`/`pace-ahead` → accelerate; `struggle-productive`/`pace-behind`/
+  `shallow-completion` → reinforce; `struggle-blocked`/`disengagement` → reroute), a
+  priority order when several fire at once, the ethics-gated completion, and the
+  phase-boundary review. Signals a unit does not watch are still logged, with `move: null` —
+  Elle watching herself watch is the witness spine's point.
+- **`seal.ts`** — "sealed, immutable, verifiable" implemented literally: each reading's
+  SHA-256 covers its content plus the previous reading's hash. Rewriting any past reading
+  breaks every seal after it; `elle verify` checks the chain. Thin readings are refused at
+  the seal, mirroring curriculum validation.
+- **`store.ts`** — one JSON file per learner under `state/`, matching the ai-coding-101
+  convention. Course definitions load from `dist/courses/*.json`, falling back to the TS
+  source in a fresh checkout.
+
+Time always arrives as an argument (`now: Date`), never from inside the engine — every
+behavior is reproducible in tests. The CLI (`src/cli.ts`, `npm run elle`) is the first
+consumer; Elle's conversational runtime is the intended second.
+
 ## Data flow
 
 ```
