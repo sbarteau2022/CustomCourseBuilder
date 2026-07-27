@@ -42,14 +42,39 @@ Three spines run the full year: the **ethics spine** (weekly sealed observer rea
 certificate pile — it is the sealed corpus of 74 observer readings, per the alternative
 credentialing model of the Education Intelligence Engine.
 
+## The runtime
+
+The adaptation contracts are executable. `src/runtime/` + `src/cli.ts` implement Elle's
+witnessing loop: log sessions (with blockers and pillar evidence), and the engine detects
+signals deterministically against each unit's pacing envelope, executes the contracted move,
+and writes everything to the witness log. Sealed readings are hash-chained (tamper-evident),
+and a unit cannot complete without all four pillars evidenced plus a sealed unit-close
+reading — a refused completion is logged as `shallow-completion` and answered with the
+unit's own `reinforce` instruction.
+
+```bash
+npm run elle -- enroll stewart
+npm run elle -- log stewart --unit b1-ai-for-everyone --minutes 90 \
+    --evidence structure="AI landscape map v1"
+npm run elle -- seal stewart --kind weekly --tier1 "..." --tier2 "..." --tier3 "..."
+npm run elle -- advise stewart      # detect signals, execute contracts
+npm run elle -- complete stewart --unit b1-ai-for-everyone   # gated
+npm run elle -- review stewart --phase p1-foundations        # witness review
+npm run elle -- verify stewart      # verify the sealed-corpus hash chain
+```
+
 ## Repo layout
 
 ```
 src/types/course.ts        # the schema — ethics + adaptation are required fields
 src/validate.ts            # referential integrity + first-class-citizen invariants
 src/build.ts               # compiles course TS → dist/courses/*.json
+src/runtime/               # the engine: state, signals, contract execution, sealing
+src/cli.ts                 # `elle` — drive the runtime from the terminal
+test/                      # node:test suite over signals, gate, and sealing
 courses/ai-engineer-stack/ # course data (TS, type-checked) + curriculum doc
 courses/ai-coding-101/     # executable markdown curriculum (agent-run)
+state/                     # learner state, one JSON per learner (gitignored)
 docs/ARCHITECTURE.md       # how the pieces fit, and how Elle consumes them
 ```
 

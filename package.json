@@ -7,7 +7,9 @@
   "scripts": {
     "check": "tsc --noEmit",
     "build": "tsc --noEmit && node --experimental-strip-types src/build.ts",
-    "validate": "node --experimental-strip-types src/validate.ts"
+    "validate": "node --experimental-strip-types src/validate.ts",
+    "test": "node --experimental-strip-types --test test/*.test.ts",
+    "elle": "node --experimental-strip-types src/cli.ts"
   },
   "devDependencies": {
     "@types/node": "^26.1.1",
