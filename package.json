@@ -9,7 +9,8 @@
     "build": "tsc --noEmit && node --experimental-strip-types src/build.ts",
     "validate": "node --experimental-strip-types src/validate.ts",
     "test": "node --experimental-strip-types --test test/*.test.ts",
-    "elle": "node --experimental-strip-types src/cli.ts"
+    "elle": "node --experimental-strip-types src/cli.ts",
+    "validate:curriculum": "node --experimental-strip-types src/validate-curriculum.ts"
   },
   "devDependencies": {
     "@types/node": "^26.1.1",
