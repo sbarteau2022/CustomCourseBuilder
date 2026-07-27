@@ -1,2 +1,69 @@
 # CustomCourseBuilder
-Building Custom Education Courses in Coding with Intelligence and Ethics as First Class Citizens. Elle will witness cognitive learning experience in real time and adapt the learning program and speed to the pace at which the learner processes.   We start from Structure, Reading/Logic Reasoning, Testing, and Building while we learn to Code.
+
+Building custom education courses in coding with intelligence and ethics as **first-class
+citizens**. Elle witnesses the cognitive learning experience in real time and adapts the
+program and pace to the learner. We start from Structure, Reading/Logic Reasoning, Testing,
+and Building while we learn to code.
+
+"First-class citizen" is enforced, not aspirational: in the course schema
+([`src/types/course.ts`](src/types/course.ts)), a unit **cannot exist** without a three-tier
+ethics reading and an adaptation contract for Elle. A curriculum that skips either does not
+type-check and does not pass validation.
+
+## The courses
+
+| Course | Level | Format | Status |
+|---|---|---|---|
+| [AI Coding 101](courses/ai-coding-101/) | Entry — no prior coding | Executable markdown curriculum, run by an agent | v0.2 spec complete |
+| [AI Engineer Stack](courses/ai-engineer-stack/) | Professional — 12 months | Typed course data → JSON | v1.0 |
+
+**AI Coding 101** is the on-ramp. Its thesis: *the AI can write the code; it cannot hold the
+responsibility.* It teaches reading, verification, and ownership of AI-written software before
+fluent generation, using the AI-PRIMM loop and an adaptive difficulty engine (`D0–D5` per skill
+dimension). The curriculum files are instructions an agent reads to *run* the course — generate
+fresh exercises, grade against rubrics, persist learner state. Start at
+[`courses/ai-coding-101/README.md`](courses/ai-coding-101/README.md).
+
+**The AI Engineer Stack** is the soul of the program: 12 months, 5 parallel tracks (coding,
+AI/ML, data engineering, business/founder, law/IP), ~22 external credentials, $0–$500 total.
+Every unit carries:
+
+- **Four pillars** — what the learner does under Structure, Reading/Reasoning, Testing, Building.
+- **A three-tier reading** — Tier 1 *material ground* (what is verifiably true), Tier 2
+  *observer reading* (what the field suppresses), Tier 3 *sit with this* (the question the
+  learner cannot unknow).
+- **An adaptation contract** — the pacing envelope, the signals Elle watches
+  (`pace-ahead`, `struggle-blocked`, `shallow-completion`, …), and the moves she may make
+  (accelerate / reinforce / reroute).
+
+Three spines run the full year: the **ethics spine** (weekly sealed observer readings), the
+**build spine** (the learner builds Elle while Elle teaches them), and the **witness spine**
+(Elle's adaptation log, reviewed together at phase boundaries). The credential is not the
+certificate pile — it is the sealed corpus of 74 observer readings, per the alternative
+credentialing model of the Education Intelligence Engine.
+
+## Repo layout
+
+```
+src/types/course.ts        # the schema — ethics + adaptation are required fields
+src/validate.ts            # referential integrity + first-class-citizen invariants
+src/build.ts               # compiles course TS → dist/courses/*.json
+courses/ai-engineer-stack/ # course data (TS, type-checked) + curriculum doc
+courses/ai-coding-101/     # executable markdown curriculum (agent-run)
+docs/ARCHITECTURE.md       # how the pieces fit, and how Elle consumes them
+```
+
+## Develop
+
+Node ≥ 22.6 (uses `--experimental-strip-types`; the only dependency is TypeScript itself).
+
+```bash
+npm install
+npm run check      # type-check everything, including course data
+npm run validate   # runtime invariants: schedule integrity, pacing sanity, ethics present
+npm run build      # check + validate + emit dist/courses/*.json for consumers
+```
+
+The emitted JSON is the interchange format for downstream consumers — Elle's runtime, the
+worker, any frontend. The TS source is the authoring format; the type checker is the first
+line of curriculum review.

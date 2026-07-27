@@ -1,0 +1,19 @@
+{
+  "name": "custom-course-builder",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Custom education courses in coding with intelligence and ethics as first-class citizens. Elle witnesses the learning experience in real time and adapts program and pace to the learner.",
+  "type": "module",
+  "scripts": {
+    "check": "tsc --noEmit",
+    "build": "tsc --noEmit && node --experimental-strip-types src/build.ts",
+    "validate": "node --experimental-strip-types src/validate.ts"
+  },
+  "devDependencies": {
+    "@types/node": "^26.1.1",
+    "typescript": "^5.5.0"
+  },
+  "engines": {
+    "node": ">=22.6"
+  }
+}

@@ -1,0 +1,3 @@
+node_modules/
+dist/
+courses/ai-coding-101/state/*.json
