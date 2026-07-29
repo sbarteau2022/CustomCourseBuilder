@@ -82,6 +82,62 @@ dependency order, fans out within each tier, runs the four gates as a verify
 stage, and collects accepted packets. The manifest's totals — 100 packets,
 1590 learner-hours — are the scope; nothing is silently dropped.
 
+## The reproducible tooling (`dispatch/`) — battle-tested on the foundation tier
+
+The foundation tier (`AIE-100`, `101`, `102`, `103`, `104`, `110` — 39 packets) was
+authored through this exact process, and the scripts are checked in at
+[`dispatch/`](dispatch/) rather than living only in an ephemeral session:
+
+- **`dispatch/emit-course-snippet.ts`** — the single source of truth for a
+  course's dispatch context. Reads the real `curriculum.ts` (never hand-copy
+  a course's `descentArc`/`outpaces`/`ethicsThread` — they drift) and prints
+  the JS object literal to paste into the Workflow script's `COURSES` map.
+  Add a `PACKET_CONTEXT` entry for the course first (free-text authoring
+  guidance the typed manifest doesn't carry: `prereqNote`, `toolchain`, and
+  ideally a one-line `focus` per packet — the more specific the focus, the
+  better the authored material).
+- **`dispatch/dispatch-course.js`** — the Workflow script: author every
+  packet of ONE course in parallel, four-gate each, agents write files
+  straight to disk. Run via `Workflow({ scriptPath:
+  "curriculum/ai-engineer/dispatch/dispatch-course.js" })` — no `args`
+  (Workflow's args-threading proved unreliable for this; course data is
+  embedded in the script instead, kept in sync via `emit-course-snippet.ts`).
+- **`dispatch/finish-course.js`** — recovery: authors only a course's
+  missing packets, then gates everything in it. Use when a
+  `dispatch-course.js` run stalls partway (this happened twice during the
+  foundation tier — once from a session token limit, once from a background
+  workflow that stopped returning results without erroring).
+
+### Dispatch cadence — lessons learned the hard way
+
+- **One course at a time.** Dispatching all four remaining foundation
+  courses concurrently (16+ agents at once) hit a session token limit
+  partway through every one of them. A single course (5–9 agent calls,
+  author + gate) is the safe unit. Wait for it to land, review the gate
+  results, then start the next.
+- **A `overallPass: false` is the pipeline working, not breaking.** Across
+  the foundation tier the gates caught real, specific, verifiable defects —
+  an answer key whose claimed compiler warning didn't actually fire under
+  the stated flags, a resize worked example that didn't match its own
+  code's arithmetic, a Dockerfile linter that couldn't see past a
+  backslash-continued line, an assessment component called "optional" in
+  one place and required in another. Every one was fixed by a small,
+  focused agent that read the flagged file, applied exactly the named
+  fixes (never a rewrite), and was re-gated — not by loosening the gate.
+- **Reconcile the packet's own in-file gate report after every fix.** A
+  stale `FAIL` verdict sitting next to now-corrected material is worse than
+  no report at all — it's the same failure mode as a wrong tier reading,
+  just about the pipeline instead of the subject.
+- **After a course reaches 100%**, regenerate the runnable course and
+  rebuild before committing:
+  ```bash
+  node --experimental-strip-types src/generate-course-from-curriculum.ts
+  npm run build && npm test
+  ```
+  `src/generate-course-from-curriculum.ts` is what turns landed materials
+  into something Elle and the `elle` CLI can actually enroll a learner in —
+  see the root [`README.md`](../../README.md#the-runtime).
+
 ## Durability discipline
 
 Durable packets (the metal, the math, the from-scratch builds) are authored to
