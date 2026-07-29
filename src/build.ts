@@ -8,8 +8,13 @@
 import { mkdir, writeFile } from "node:fs/promises";
 import { validateCourse } from "./validate.ts";
 import { aiEngineerStack } from "../courses/ai-engineer-stack/course.ts";
+import { aiEngineerCurriculumCourse } from "../courses/ai-engineer-curriculum/course.ts";
 
-const courses = [aiEngineerStack];
+// ai-engineer-curriculum/course.ts is GENERATED (see
+// src/generate-course-from-curriculum.ts) from curriculum/ai-engineer/ —
+// regenerate it after landing a new course's materials, then this build
+// step picks up the refreshed file like any other checked-in course.
+const courses = [aiEngineerStack, aiEngineerCurriculumCourse];
 
 await mkdir("dist/courses", { recursive: true });
 

@@ -23,7 +23,8 @@ The repo holds three things, at three different stages of completeness:
    (`courses/ai-engineer-stack/`) and an executable markdown curriculum run live by an agent
    (`courses/ai-coding-101/`).
 3. **A first-party curriculum** (`curriculum/ai-engineer/`) — a 15-course, 100-module
-   program the project authors and teaches itself, with 5 of those 15 courses fully
+   program the project authors and teaches itself, with 6 of those 15 courses (the whole
+   foundation tier) fully
    authored and quality-gated so far (see [Curriculum authoring status](#curriculum-authoring-status)).
 
 ## The courses and curricula
@@ -32,7 +33,7 @@ The repo holds three things, at three different stages of completeness:
 |---|---|---|---|
 | AI Coding 101 | [`courses/ai-coding-101/`](courses/ai-coding-101/) | Executable markdown curriculum, run by an agent | v0.2 spec complete; unvalidated against real learners |
 | AI Engineer Stack | [`courses/ai-engineer-stack/`](courses/ai-engineer-stack/) | Typed course data → JSON | 21 units, 4 phases, 5 tracks, 26 external credentials — type-checks and validates clean |
-| AI Engineer Curriculum | [`curriculum/ai-engineer/`](curriculum/ai-engineer/) | Typed manifest + first-party markdown material | 15 courses / 100 module packets defined and validated; 5 courses (34 packets) fully authored + quality-gated, 10 courses still scaffold-only |
+| AI Engineer Curriculum | [`curriculum/ai-engineer/`](curriculum/ai-engineer/) | Typed manifest + first-party markdown material, generated into a runnable `Course` | 15 courses / 100 module packets defined and validated; the foundation tier — 6 courses, 39 packets — fully authored, quality-gated, and enrollable; 9 courses still scaffold-only |
 
 **AI Coding 101** is the on-ramp. Its thesis: *the AI can write the code; it cannot hold the
 responsibility.* It teaches reading, verification, and ownership of AI-written software before
@@ -92,10 +93,24 @@ npm run elle -- brief stewart       # session brief for Elle's conversational la
 npm run elle -- status stewart      # current progress and available units
 ```
 
-The runtime currently drives the **AI Engineer Stack** course data (`elle enroll` defaults to
-`ai-engineer-stack`, loading from `dist/courses/*.json` with a fallback to the TS source in a
-fresh checkout). It does not yet drive the AI Engineer Curriculum or AI Coding 101 — those are
-consumed directly by an agent (AI Coding 101) or await a runtime integration (the curriculum).
+The runtime drives both typed courses via `--course`: `ai-engineer-stack` (the default) and
+`ai-engineer-curriculum`, loading from `dist/courses/*.json` with a fallback to the TS source in
+a fresh checkout. The curriculum isn't hand-authored as `Course`/`Unit` data — it's **generated**:
+`src/generate-course-from-curriculum.ts` reads `curriculum/ai-engineer/curriculum.ts` plus every
+dispatched module's markdown materials and emits `courses/ai-engineer-curriculum/course.ts`, with
+each unit's adaptation contract and three-tier reading extracted from that specific module's own
+authored "Elle pacing notes" and "Three-tier reading" sections — never boilerplate. Regenerate
+after landing a new course's materials: `node --experimental-strip-types
+src/generate-course-from-curriculum.ts && npm run build`. AI Coding 101 is the one format still
+consumed directly by an agent rather than the runtime — it's a different shape (a generated-per-
+learner curriculum, not a fixed schedule) and doesn't fit `Course`/`Unit` at all.
+
+```bash
+npm run elle -- enroll stewart --course ai-engineer-curriculum
+npm run elle -- log stewart --unit AIE-100-M01 --minutes 45 \
+    --evidence structure="drew the boxes-and-arrows pointer model"
+npm run elle -- brief stewart   # contract move quotes THAT module's own pacing notes, verbatim
+```
 
 `elle brief` is the bridge to Elle's voice: it packages the engine's decisions (contract
 moves with verbatim instructions and evidence), ethics-spine obligations (owed weekly
@@ -112,18 +127,23 @@ descent arc or ethics thread is a placeholder). That validation passes today. Wh
 *not* check is whether a module's teaching content has actually been written — that's a
 separate, manual process:
 
-- **Fully authored and quality-gated** (lesson notes, labs with starter/solution/tests,
-  assessment + rubric, Elle pacing notes, three-tier reading — one file per module under
-  `curriculum/ai-engineer/materials/<CODE>/`, each carrying its own in-file gate report):
+- **Fully authored and quality-gated — the entire foundation tier, 39/39 packets**
+  (lesson notes, labs with starter/solution/tests, assessment + rubric, Elle pacing notes,
+  three-tier reading — one file per module under `curriculum/ai-engineer/materials/<CODE>/`,
+  each carrying its own in-file gate report):
   - `AIE-100` — Working With AI Without Outsourcing Judgment (6/6 packets)
+  - `AIE-101` — Python and Software Craft (8/8 packets)
   - `AIE-102` — Down to the Metal: C, and the Machine Under Python (7/7 packets)
   - `AIE-103` — Mathematics for AI, Taught as Instruments (7/7 packets)
   - `AIE-104` — The Machine at Scale (5/5 packets)
   - `AIE-110` — Data Structures, Algorithms, and Scale (6/6 packets)
+  These 39 packets are also **generated into a real, enrollable `Course`**
+  (`courses/ai-engineer-curriculum/`, `dist/courses/ai-engineer-curriculum.json`) — see
+  [The runtime](#the-runtime) above.
 - **Scaffold only** (a generated syllabus with course metadata, outcomes, and the assessment
-  table, but no module-level lesson/lab/assessment content yet): the remaining 10 courses —
-  `AIE-101`, `AIE-201`, `AIE-202`, `AIE-203`, `AIE-204`, `AIE-301`, `AIE-302`, `AIE-303`,
-  `AIE-304`, `AIE-401`.
+  table, but no module-level lesson/lab/assessment content yet): the remaining 9 courses —
+  `AIE-201`, `AIE-202`, `AIE-203`, `AIE-204`, `AIE-301`, `AIE-302`, `AIE-303`, `AIE-304`,
+  `AIE-401`.
 
 Every packet is checked against four quality gates before it counts as done — technical
 (a second agent runs every lab from the materials alone), eval-discipline (can the assessment
