@@ -10,13 +10,19 @@ export const aiEngineerCurriculumCourse: Course = {
   "title": "The AI Engineer Curriculum",
   "version": "1.0.0",
   "mission": "A complete, first-party path from zero to production AI engineer, built on a philosophy rather than inherited from how these subjects have been taught. In every course the learner descends below the abstraction to the substrate where the thing actually lives, builds it there by hand, and re-ascends to command the high-level tool as an instrument rather than invoke it as a mystery. Verification is taught before generation; evaluation runs as a spine, not a module; ethics carries structural teeth; the durable core is separated from the swappable tool surface so the material outlasts the tools. Every module is assessed by judgment demonstrated, never by content retained — and the whole program is run adaptively, and witnessed, by Elle.",
-  "durationMonths": 13,
+  "durationMonths": 16,
   "tracks": [
     {
       "id": "A",
       "name": "Foundations",
       "focus": "Working With AI Without Outsourcing Judgment · Python and Software Craft · Down to the Metal: C, and the Machine Under Python · The Machine at Scale: Linux, Networks, Concurrency, Containers · Mathematics for AI, Taught as Instruments · Data Structures, Algorithms, and Scale",
       "color": "#185FA5"
+    },
+    {
+      "id": "B",
+      "name": "Core",
+      "focus": "Machine Learning from First Principles · Deep Learning: Autograd to Transformers · Data Engineering for AI · Evaluation and Experimentation",
+      "color": "#0F6E56"
     }
   ],
   "phases": [
@@ -25,7 +31,7 @@ export const aiEngineerCurriculumCourse: Course = {
       "title": "Foundations — AIE-100, AIE-101, AIE-102, AIE-104, AIE-103, AIE-110",
       "months": [
         1,
-        13
+        8
       ],
       "theme": "Foundations tier of the AI Engineer Curriculum: Working With AI Without Outsourcing Judgment; Python and Software Craft; Down to the Metal: C, and the Machine Under Python; The Machine at Scale: Linux, Networks, Concurrency, Containers; Mathematics for AI, Taught as Instruments; Data Structures, Algorithms, and Scale.",
       "unitIds": [
@@ -68,6 +74,25 @@ export const aiEngineerCurriculumCourse: Course = {
         "AIE-110-M04",
         "AIE-110-M05",
         "AIE-110-M06"
+      ]
+    },
+    {
+      "id": "p-core",
+      "title": "Core — AIE-201",
+      "months": [
+        9,
+        16
+      ],
+      "theme": "Core tier of the AI Engineer Curriculum: Machine Learning from First Principles.",
+      "unitIds": [
+        "AIE-201-M01",
+        "AIE-201-M02",
+        "AIE-201-M03",
+        "AIE-201-M04",
+        "AIE-201-M05",
+        "AIE-201-M06",
+        "AIE-201-M07",
+        "AIE-201-M08"
       ]
     }
   ],
@@ -2018,6 +2043,407 @@ export const aiEngineerCurriculumCourse: Course = {
           "reroute": "If blocked two sessions on the same wall, switch modality — worked example first, then return to the lab."
         }
       }
+    },
+    {
+      "id": "AIE-201-M01",
+      "track": "B",
+      "title": "The learning problem: generalization, capacity, the bet",
+      "summary": "The entry point. No named algorithm exists yet — no linear regression, no trees, no k-means. Before this course lets you call anything \"a model,\" you have to be able to say what learning *is*, precisely enough to know when it has failed.",
+      "credentials": [
+        {
+          "name": "Machine Learning from First Principles — The learning problem: generalization, capacity, the bet",
+          "provider": "The AI Engineer Curriculum (first-party)",
+          "kind": "course",
+          "freeToAudit": true,
+          "paidCostUSD": 0
+        }
+      ],
+      "prerequisites": [
+        "AIE-103-M07",
+        "AIE-110-M06"
+      ],
+      "buildThread": "AIE-201: Every algorithm is built from scratch and validated against scikit-learn, so nothing is incantation; the failure catalog (leakage, drift, Simpson's paradox, base-rate neglect) gets equal billing with the methods; 'when not to use ML' is an assessed outcome, which no competitor dares grade.",
+      "pillars": {
+        "structure": "Map the module before building: Error vs. capacity; Error vs. training-set size.",
+        "readingReasoning": "Read each lesson's worked example and named misconceptions; predict what the mechanism does before reading the explanation.",
+        "testing": "Run every lab's Predict step on paper, before Build; verify against the provided tests, not against whether the program merely runs.",
+        "building": "Complete the module's labs (A — The risk you can't see; B — Build the learning curve by hand; C — Break the bet: distribution shift) and the module assessment."
+      },
+      "tiers": {
+        "materialGround": "The bias–variance decomposition is derivable algebra, not opinion (Lesson 2 states the identity; you can rederive it from $\\mathbb{E}[(y-\\hat f)^2]$ by adding and subtracting $\\mathbb{E}[\\hat f(x)]$ inside the square). Every number in this module's tables is reproducible from the stated seeds. The training set a model is fit on is, factually, someone's collected and labeled data — a specific, finite, historically situated sample, not a neutral window onto \"the world.\"",
+        "observerReading": "\"More data\" and \"more compute\" are offered as near-universal fixes, and Lesson 4's n-axis curve shows they genuinely are — for variance. What that framing quietly steps around is that more data of the *same kind*, from the *same collection process*, does nothing for bias, and does nothing at all for Lab C's failure mode: a population that was never sampled from in the first place. A benchmark score going up is real and measurable (the course's Tier 1 commitment) — and it is a claim about performance on the distribution that was measured, which is not automatically the distribution of everyone the model will be used on.",
+        "sitWithThis": "Every validation split in this module, and every one you will build for the rest of this course, reports a single number: the *average* error over the held-out set. Lab C showed you, in your own numbers, that a model can look excellent on that average (validation MSE 0.0615, barely above training) while being catastrophically wrong for an entire region no one thought to check. The average did not lie — it correctly described the set it was computed over. It also could not, structurally, tell you who wasn't in it. Before you pick a model off a learning curve and call it done: who is in your validation set, who resembles them, and who — plausibly, specifically, not hypothetically — does not?"
+      },
+      "adaptation": {
+        "pacing": {
+          "minHoursPerWeek": 8,
+          "targetHoursPerWeek": 10,
+          "maxHoursPerWeek": 12,
+          "targetWeeks": 1
+        },
+        "watchFor": [
+          "struggle-blocked",
+          "struggle-productive",
+          "pace-ahead",
+          "mastery-early",
+          "shallow-completion"
+        ],
+        "moves": {
+          "accelerate": "Such a learner can skip Lab C's Build step and submit only the Predict reasoning plus a written audit of Lesson 1's two conditions against the Lab C scenario description — the mechanical build adds little once the prediction is already precise.",
+          "reinforce": "Hold before advancing: Do not accelerate past the assumption-audit deliverables (Lab C, exam step 5)** even for otherwise-fast learners. Every foundation-tier and core-tier packet in this curriculum treats \"the code runs\" as necessary, never sufficient; this module is where that stance is first load-bearing for grading, not just stated, and a learner who skips it here is more likely to skip the analogous step in M05 and M06 where the stakes are higher.",
+          "reroute": "do not explain ahead — let the learner run Lab A's own numbers and sit with the reversed ranking for a moment before offering the bias–variance vocabulary. The surprise is the lesson; pre-explaining it away removes the thing that makes it stick. do not dismiss the association — name both meanings explicitly, state that this course's ethics thread (Tier 2/3 below, and the fuller treatment in M06/M08) is about the second one, and that the two are related in the real world (a statistically low-variance model averaged over a population can still have a badly skewed"
+        }
+      }
+    },
+    {
+      "id": "AIE-201-M02",
+      "track": "B",
+      "title": "Linear models and regularization from scratch",
+      "summary": "Linear models and regularization from scratch — one module of Machine Learning from First Principles.",
+      "credentials": [
+        {
+          "name": "Machine Learning from First Principles — Linear models and regularization from scratch",
+          "provider": "The AI Engineer Curriculum (first-party)",
+          "kind": "course",
+          "freeToAudit": true,
+          "paidCostUSD": 0
+        }
+      ],
+      "prerequisites": [
+        "AIE-201-M01"
+      ],
+      "buildThread": "AIE-201: Every algorithm is built from scratch and validated against scikit-learn, so nothing is incantation; the failure catalog (leakage, drift, Simpson's paradox, base-rate neglect) gets equal billing with the methods; 'when not to use ML' is an assessed outcome, which no competitor dares grade.",
+      "pillars": {
+        "structure": "Map Linear models and regularization from scratch's structure before starting any lab.",
+        "readingReasoning": "Read each lesson's worked example and named misconceptions; predict what the mechanism does before reading the explanation.",
+        "testing": "Run every lab's Predict step on paper, before Build; verify against the provided tests, not against whether the program merely runs.",
+        "building": "Complete the module's labs (Closed-form OLS from scratch, verified against `sklearn.LinearRegression`; Gradient descent for OLS: convergence, learning rate, and divergence; Ridge and Lasso from scratch: coefficient paths and the correlated-feature tie-break) and the module assessment."
+      },
+      "tiers": {
+        "materialGround": "L1-regularized linear and logistic models are in production use for credit scoring, insurance underwriting, and clinical risk stratification specifically *because* they are sparse and therefore \"interpretable\" — a model with 12 nonzero coefficients out of 400 candidate features is presented to regulators, loan officers, and clinicians as more explainable than a dense model using all 400. This is a verifiable, structural fact about why Lasso and Lasso-like penalties (elastic net, group lasso) are chosen in regulated domains, not a critique — sparse coefficients genuinely are easier for a human to audit than dense ones, and that's a real, defensible reason to prefer L1 in a setting where someone has to be able to point at the model and say what it used. **Tier 2 — what \"interpretable because sparse\" suppresses.** Lab 3's reordering test is not a toy exercise — it is the entire content of this tier made checkable in code. When a Lasso model drops \"zip code\" and keeps \"years at current address\" (or the reverse) because those two features were correlated at 0.9 in the training data, the deployed explanation — \"the model uses years at current address, not zip code, so it doesn't rely on geography\" — is describing a coordinate-descent tie-break as if it were a finding about the world. The feature that got zeroed was not found to be irrelevant; it was found to be *redundant with whatever got fit first*, which depends on solver internals (column order, warm-start values, convergence tolerance) that have nothing to do with the underlying phenomenon. Regulatory and journalistic accounts of \"algorithmic fairness through feature exclusion\" almost never distinguish these two claims — \"the model doesn't use race\" is treated as settled once a race-correlated feature has a zero coefficient, when Lab 3 demonstrated in your own code that the *other* correlated feature could just as easily have been the one that hit zero, carrying the same predictive signal under a different name. Sparsity is real; the story that sparsity tells about *which* variable \"mattered\" is, for correlated features, substantially a story about the solver. **Tier 3 — sit with this.** A regulator asks the team that shipped your L1-regularized credit model for an explanation of a denial. Your model's nonzero coefficients are `years_at_address` and `income`; `zip_code` — correlated with `years_at_address` at 0.89 in the training data — was zeroed by Lasso. You now know, because you proved it yourself in Lab 3, that if the feature columns had been ordered differently, or if a slightly different `alpha` or random warm-start had been used, `zip_code` might have survived instead and `years_at_address` might have been zeroed — carrying the same shared signal under a different label, with materially different optics for a regulator checking for geographic (and therefore likely racial) proxy discrimination. What does it mean to give a truthful \"explanation\" of a denial when the specific feature named in that explanation was selected by a tie-break your model's authors did not choose, cannot fully predict in advance, and could not reproduce identically if asked to retrain the exact same model on the exact same data in a different feature order? Is \"the model doesn't use zip code\" a true statement, a technically-true-but-misleading statement, or not really a statement about the model at all — and who is responsible for knowing the difference before the explanation goes out the door: the engineer who ran `fit_lasso`, the product owner who signed off on the feature list, or nobody, because the model was \"just doing math\"?",
+        "observerReading": "Lab 3's reordering test is not a toy exercise — it is the entire content of this tier made checkable in code. When a Lasso model drops \"zip code\" and keeps \"years at current address\" (or the reverse) because those two features were correlated at 0.9 in the training data, the deployed explanation — \"the model uses years at current address, not zip code, so it doesn't rely on geography\" — is describing a coordinate-descent tie-break as if it were a finding about the world. The feature that got zeroed was not found to be irrelevant; it was found to be *redundant with whatever got fit first*, which depends on solver internals (column order, warm-start values, convergence tolerance) that have nothing to do with the underlying phenomenon. Regulatory and journalistic accounts of \"algorithmic fairness through feature exclusion\" almost never distinguish these two claims — \"the model doesn't use race\" is treated as settled once a race-correlated feature has a zero coefficient, when Lab 3 demonstrated in your own code that the *other* correlated feature could just as easily have been the one that hit zero, carrying the same predictive signal under a different name. Sparsity is real; the story that sparsity tells about *which* variable \"mattered\" is, for correlated features, substantially a story about the solver. **Tier 3 — sit with this.** A regulator asks the team that shipped your L1-regularized credit model for an explanation of a denial. Your model's nonzero coefficients are `years_at_address` and `income`; `zip_code` — correlated with `years_at_address` at 0.89 in the training data — was zeroed by Lasso. You now know, because you proved it yourself in Lab 3, that if the feature columns had been ordered differently, or if a slightly different `alpha` or random warm-start had been used, `zip_code` might have survived instead and `years_at_address` might have been zeroed — carrying the same shared signal under a different label, with materially different optics for a regulator checking for geographic (and therefore likely racial) proxy discrimination. What does it mean to give a truthful \"explanation\" of a denial when the specific feature named in that explanation was selected by a tie-break your model's authors did not choose, cannot fully predict in advance, and could not reproduce identically if asked to retrain the exact same model on the exact same data in a different feature order? Is \"the model doesn't use zip code\" a true statement, a technically-true-but-misleading statement, or not really a statement about the model at all — and who is responsible for knowing the difference before the explanation goes out the door: the engineer who ran `fit_lasso`, the product owner who signed off on the feature list, or nobody, because the model was \"just doing math\"?",
+        "sitWithThis": "A regulator asks the team that shipped your L1-regularized credit model for an explanation of a denial. Your model's nonzero coefficients are `years_at_address` and `income`; `zip_code` — correlated with `years_at_address` at 0.89 in the training data — was zeroed by Lasso. You now know, because you proved it yourself in Lab 3, that if the feature columns had been ordered differently, or if a slightly different `alpha` or random warm-start had been used, `zip_code` might have survived instead and `years_at_address` might have been zeroed — carrying the same shared signal under a different label, with materially different optics for a regulator checking for geographic (and therefore likely racial) proxy discrimination. What does it mean to give a truthful \"explanation\" of a denial when the specific feature named in that explanation was selected by a tie-break your model's authors did not choose, cannot fully predict in advance, and could not reproduce identically if asked to retrain the exact same model on the exact same data in a different feature order? Is \"the model doesn't use zip code\" a true statement, a technically-true-but-misleading statement, or not really a statement about the model at all — and who is responsible for knowing the difference before the explanation goes out the door: the engineer who ran `fit_lasso`, the product owner who signed off on the feature list, or nobody, because the model was \"just doing math\"?"
+      },
+      "adaptation": {
+        "pacing": {
+          "minHoursPerWeek": 8,
+          "targetHoursPerWeek": 10,
+          "maxHoursPerWeek": 12,
+          "targetWeeks": 2
+        },
+        "watchFor": [
+          "struggle-blocked",
+          "struggle-productive",
+          "pace-ahead",
+          "mastery-early",
+          "shallow-completion"
+        ],
+        "moves": {
+          "accelerate": "A learner who derives the Lasso closed-form-doesn't-exist argument",
+          "reinforce": "Re-anchor in the module's own worked examples before adding new material; struggle here is expected to be productive, not blocked.",
+          "reroute": "before debugging `lr`, have them print `X.std(axis=0)` per column. If the ratio of\nmax to min standard deviation across columns exceeds ~5–10x, that's very likely the actual bug,\nand no learning rate will look \"correct\" until it's fixed."
+        }
+      }
+    },
+    {
+      "id": "AIE-201-M03",
+      "track": "B",
+      "title": "Trees, forests, and boosting from scratch",
+      "summary": "Trees, forests, and boosting from scratch — one module of Machine Learning from First Principles.",
+      "credentials": [
+        {
+          "name": "Machine Learning from First Principles — Trees, forests, and boosting from scratch",
+          "provider": "The AI Engineer Curriculum (first-party)",
+          "kind": "course",
+          "freeToAudit": true,
+          "paidCostUSD": 0
+        }
+      ],
+      "prerequisites": [
+        "AIE-201-M02"
+      ],
+      "buildThread": "AIE-201: Every algorithm is built from scratch and validated against scikit-learn, so nothing is incantation; the failure catalog (leakage, drift, Simpson's paradox, base-rate neglect) gets equal billing with the methods; 'when not to use ML' is an assessed outcome, which no competitor dares grade.",
+      "pillars": {
+        "structure": "Map Trees, forests, and boosting from scratch's structure before starting any lab.",
+        "readingReasoning": "Read each lesson's worked example and named misconceptions; predict what the mechanism does before reading the explanation.",
+        "testing": "Run every lab's Predict step on paper, before Build; verify against the provided tests, not against whether the program merely runs.",
+        "building": "Complete the module's labs (Build a CART decision tree from scratch, verified against `sklearn.tree.DecisionTreeClassifier`; Bagging into a random forest: bootstrap sampling, OOB, and averaging the tie-break; Gradient boosting from scratch: the messy-data faceoff) and the module assessment."
+      },
+      "tiers": {
+        "materialGround": "Random forests and gradient-boosted trees are, by a wide margin, the dominant model family for structured/tabular prediction in production — credit underwriting, fraud detection, insurance pricing, clinical risk scores, ad ranking — chosen specifically because they need little feature preprocessing and expose a `feature_importances_` ranking that product teams, auditors, and regulators can point to and say \"this is what the model uses.\" This is documented and defensible: for tabular data, tree ensembles frequently outperform other model families with less tuning, and a ranked importance list genuinely is more auditable than an opaque model with no comparable output at all. **Tier 2 — what \"the forest ranked it\" suppresses.** Lab 2's swap test is this tier made checkable in your own code, not a hypothetical. When a deployed random forest's `feature_importances_` ranks `years_at_current_address` above `zip_code` because the two were correlated at 0.9 in training data, the sentence that reaches a regulator or a loan applicant — \"the model relies on years at address, not zip code, so it isn't using geography as a proxy\" — is treating a bootstrap-and-feature-subsampling artifact as a discovery about the world. You measured, directly, that averaging over many trees *damps* this instability without erasing it: the swapped-column run's importances differ from the original run's at every forest size you tested, and neither converges to an even split. A `feature_importances_` ranking is real evidence about what the fitted model happens to be doing with *this* `random_state` and *this* column ordering — treating it as evidence about which real-world quantity \"matters\" requires an argument the ranking itself does not supply, and reporting on tree ensembles' fairness or explainability rarely draws that distinction, largely for the same reason M02's reporting on Lasso rarely did: the ranking is easy to produce and reads as authoritative regardless of how it was produced. **Tier 3 — sit with this.** An insurer's random forest risk model ranks `prior_claims_count` above `zip_code` in its `feature_importances_` output this quarter. Compliance cites that ranking as evidence the model doesn't use geography — a known proxy for race and income — as a meaningful input. You know, because you measured it yourself in Lab 2, that a different `random_state`, or the routine addition of one more feature correlated with `zip_code`, could plausibly reorder that ranking without the model's actual predictions — the premiums it assigns, the people it flags — changing in any way a policyholder would notice or a regulator could detect from the outputs alone. The ranking that gets cited in the compliance memo is not a stable property of the underlying risk; it is a stable-*looking* readout of an unstable computation, and nothing in the standard reporting workflow — the ranked bar chart, the top-5 feature list — carries a warning label saying so. If \"the model doesn't rely on zip code\" is technically an accurate description of one `feature_importances_` array from one training run with one random seed, and technically inaccurate as a claim about what the model would report under the next retrain, which statement is compliance actually making — and does anyone in that approval chain have the standing, the incentive, or the tooling installed to tell the difference before the memo goes out?",
+        "observerReading": "Lab 2's swap test is this tier made checkable in your own code, not a hypothetical. When a deployed random forest's `feature_importances_` ranks `years_at_current_address` above `zip_code` because the two were correlated at 0.9 in training data, the sentence that reaches a regulator or a loan applicant — \"the model relies on years at address, not zip code, so it isn't using geography as a proxy\" — is treating a bootstrap-and-feature-subsampling artifact as a discovery about the world. You measured, directly, that averaging over many trees *damps* this instability without erasing it: the swapped-column run's importances differ from the original run's at every forest size you tested, and neither converges to an even split. A `feature_importances_` ranking is real evidence about what the fitted model happens to be doing with *this* `random_state` and *this* column ordering — treating it as evidence about which real-world quantity \"matters\" requires an argument the ranking itself does not supply, and reporting on tree ensembles' fairness or explainability rarely draws that distinction, largely for the same reason M02's reporting on Lasso rarely did: the ranking is easy to produce and reads as authoritative regardless of how it was produced. **Tier 3 — sit with this.** An insurer's random forest risk model ranks `prior_claims_count` above `zip_code` in its `feature_importances_` output this quarter. Compliance cites that ranking as evidence the model doesn't use geography — a known proxy for race and income — as a meaningful input. You know, because you measured it yourself in Lab 2, that a different `random_state`, or the routine addition of one more feature correlated with `zip_code`, could plausibly reorder that ranking without the model's actual predictions — the premiums it assigns, the people it flags — changing in any way a policyholder would notice or a regulator could detect from the outputs alone. The ranking that gets cited in the compliance memo is not a stable property of the underlying risk; it is a stable-*looking* readout of an unstable computation, and nothing in the standard reporting workflow — the ranked bar chart, the top-5 feature list — carries a warning label saying so. If \"the model doesn't rely on zip code\" is technically an accurate description of one `feature_importances_` array from one training run with one random seed, and technically inaccurate as a claim about what the model would report under the next retrain, which statement is compliance actually making — and does anyone in that approval chain have the standing, the incentive, or the tooling installed to tell the difference before the memo goes out?",
+        "sitWithThis": "An insurer's random forest risk model ranks `prior_claims_count` above `zip_code` in its `feature_importances_` output this quarter. Compliance cites that ranking as evidence the model doesn't use geography — a known proxy for race and income — as a meaningful input. You know, because you measured it yourself in Lab 2, that a different `random_state`, or the routine addition of one more feature correlated with `zip_code`, could plausibly reorder that ranking without the model's actual predictions — the premiums it assigns, the people it flags — changing in any way a policyholder would notice or a regulator could detect from the outputs alone. The ranking that gets cited in the compliance memo is not a stable property of the underlying risk; it is a stable-*looking* readout of an unstable computation, and nothing in the standard reporting workflow — the ranked bar chart, the top-5 feature list — carries a warning label saying so. If \"the model doesn't rely on zip code\" is technically an accurate description of one `feature_importances_` array from one training run with one random seed, and technically inaccurate as a claim about what the model would report under the next retrain, which statement is compliance actually making — and does anyone in that approval chain have the standing, the incentive, or the tooling installed to tell the difference before the memo goes out?"
+      },
+      "adaptation": {
+        "pacing": {
+          "minHoursPerWeek": 8,
+          "targetHoursPerWeek": 10,
+          "maxHoursPerWeek": 12,
+          "targetWeeks": 2
+        },
+        "watchFor": [
+          "struggle-blocked",
+          "struggle-productive",
+          "pace-ahead",
+          "mastery-early",
+          "shallow-completion"
+        ],
+        "moves": {
+          "accelerate": "A learner who, unprompted, asks \"what happens if I fit the next tree",
+          "reinforce": "Re-anchor in the module's own worked examples before adding new material; struggle here is expected to be productive, not blocked.",
+          "reroute": "do not resolve the tension by asserting the current behavior — have\nthe learner run the three-estimator NaN probe themselves and treat the asymmetric result as the\nlesson landing, not a confusing edge case to explain away. If a learner insists this must be a\nversion issue specific to the module's pinned scikit-learn and not a real distinction, that\nskepticism is healthy; the correct response is \"good, that's exactly why the test checks your\ninstalled version instead of asserting a number,\" not \"no, trust the document.\" before debugging hyperparameters, have them plot\n`train_loss_` against a held-out `val_loss_` they compute themselves, round by round. Seeing\ntrain loss fall every single round while validation loss turns upward partway through is more\nconvincing, and faster to accept, than being told the two ensemble types differ."
+        }
+      }
+    },
+    {
+      "id": "AIE-201-M04",
+      "track": "B",
+      "title": "Unsupervised: clustering, PCA, embeddings",
+      "summary": "Unsupervised: clustering, PCA, embeddings — one module of Machine Learning from First Principles.",
+      "credentials": [
+        {
+          "name": "Machine Learning from First Principles — Unsupervised: clustering, PCA, embeddings",
+          "provider": "The AI Engineer Curriculum (first-party)",
+          "kind": "course",
+          "freeToAudit": true,
+          "paidCostUSD": 0
+        }
+      ],
+      "prerequisites": [
+        "AIE-201-M03"
+      ],
+      "buildThread": "AIE-201: Every algorithm is built from scratch and validated against scikit-learn, so nothing is incantation; the failure catalog (leakage, drift, Simpson's paradox, base-rate neglect) gets equal billing with the methods; 'when not to use ML' is an assessed outcome, which no competitor dares grade.",
+      "pillars": {
+        "structure": "Map the module before building: Assignment step; Update step.",
+        "readingReasoning": "Read each lesson's worked example and named misconceptions; predict what the mechanism does before reading the explanation.",
+        "testing": "Run every lab's Predict step on paper, before Build; verify against the provided tests, not against whether the program merely runs.",
+        "building": "Complete the module's labs (Lloyd's k-means from scratch, verified against `sklearn.cluster.KMeans`; Initialization and $k$: k-means++ vs. random init, and reading an elbow curve; PCA from scratch via eigendecomposition, predicting variance explained before the scree plot) and the module assessment."
+      },
+      "tiers": {
+        "materialGround": "K-means centroids and PCA's top principal components are both, mechanically, weighted averages over whoever supplied the training data: a centroid is literally the arithmetic mean of its assigned points, and a principal axis is the direction of maximum variance across the *entire* training population, weighted by how many points sit in each region. This is not an interpretation — it falls directly out of the calculus in Lessons 1 and 3. These two techniques underpin real, deployed systems: customer-segmentation models built on k-means, \"typical profile\" embeddings built on PCA or its descendants, and anomaly-detection systems that flag whatever has the highest reconstruction error against a PCA-derived \"normal\" subspace. That these systems are averages over a training population, by construction, is a verifiable mathematical fact, not a critique of the method. **Tier 2 — what \"explains 95% of the variance\" suppresses.** The Assessment's disaggregation requirement is Tier 2 made checkable in your own code, not an add-on ethics reading. A population- weighted average — which is exactly what inertia, covariance, and reconstruction error all are — mathematically privileges whoever is numerous. If 92% of your training population shares a set of correlated patterns and 8% varies along a genuinely different axis, PCA's top components will overwhelmingly track the 92%'s structure, because that is what maximizing *aggregate* variance does — it is not a bug, not an oversight, it is the literal optimization target working correctly. The minority's data isn't ignored, exactly — it's still there, contributing to the total variance — but it contributes a small, diluted amount to axes chosen to explain the majority, so the minority ends up with *systematically higher reconstruction error* not because anything is wrong with their data, but because the axes were never fit to explain it well in the first place. The same logic applies to k-means: a minority subpopulation shaped differently from the majority either gets absorbed into whichever majority-shaped cluster is nearest, or — if it's distinct enough — becomes its own small cluster whose centroid, an average of a much smaller and often noisier sample, is a shakier summary than the majority clusters' centroids, without the system reporting that difference in reliability anywhere. **Tier 3 — sit with this.** You ship a customer-segmentation model built on k-means, or a \"typical usage pattern\" embedding space built on PCA, trained on whoever was in your data — which is whoever used the product, applied for the loan, showed up for the health screening, before you started. It performs beautifully on the aggregate metrics: low inertia, 95% variance explained, clean scree plot, clean elbow. Somewhere in the tail of that population is a subgroup — maybe defined by something you tracked, maybe by something you never collected a column for — whose patterns genuinely differ from the majority's, and whose reconstruction error or distance-to- centroid is, by the plain mechanics of the algorithm, going to run higher than everyone else's. Someone downstream — a product manager reading a segment dashboard, a clinician reading a \"risk distance from normal profile\" score, a loan officer reading \"this application doesn't fit our typical customer profile\" — sees that higher number and has to decide what it means. Your model cannot tell them whether it means \"this person's situation is genuinely unusual\" or \"this person's kind of pattern was never well-represented in the data these axes were built from\" — those two readings look numerically identical from inside the algorithm, and only one of them is a fact about the person. Before you ship the aggregate number, who is in the part of your training population too small to have shaped the axes, and what happens to them the day their distance from the centroid gets read as a fact about who they are rather than a fact about who was in the room when the axes were drawn?",
+        "observerReading": "The Assessment's disaggregation requirement is Tier 2 made checkable in your own code, not an add-on ethics reading. A population- weighted average — which is exactly what inertia, covariance, and reconstruction error all are — mathematically privileges whoever is numerous. If 92% of your training population shares a set of correlated patterns and 8% varies along a genuinely different axis, PCA's top components will overwhelmingly track the 92%'s structure, because that is what maximizing *aggregate* variance does — it is not a bug, not an oversight, it is the literal optimization target working correctly. The minority's data isn't ignored, exactly — it's still there, contributing to the total variance — but it contributes a small, diluted amount to axes chosen to explain the majority, so the minority ends up with *systematically higher reconstruction error* not because anything is wrong with their data, but because the axes were never fit to explain it well in the first place. The same logic applies to k-means: a minority subpopulation shaped differently from the majority either gets absorbed into whichever majority-shaped cluster is nearest, or — if it's distinct enough — becomes its own small cluster whose centroid, an average of a much smaller and often noisier sample, is a shakier summary than the majority clusters' centroids, without the system reporting that difference in reliability anywhere. **Tier 3 — sit with this.** You ship a customer-segmentation model built on k-means, or a \"typical usage pattern\" embedding space built on PCA, trained on whoever was in your data — which is whoever used the product, applied for the loan, showed up for the health screening, before you started. It performs beautifully on the aggregate metrics: low inertia, 95% variance explained, clean scree plot, clean elbow. Somewhere in the tail of that population is a subgroup — maybe defined by something you tracked, maybe by something you never collected a column for — whose patterns genuinely differ from the majority's, and whose reconstruction error or distance-to- centroid is, by the plain mechanics of the algorithm, going to run higher than everyone else's. Someone downstream — a product manager reading a segment dashboard, a clinician reading a \"risk distance from normal profile\" score, a loan officer reading \"this application doesn't fit our typical customer profile\" — sees that higher number and has to decide what it means. Your model cannot tell them whether it means \"this person's situation is genuinely unusual\" or \"this person's kind of pattern was never well-represented in the data these axes were built from\" — those two readings look numerically identical from inside the algorithm, and only one of them is a fact about the person. Before you ship the aggregate number, who is in the part of your training population too small to have shaped the axes, and what happens to them the day their distance from the centroid gets read as a fact about who they are rather than a fact about who was in the room when the axes were drawn?",
+        "sitWithThis": "You ship a customer-segmentation model built on k-means, or a \"typical usage pattern\" embedding space built on PCA, trained on whoever was in your data — which is whoever used the product, applied for the loan, showed up for the health screening, before you started. It performs beautifully on the aggregate metrics: low inertia, 95% variance explained, clean scree plot, clean elbow. Somewhere in the tail of that population is a subgroup — maybe defined by something you tracked, maybe by something you never collected a column for — whose patterns genuinely differ from the majority's, and whose reconstruction error or distance-to- centroid is, by the plain mechanics of the algorithm, going to run higher than everyone else's. Someone downstream — a product manager reading a segment dashboard, a clinician reading a \"risk distance from normal profile\" score, a loan officer reading \"this application doesn't fit our typical customer profile\" — sees that higher number and has to decide what it means. Your model cannot tell them whether it means \"this person's situation is genuinely unusual\" or \"this person's kind of pattern was never well-represented in the data these axes were built from\" — those two readings look numerically identical from inside the algorithm, and only one of them is a fact about the person. Before you ship the aggregate number, who is in the part of your training population too small to have shaped the axes, and what happens to them the day their distance from the centroid gets read as a fact about who they are rather than a fact about who was in the room when the axes were drawn?"
+      },
+      "adaptation": {
+        "pacing": {
+          "minHoursPerWeek": 8,
+          "targetHoursPerWeek": 10,
+          "maxHoursPerWeek": 12,
+          "targetWeeks": 2
+        },
+        "watchFor": [
+          "struggle-blocked",
+          "struggle-productive",
+          "pace-ahead",
+          "mastery-early",
+          "shallow-completion"
+        ],
+        "moves": {
+          "accelerate": "A learner who, unprompted, disaggregates reconstruction error by a",
+          "reinforce": "Re-anchor in the module's own worked examples before adding new material; struggle here is expected to be productive, not blocked.",
+          "reroute": "have them fix the seed and run twice — identical results, proving the algorithm\nitself is deterministic given its inputs — then change only the seed and run again, to isolate\ninitialization, not the algorithm, as the source of variation. This is quick (under 10 minutes)\nand the confusion evaporates once they've isolated the variable themselves rather than being told. after ~15 minutes of technique-tuning with no improvement, have\nthem plot the elongated data directly and trace, by eye, which points a"
+        }
+      }
+    },
+    {
+      "id": "AIE-201-M05",
+      "track": "B",
+      "title": "The evaluation contract: splits, leakage, baselines",
+      "summary": "The evaluation contract: splits, leakage, baselines — one module of Machine Learning from First Principles.",
+      "credentials": [
+        {
+          "name": "Machine Learning from First Principles — The evaluation contract: splits, leakage, baselines",
+          "provider": "The AI Engineer Curriculum (first-party)",
+          "kind": "course",
+          "freeToAudit": true,
+          "paidCostUSD": 0
+        }
+      ],
+      "prerequisites": [
+        "AIE-201-M04"
+      ],
+      "buildThread": "AIE-201: Every algorithm is built from scratch and validated against scikit-learn, so nothing is incantation; the failure catalog (leakage, drift, Simpson's paradox, base-rate neglect) gets equal billing with the methods; 'when not to use ML' is an assessed outcome, which no competitor dares grade.",
+      "pillars": {
+        "structure": "Map the module before building: Train; Validation; Test.",
+        "readingReasoning": "Read each lesson's worked example and named misconceptions; predict what the mechanism does before reading the explanation.",
+        "testing": "Run every lab's Predict step on paper, before Build; verify against the provided tests, not against whether the program merely runs.",
+        "building": "Complete the module's labs (A leakage-safe pipeline: scaling vs. feature selection, and why the same discipline violation has wildly different costs; K-fold cross-validation from scratch, and nested selection that never peeks at test; The leakage hunt: find the planted bug from the numbers alone) and the module assessment."
+      },
+      "tiers": {
+        "materialGround": "Every number in this module's worked examples is a verifiable artifact of a specific, checkable procedure: an $R^2$, an accuracy, an AUC, each computed from code you can re-run and get the identical value from (to floating-point tolerance, as the labs' tests confirm against `sklearn`). Leakage is not a matter of opinion or interpretation — the loan-default example's accuracy moved from 0.887 to 0.987 for a specific, traceable reason (one column whose definition includes post-outcome information), and that reason is demonstrable, not debatable. This grounding matters because the temptation, once you've internalized \"leakage is everywhere,\" is to treat every strong result with generic suspicion; the discipline this module builds is *specific* suspicion, backed by a diagnostic, not a vague distrust of good numbers in general. **Tier 2 — what \"beats the baseline\" suppresses.** A model that clears a baseline by a real, honest margin has still only answered the question the baseline and the split together defined — and both of those are choices, not facts handed down by the data. Lesson 4 showed that the *same* trained model can be reported as \"beats chance\" (true, against a majority-class baseline) or \"doesn't beat persistence\" (also true, against a stronger baseline that matches the data's real structure) — two honest, leakage-free numbers, computed correctly, that support opposite headlines. The choice of which baseline to report is rarely neutral: a team under pressure to ship a result has every incentive to report the comparison that clears the bar, and nothing about \"I didn't leak anything\" prevents that choice from being made in bad faith. The technical discipline this module teaches (honest splits, honest CV, honest baselines) is necessary and is not, by itself, sufficient to guarantee an honest *claim* — the same clean pipeline can be paired with a baseline chosen because it's easy to beat rather than because it's the right question to ask. **Tier 3 — sit with this.** You will, at some point in your career, build a model whose evaluation pipeline is clean — no leakage, an honest split, cross-validation done correctly, a fair baseline that beats chance by a real margin — and someone above you will still ask you to describe it in terms that overstate what it does, or will pick the friendliest of several honestly-computed comparisons to put in the deck. Every tool this module gave you (the ablation test, the baseline table, the \"what question does this split actually answer\" habit) is built to catch a *technical* violation of the evaluation contract — a leaked column, a bad split, an unfair baseline. None of those tools can catch, or defend you against, a request to describe an honestly-measured number dishonestly. The corrected accuracy in Lab 3's ablation — 0.887, tied exactly with a model that predicts \"no default\" for everyone — is a true, leakage-free, well-earned number, and it is also a number that a loan officer's dashboard could quietly relabel from \"flags high-risk applicants\" to \"87% accurate model,\" true on its face, misleading in the way that matters most. When the numbers you produced are honest and the story told about them is not, whose name is on the pipeline, and whose name is on the deck?",
+        "observerReading": "A model that clears a baseline by a real, honest margin has still only answered the question the baseline and the split together defined — and both of those are choices, not facts handed down by the data. Lesson 4 showed that the *same* trained model can be reported as \"beats chance\" (true, against a majority-class baseline) or \"doesn't beat persistence\" (also true, against a stronger baseline that matches the data's real structure) — two honest, leakage-free numbers, computed correctly, that support opposite headlines. The choice of which baseline to report is rarely neutral: a team under pressure to ship a result has every incentive to report the comparison that clears the bar, and nothing about \"I didn't leak anything\" prevents that choice from being made in bad faith. The technical discipline this module teaches (honest splits, honest CV, honest baselines) is necessary and is not, by itself, sufficient to guarantee an honest *claim* — the same clean pipeline can be paired with a baseline chosen because it's easy to beat rather than because it's the right question to ask. **Tier 3 — sit with this.** You will, at some point in your career, build a model whose evaluation pipeline is clean — no leakage, an honest split, cross-validation done correctly, a fair baseline that beats chance by a real margin — and someone above you will still ask you to describe it in terms that overstate what it does, or will pick the friendliest of several honestly-computed comparisons to put in the deck. Every tool this module gave you (the ablation test, the baseline table, the \"what question does this split actually answer\" habit) is built to catch a *technical* violation of the evaluation contract — a leaked column, a bad split, an unfair baseline. None of those tools can catch, or defend you against, a request to describe an honestly-measured number dishonestly. The corrected accuracy in Lab 3's ablation — 0.887, tied exactly with a model that predicts \"no default\" for everyone — is a true, leakage-free, well-earned number, and it is also a number that a loan officer's dashboard could quietly relabel from \"flags high-risk applicants\" to \"87% accurate model,\" true on its face, misleading in the way that matters most. When the numbers you produced are honest and the story told about them is not, whose name is on the pipeline, and whose name is on the deck?",
+        "sitWithThis": "You will, at some point in your career, build a model whose evaluation pipeline is clean — no leakage, an honest split, cross-validation done correctly, a fair baseline that beats chance by a real margin — and someone above you will still ask you to describe it in terms that overstate what it does, or will pick the friendliest of several honestly-computed comparisons to put in the deck. Every tool this module gave you (the ablation test, the baseline table, the \"what question does this split actually answer\" habit) is built to catch a *technical* violation of the evaluation contract — a leaked column, a bad split, an unfair baseline. None of those tools can catch, or defend you against, a request to describe an honestly-measured number dishonestly. The corrected accuracy in Lab 3's ablation — 0.887, tied exactly with a model that predicts \"no default\" for everyone — is a true, leakage-free, well-earned number, and it is also a number that a loan officer's dashboard could quietly relabel from \"flags high-risk applicants\" to \"87% accurate model,\" true on its face, misleading in the way that matters most. When the numbers you produced are honest and the story told about them is not, whose name is on the pipeline, and whose name is on the deck?"
+      },
+      "adaptation": {
+        "pacing": {
+          "minHoursPerWeek": 8,
+          "targetHoursPerWeek": 10,
+          "maxHoursPerWeek": 12,
+          "targetWeeks": 2
+        },
+        "watchFor": [
+          "struggle-blocked",
+          "struggle-productive",
+          "pace-ahead",
+          "mastery-early",
+          "shallow-completion"
+        ],
+        "moves": {
+          "accelerate": "A learner who, in the Predict step, names the correct category *and* the",
+          "reinforce": "Re-anchor in the module's own worked examples before adding new material; struggle here is expected to be productive, not blocked.",
+          "reroute": "have the learner re-state, out loud or in writing, what the point back to the standardized\ncoefficient comparison in Lesson 3 (2.107 vs. 0.19–0.38) — a proxy this strongly correlated with the\nlabel doesn't just add a little signal on top of the genuine features, it makes them nearly\nirrelevant to the fitted model's decision boundary, which is exactly why removing it collapses\nperformance rather than merely denting it. This is a short, one-fact reroute, not a rebuild of the\nlesson."
+        }
+      }
+    },
+    {
+      "id": "AIE-201-M06",
+      "track": "B",
+      "title": "The failure catalog: how ML lies",
+      "summary": "The failure catalog: how ML lies — one module of Machine Learning from First Principles.",
+      "credentials": [
+        {
+          "name": "Machine Learning from First Principles — The failure catalog: how ML lies",
+          "provider": "The AI Engineer Curriculum (first-party)",
+          "kind": "course",
+          "freeToAudit": true,
+          "paidCostUSD": 0
+        }
+      ],
+      "prerequisites": [
+        "AIE-201-M05"
+      ],
+      "buildThread": "AIE-201: Every algorithm is built from scratch and validated against scikit-learn, so nothing is incantation; the failure catalog (leakage, drift, Simpson's paradox, base-rate neglect) gets equal billing with the methods; 'when not to use ML' is an assessed outcome, which no competitor dares grade.",
+      "pillars": {
+        "structure": "Map The failure catalog: how ML lies's structure before starting any lab.",
+        "readingReasoning": "Read each lesson's worked example and named misconceptions; predict what the mechanism does before reading the explanation.",
+        "testing": "Run every lab's Predict step on paper, before Build; verify against the provided tests, not against whether the program merely runs.",
+        "building": "Complete the module's labs (A confound-reversal detector, verified on a real dataset and a synthetic control; A Bayes-correct PPV/NPV calculator, verified against hand arithmetic; A train-vs-deployment slice auditor; A threshold-aware confusion-matrix auditor) and the module assessment."
+      },
+      "tiers": {
+        "materialGround": "Every number in this module is real arithmetic, verifiable by anyone who runs the code: 44.52% vs. 30.35% is the correct pooled rate from the department table; 8.33% is the correct PPV from Bayes' theorem given those inputs; 98.17% is the correct accuracy of a model that predicts \"not fraud\" for every row. None of these numbers are wrong, miscalculated, or the product of a bug. Real deployed systems — hiring funnels, medical screening programs, churn models, fraud detectors — report numbers exactly this shape, exactly this correctly computed, every day. That these numbers can still mislead is not a critique of arithmetic; it is a fact about what a single summary statistic can and cannot carry, and it is checkable, not a matter of opinion. **Tier 2 — what \"the number checks out\" suppresses.** A validated, leak-free, honestly-computed metric (M05's entire contract, satisfied) still only ever describes performance averaged over whatever population and whatever stratification you chose to report it at. This module's four lessons are four different ways that averaging quietly discards the information that would have changed the decision: which department someone applied to, how rare the condition actually is, which population the model will actually meet, which class the \"accuracy\" number is secretly indifferent to. This is the same mechanism M04's Tier 2 named for PCA and k-means — a population-weighted average privileges whoever is numerous or whichever comparison is easiest to compute — now shown four more times, in settings that have nothing to do with clustering or eigenvectors, because it is not a property of any one algorithm. It is a property of averaging itself, and averaging is nearly every metric anyone reports. **Tier 3 — sit with this.** Every failure mode in this module produced a model or a claim that was, by its own reported number, fine. Nothing crashed. No test failed. The dashboard was green, the model card said \"validated,\" the accuracy was in the nineties. The only reason any of the four ever got caught in this module is that a specific diagnostic — a stratified-rate comparison, a Bayes- correct PPV, a slice-vs-slice audit, a threshold-aware confusion matrix — was already known, already built, and someone deliberately ran it. You now have four such diagnostics. The failure catalog is not exhaustive; it was never claimed to be. Somewhere in a system you ship is a failure mode this module didn't name, hiding behind a number that is, technically, true — on a stratification nobody thought to check, for a subgroup nobody thought to disaggregate, using a metric nobody thought to question this quarter, because the deadline was real and the dashboard was green. What is the question you are not yet in the habit of asking, and who is on the other side of the number the day it turns out you needed to?",
+        "observerReading": "A validated, leak-free, honestly-computed metric (M05's entire contract, satisfied) still only ever describes performance averaged over whatever population and whatever stratification you chose to report it at. This module's four lessons are four different ways that averaging quietly discards the information that would have changed the decision: which department someone applied to, how rare the condition actually is, which population the model will actually meet, which class the \"accuracy\" number is secretly indifferent to. This is the same mechanism M04's Tier 2 named for PCA and k-means — a population-weighted average privileges whoever is numerous or whichever comparison is easiest to compute — now shown four more times, in settings that have nothing to do with clustering or eigenvectors, because it is not a property of any one algorithm. It is a property of averaging itself, and averaging is nearly every metric anyone reports. **Tier 3 — sit with this.** Every failure mode in this module produced a model or a claim that was, by its own reported number, fine. Nothing crashed. No test failed. The dashboard was green, the model card said \"validated,\" the accuracy was in the nineties. The only reason any of the four ever got caught in this module is that a specific diagnostic — a stratified-rate comparison, a Bayes- correct PPV, a slice-vs-slice audit, a threshold-aware confusion matrix — was already known, already built, and someone deliberately ran it. You now have four such diagnostics. The failure catalog is not exhaustive; it was never claimed to be. Somewhere in a system you ship is a failure mode this module didn't name, hiding behind a number that is, technically, true — on a stratification nobody thought to check, for a subgroup nobody thought to disaggregate, using a metric nobody thought to question this quarter, because the deadline was real and the dashboard was green. What is the question you are not yet in the habit of asking, and who is on the other side of the number the day it turns out you needed to?",
+        "sitWithThis": "Every failure mode in this module produced a model or a claim that was, by its own reported number, fine. Nothing crashed. No test failed. The dashboard was green, the model card said \"validated,\" the accuracy was in the nineties. The only reason any of the four ever got caught in this module is that a specific diagnostic — a stratified-rate comparison, a Bayes- correct PPV, a slice-vs-slice audit, a threshold-aware confusion matrix — was already known, already built, and someone deliberately ran it. You now have four such diagnostics. The failure catalog is not exhaustive; it was never claimed to be. Somewhere in a system you ship is a failure mode this module didn't name, hiding behind a number that is, technically, true — on a stratification nobody thought to check, for a subgroup nobody thought to disaggregate, using a metric nobody thought to question this quarter, because the deadline was real and the dashboard was green. What is the question you are not yet in the habit of asking, and who is on the other side of the number the day it turns out you needed to?"
+      },
+      "adaptation": {
+        "pacing": {
+          "minHoursPerWeek": 8,
+          "targetHoursPerWeek": 10,
+          "maxHoursPerWeek": 12,
+          "targetWeeks": 2
+        },
+        "watchFor": [
+          "struggle-blocked",
+          "struggle-productive",
+          "pace-ahead",
+          "mastery-early",
+          "shallow-completion"
+        ],
+        "moves": {
+          "accelerate": "A learner who, unprompted, checks a train-vs-deployment feature-distribution",
+          "reinforce": "Re-anchor in the module's own worked examples before adding new material; struggle here is expected to be productive, not blocked.",
+          "reroute": "do not\nanswer the question directly. Ask the learner to state, out loud, the specific real-world decision\nsomeone would make with each number (\"are individual departments biased against applicants who reach\nthem?\" vs. \"are women, overall, ending up admitted less often at this institution?\") — the moment\nthey can state both questions precisely, most learners resolve their own confusion, because the\n\"which is true\" framing was hiding a \"which question am I answering\" framing the whole time. have them first confirm the"
+        }
+      }
+    },
+    {
+      "id": "AIE-201-M07",
+      "track": "B",
+      "title": "Feature engineering and the tabular endgame",
+      "summary": "Feature engineering and the tabular endgame — one module of Machine Learning from First Principles.",
+      "credentials": [
+        {
+          "name": "Machine Learning from First Principles — Feature engineering and the tabular endgame",
+          "provider": "The AI Engineer Curriculum (first-party)",
+          "kind": "course",
+          "freeToAudit": true,
+          "paidCostUSD": 0
+        }
+      ],
+      "prerequisites": [
+        "AIE-201-M06"
+      ],
+      "buildThread": "AIE-201: Every algorithm is built from scratch and validated against scikit-learn, so nothing is incantation; the failure catalog (leakage, drift, Simpson's paradox, base-rate neglect) gets equal billing with the methods; 'when not to use ML' is an assessed outcome, which no competitor dares grade.",
+      "pillars": {
+        "structure": "Map the module before building: Tabular relationships are often irregular, not smooth.; Real tables carry uninformative or weakly-informative columns, and trees are naturally\n   robust to them.; Tabular columns are not rotation-invariant the way pixels are..",
+        "readingReasoning": "Read each lesson's worked example and named misconceptions; predict what the mechanism does before reading the explanation.",
+        "testing": "Run every lab's Predict step on paper, before Build; verify against the provided tests, not against whether the program merely runs.",
+        "building": "Complete the module's labs (An out-of-fold target encoder, built to survive both leaks at once; Missing data: `dropna` vs. honest imputation, on a dataset built to make the difference matter; The tabular endgame: build the engineered feature set, benchmark GBT against a neural net) and the module assessment."
+      },
+      "tiers": {
+        "materialGround": "Every number in this module is a specific, re-runnable artifact: leaky-vs-honest target-encoding AUCs at three stated cardinalities, a missingness-indicator's exact AUC recovery, an interaction term's exact accuracy jump, an 8-seed GBT-vs-MLP comparison with a stated, never-negative advantage. The published benchmark claim this module states as fact (Grinsztajn et al., 2022; Shwartz-Ziv & Armon, 2022 — gradient-boosted trees on engineered tabular features match or beat neural networks on real-world tabular data) is not received wisdom here; it is a claim this module's own Lab 3 reproduces with a stated, checkable margin. Feature engineering itself is, like the labeled data this course's ethics thread names in Tier 1 elsewhere, **real, measurable, uncompensated-in-the-final-metric labor** — the target encoder, the missingness taxonomy, the interaction term are hours of a specific person's judgment, and none of that labor shows up in the number \"AUC: 0.802\" that eventually goes in a slide. **Tier 2 — what \"the indicator improved the model\" suppresses.** Lesson 2's missingness indicator is this module's central case study, and it is worth stating its suppression precisely, because it is not a bug: the indicator column recovers real signal *because*, in the training population, whatever caused a person to omit their income correlated with genuine, measurable default risk. What the single number \"AUC: 0.733, up from 0.653\" does not say is **why** any individual applicant's income was missing. Some applicants who omit income are exactly the elevated-risk case this feature was built to catch. Others omit it for reasons with no bearing on repayment at all — a gig-economy income stream with no single figure to report, a justified reluctance to disclose financial detail on a form, an applicant from a population with less standardized income documentation. The model cannot tell these apart; it can only exploit whatever the aggregate correlation happens to be in the training population it was fit on. **This is the exact mechanism the course's Tier 2 ethics thread names generally — \"what accuracy suppresses\" — now sitting inside a single engineered column this module taught you to build and be proud of.** **Tier 3 — sit with this.** AIE-201-M06 built you a specific tool for exactly this situation: a per-subgroup audit that checks whether a feature's aggregate gain is evenly distributed or concentrated against a specific, identifiable group. Nothing in this module's Lab 2 required you to run that audit before shipping the missingness indicator — the honest engineering discipline this module teaches (fit only on train, use out-of-fold encoding, check the coverage `dropna` would have cost you) certifies that the feature is *statistically clean*. It does not certify that it is *fair*, and those are different claims that a green pytest suite cannot tell apart. You now have every tool this module built — the leak-vs-honest comparison, the coverage audit, the interaction test — and every one of them answers \"is this feature computed correctly.\" None of them answers \"is it fair to build a risk score partly out of the fact that someone declined to tell you their income.\" The next time a feature you engineered honestly, tested thoroughly, and can defend with a real AUC number happens to correlate with something you didn't put in the training data on purpose — a zip code standing in for something else, a missing field standing in for a reason you never asked about — whose job is it to run the audit that would tell you, and what happens to your timeline if you run it and don't like the answer?",
+        "observerReading": "Lesson 2's missingness indicator is this module's central case study, and it is worth stating its suppression precisely, because it is not a bug: the indicator column recovers real signal *because*, in the training population, whatever caused a person to omit their income correlated with genuine, measurable default risk. What the single number \"AUC: 0.733, up from 0.653\" does not say is **why** any individual applicant's income was missing. Some applicants who omit income are exactly the elevated-risk case this feature was built to catch. Others omit it for reasons with no bearing on repayment at all — a gig-economy income stream with no single figure to report, a justified reluctance to disclose financial detail on a form, an applicant from a population with less standardized income documentation. The model cannot tell these apart; it can only exploit whatever the aggregate correlation happens to be in the training population it was fit on. **This is the exact mechanism the course's Tier 2 ethics thread names generally — \"what accuracy suppresses\" — now sitting inside a single engineered column this module taught you to build and be proud of.** **Tier 3 — sit with this.** AIE-201-M06 built you a specific tool for exactly this situation: a per-subgroup audit that checks whether a feature's aggregate gain is evenly distributed or concentrated against a specific, identifiable group. Nothing in this module's Lab 2 required you to run that audit before shipping the missingness indicator — the honest engineering discipline this module teaches (fit only on train, use out-of-fold encoding, check the coverage `dropna` would have cost you) certifies that the feature is *statistically clean*. It does not certify that it is *fair*, and those are different claims that a green pytest suite cannot tell apart. You now have every tool this module built — the leak-vs-honest comparison, the coverage audit, the interaction test — and every one of them answers \"is this feature computed correctly.\" None of them answers \"is it fair to build a risk score partly out of the fact that someone declined to tell you their income.\" The next time a feature you engineered honestly, tested thoroughly, and can defend with a real AUC number happens to correlate with something you didn't put in the training data on purpose — a zip code standing in for something else, a missing field standing in for a reason you never asked about — whose job is it to run the audit that would tell you, and what happens to your timeline if you run it and don't like the answer?",
+        "sitWithThis": "AIE-201-M06 built you a specific tool for exactly this situation: a per-subgroup audit that checks whether a feature's aggregate gain is evenly distributed or concentrated against a specific, identifiable group. Nothing in this module's Lab 2 required you to run that audit before shipping the missingness indicator — the honest engineering discipline this module teaches (fit only on train, use out-of-fold encoding, check the coverage `dropna` would have cost you) certifies that the feature is *statistically clean*. It does not certify that it is *fair*, and those are different claims that a green pytest suite cannot tell apart. You now have every tool this module built — the leak-vs-honest comparison, the coverage audit, the interaction test — and every one of them answers \"is this feature computed correctly.\" None of them answers \"is it fair to build a risk score partly out of the fact that someone declined to tell you their income.\" The next time a feature you engineered honestly, tested thoroughly, and can defend with a real AUC number happens to correlate with something you didn't put in the training data on purpose — a zip code standing in for something else, a missing field standing in for a reason you never asked about — whose job is it to run the audit that would tell you, and what happens to your timeline if you run it and don't like the answer?"
+      },
+      "adaptation": {
+        "pacing": {
+          "minHoursPerWeek": 8,
+          "targetHoursPerWeek": 10,
+          "maxHoursPerWeek": 12,
+          "targetWeeks": 1
+        },
+        "watchFor": [
+          "struggle-blocked",
+          "struggle-productive",
+          "pace-ahead",
+          "mastery-early",
+          "shallow-completion"
+        ],
+        "moves": {
+          "accelerate": "A learner whose Lab 3 Predict step correctly orders all four combinations",
+          "reinforce": "Re-anchor in the module's own worked examples before adding new material; struggle here is expected to be productive, not blocked.",
+          "reroute": "ask them to trace,\nline by line, whether the encoding a given training row point back to Lesson 2's numbers — the indicator recovered\nreal, measured AUC (0.653 → 0.733) precisely because the missingness pattern in that data honestly\ncorrelates with the outcome; the discomfort is worth taking seriously as an"
+        }
+      }
+    },
+    {
+      "id": "AIE-201-M08",
+      "track": "B",
+      "title": "When not to use ML",
+      "summary": "When not to use ML — one module of Machine Learning from First Principles.",
+      "credentials": [
+        {
+          "name": "Machine Learning from First Principles — When not to use ML",
+          "provider": "The AI Engineer Curriculum (first-party)",
+          "kind": "course",
+          "freeToAudit": true,
+          "paidCostUSD": 0
+        }
+      ],
+      "prerequisites": [
+        "AIE-201-M07"
+      ],
+      "buildThread": "AIE-201: Every algorithm is built from scratch and validated against scikit-learn, so nothing is incantation; the failure catalog (leakage, drift, Simpson's paradox, base-rate neglect) gets equal billing with the methods; 'when not to use ML' is an assessed outcome, which no competitor dares grade.",
+      "pillars": {
+        "structure": "Map the module before building: The input space is small, finite, or can be usefully bucketed; The relationship is close to deterministic given those keys; Each cell has enough rows to estimate its rate or mean stably; Near-irreducible noise.; No actionability.; Negative expected value even with genuine, non-trivial lift.; The error distribution's harm to a subgroup swamps the aggregate benefit.; Define the ladder before touching data.; Climb one rung at a time, on the same held-out test set, with a paired test.; Stop at the first rung a later rung fails to clear on both bars.; Guard against multiple comparisons..",
+        "readingReasoning": "Read each lesson's worked example and named misconceptions; predict what the mechanism does before reading the explanation.",
+        "testing": "Run every lab's Predict step on paper, before Build; verify against the provided tests, not against whether the program merely runs.",
+        "building": "Complete the module's labs (A — Build the complexity ladder and defend a stopping point; B — The lookup-table vs. ensemble showdown; C — The \"don't build it\" audit) and the module assessment."
+      },
+      "tiers": {
+        "materialGround": "The capacity-constrained, low-base-rate arithmetic in Lesson 3 is not a hypothetical: outreach programs, fraud-triage queues, and content-moderation escalation systems are routinely capacity-constrained in exactly this shape, and the breakeven-precision calculation this module teaches is a standard, computable check that most organizations do not run before building. This is a documented, mechanical fact about how these systems fail economically, not an opinion about whether ML is good or bad.",
+        "observerReading": "\"AI can solve this\" pitches suppress that shipping the impressive system is frequently rewarded independent of whether the arithmetic supports it — a data scientist's promotion case and a vendor's contract renewal both credit \"we built the ML platform\" more reliably than \"we correctly showed the platform wouldn't pay for itself,\" so the organizational incentive gradient runs opposite to this module's discipline more often than either side of the AI-hype debate likes to admit. And the opposite failure is just as real: blanket \"AI is overhyped\" critiques suppress the packets — like this module's own rung-3 scenario — where the complex model's gain is genuine, large, and worth the cost, and where walking away on principle would be the wrong call, not the responsible one. Neither boosterism nor blanket skepticism runs the ladder; only the ladder does.",
+        "sitWithThis": "At some point in your career you will be the only person in the room who ran the number showing the platform doesn't pay for itself — while the roadmap, the vendor contract already under negotiation, and your manager's OKR all assume it does. The arithmetic is not in question; the room's appetite for it is. What do you owe the room when the honest recommendation is the unwelcome one, and what do you owe the version of yourself who built this module's discipline specifically so you'd be able to make that call?"
+      },
+      "adaptation": {
+        "pacing": {
+          "minHoursPerWeek": 8,
+          "targetHoursPerWeek": 10,
+          "maxHoursPerWeek": 12,
+          "targetWeeks": 2
+        },
+        "watchFor": [
+          "struggle-blocked",
+          "struggle-productive",
+          "pace-ahead",
+          "mastery-early",
+          "shallow-completion"
+        ],
+        "moves": {
+          "accelerate": "A learner who nails Lab A's stopping-point prediction *and* correctly predicts Lab",
+          "reinforce": "Re-anchor in the module's own worked examples before adding new material; struggle here is expected to be productive, not blocked.",
+          "reroute": "run\n  the assessment's rung-3-justified scenario (or an equivalent) hand back the\n  memo with one question — \"which rung did you actually run the paired test against?\" — before any\n  content correction; usually the gap is procedural, not conceptual."
+        }
+      }
     }
   ],
   "spines": [
@@ -2042,7 +2468,7 @@ export const aiEngineerCurriculumCourse: Course = {
   ],
   "credentialModel": {
     "sealedReading": "One three-tier observer reading (material ground / what the field suppresses / sit-with-this) sealed per module, plus a course-close synthesis per completed course.",
-    "corpusSize": 45,
+    "corpusSize": 54,
     "demonstrates": "Structural understanding at a depth no exam measures — this program's version of the alternative credentialing model: the sealed corpus, not the certificate, is what a learner has actually earned."
   },
   "costModel": {
