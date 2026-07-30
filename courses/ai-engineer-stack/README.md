@@ -1,6 +1,6 @@
 # The Full-Stack AI Engineer / Founder Stack
 
-12 months · 5 parallel tracks · ~22 external credentials · $0–$500 total (audit free)
+12 months · 5 parallel tracks · 26 external credentials · $0–$500 total (audit free)
 
 The machine-readable definition is [`course.ts`](course.ts) (compiled to
 `dist/courses/ai-engineer-stack.json`). This file is the human view.
