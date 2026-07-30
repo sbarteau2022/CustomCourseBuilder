@@ -10,7 +10,7 @@ export const aiEngineerCurriculumCourse: Course = {
   "title": "The AI Engineer Curriculum",
   "version": "1.0.0",
   "mission": "A complete, first-party path from zero to production AI engineer, built on a philosophy rather than inherited from how these subjects have been taught. In every course the learner descends below the abstraction to the substrate where the thing actually lives, builds it there by hand, and re-ascends to command the high-level tool as an instrument rather than invoke it as a mystery. Verification is taught before generation; evaluation runs as a spine, not a module; ethics carries structural teeth; the durable core is separated from the swappable tool surface so the material outlasts the tools. Every module is assessed by judgment demonstrated, never by content retained — and the whole program is run adaptively, and witnessed, by Elle.",
-  "durationMonths": 21,
+  "durationMonths": 23,
   "tracks": [
     {
       "id": "A",
@@ -31,7 +31,7 @@ export const aiEngineerCurriculumCourse: Course = {
       "title": "Foundations — AIE-100, AIE-101, AIE-102, AIE-104, AIE-103, AIE-110",
       "months": [
         1,
-        11
+        12
       ],
       "theme": "Foundations tier of the AI Engineer Curriculum: Working With AI Without Outsourcing Judgment; Python and Software Craft; Down to the Metal: C, and the Machine Under Python; The Machine at Scale: Linux, Networks, Concurrency, Containers; Mathematics for AI, Taught as Instruments; Data Structures, Algorithms, and Scale.",
       "unitIds": [
@@ -78,12 +78,12 @@ export const aiEngineerCurriculumCourse: Course = {
     },
     {
       "id": "p-core",
-      "title": "Core — AIE-201, AIE-202",
+      "title": "Core — AIE-201, AIE-202, AIE-203",
       "months": [
-        12,
-        21
+        13,
+        23
       ],
-      "theme": "Core tier of the AI Engineer Curriculum: Machine Learning from First Principles; Deep Learning: Autograd to Transformers.",
+      "theme": "Core tier of the AI Engineer Curriculum: Machine Learning from First Principles; Deep Learning: Autograd to Transformers; Data Engineering for AI.",
       "unitIds": [
         "AIE-201-M01",
         "AIE-201-M02",
@@ -100,7 +100,13 @@ export const aiEngineerCurriculumCourse: Course = {
         "AIE-202-M05",
         "AIE-202-M06",
         "AIE-202-M07",
-        "AIE-202-M08"
+        "AIE-202-M08",
+        "AIE-203-M01",
+        "AIE-203-M02",
+        "AIE-203-M03",
+        "AIE-203-M04",
+        "AIE-203-M05",
+        "AIE-203-M06"
       ]
     }
   ],
@@ -2852,6 +2858,307 @@ export const aiEngineerCurriculumCourse: Course = {
           "reroute": "If blocked two sessions on the same wall, switch modality — worked example first, then return to the lab."
         }
       }
+    },
+    {
+      "id": "AIE-203-M01",
+      "track": "B",
+      "title": "SQL and data modeling to fluency",
+      "summary": "The entry module. Before you can build a pipeline that survives replays, or a corpus you can stand behind, you need a place to put the data that doesn't quietly rot — a schema that models what actually happened, and a query engine you understand well enough to interrogate. This module descends from \"query the database\" (a skill most learners already half-have) to **relational modeling as a discipline**: normalization as a defense against specific, nameable anomalies; denormalization as a documented trade you choose, not a shortcut you fall into; and the **index** as a concrete structure you build by hand and measure — not folklore (\"just add an index\"), a B-tree you can reason about, on an engine that will show you its query plan if you ask.",
+      "credentials": [
+        {
+          "name": "Data Engineering for AI — SQL and data modeling to fluency",
+          "provider": "The AI Engineer Curriculum (first-party)",
+          "kind": "course",
+          "freeToAudit": true,
+          "paidCostUSD": 0
+        }
+      ],
+      "prerequisites": [
+        "AIE-101-M08",
+        "AIE-110-M06"
+      ],
+      "buildThread": "AIE-203: The corpus-construction module is the differentiator: no curriculum teaches building a training corpus with provenance, contamination discipline, and consent posture — the exact skill the LLM era actually runs on. Pipelines are graded on failure behavior (replays, duplicates, out-of-order), not happy paths.",
+      "pillars": {
+        "structure": "Map the module before building: From one flat table to a schema — normalization as anomaly elimination.; Breaking normal form on purpose — denormalization as a documented trade.; The index is a concrete trade — B-tree, `EXPLAIN QUERY PLAN`, and the seek you bought.; SQL fluency against a schema nobody designed for.; How many rows does one true fact about Harborline Weekly's URL currently occupy?; Run the migration and re-ask the question.; Prove the fix, not just assert it..",
+        "readingReasoning": "Read each lesson's worked example and named misconceptions; predict what the mechanism does before reading the explanation.",
+        "testing": "Run every lab's Predict step on paper, before Build; verify against the provided tests, not against whether the program merely runs.",
+        "building": "Complete the module's labs (A — Normalize `documents_raw`, then prove the anomalies are gone *(core)*; B — Build the index by hand on a million rows, predict the plan, prove the speedup *(core)*; C — Answer three questions nobody designed the schema for *(accelerate-eligible)*) and the module assessment."
+      },
+      "tiers": {
+        "materialGround": "Every column you define is a decision about what can later be asked, and every column you omit is a decision about what cannot. `documents_raw`'s `license_code` enum (`cc-by`, `cc-by-sa`, `cc0`, `unlicensed-scrape`, `publisher-licensed`) is not a neutral technical fact discovered from the data — it is a finite list someone chose, and every document that doesn't cleanly fit one of those five values will be *forced* into one of them the moment it's ingested, by whoever writes that day's ingestion code, usually without a second thought. This is documented, verifiable, and true of every schema in this course, not a special property of this one.",
+        "observerReading": "\"The schema just models the data\" suppresses that the schema was written *before* most of the data existed, by someone guessing at the shape of facts they hadn't seen yet — and that every later engineer who queries this schema inherits those early guesses as if they were neutral infrastructure rather than a series of judgment calls. A `license_code` column with five values quietly teaches every downstream consumer that licensing has five possible states, because the column makes the other states — contested, unknown, revoked-since-ingestion, dual-licensed-in-a-way-none-of-these-five-capture — literally impossible to record, not merely inconvenient. The suppression isn't in the schema itself; it's in treating schema design as a solved technical step you do once at the start, rather than a recurring act of narrowing that every later query, index, and pipeline in this course will inherit without re-examining.",
+        "sitWithThis": "A document arrives whose licensing status doesn't fit cleanly into any of your five `license_code` values — ambiguous provenance, a source that's since disputed its own rights to redistribute, a license that changed after ingestion but before you noticed. You have two options and both are cheap to execute and expensive to live with: force it into the closest existing value (`unlicensed-scrape`, probably) and let the narrowness silently become the policy, indistinguishable in every future query from documents that were genuinely, simply unlicensed from the start — or widen the schema, slow down every index and every query built against the old five-value assumption, and make every future engineer who touches this table confront the ambiguity you didn't resolve. Neither option is obviously correct. Pick one, and write down — in the schema's own migration history, not in a comment nobody will read — which one you picked and why, because the record of that decision is the only thing that will let someone three modules from now know it was a decision at all, rather than a fact about the world."
+      },
+      "adaptation": {
+        "pacing": {
+          "minHoursPerWeek": 8,
+          "targetHoursPerWeek": 10,
+          "maxHoursPerWeek": 12,
+          "targetWeeks": 2
+        },
+        "watchFor": [
+          "struggle-blocked",
+          "struggle-productive",
+          "pace-ahead",
+          "mastery-early",
+          "shallow-completion"
+        ],
+        "moves": {
+          "accelerate": "Such a learner can skip the guided walkthrough of Lab M01-C's first two questions and go straight to Q3 (the flagship, slowest, most consequential one) plus the bonus `ingestion_gaps` recursive CTE — the accelerate path should still hit the recursive CTE, since it's the one tool in this module with no earlier-course analogue and is load-bearing for M04's monitoring work.",
+          "reinforce": "Hold before advancing: Do not accelerate past the sealed-prediction step, ever, even for a learner who is clearly fluent.** The temptation is to let strong learners \"skip the paperwork\" and go straight to writing correct SQL — resist it. The prediction *is* the graded skill in this module; a learner who writes correct SQL with no prediction trail has demonstrated syntax competence, not the judgment this module is teaching.",
+          "reroute": "skip straight to \"name the transitive dependency\" (Lesson 1's actual mechanism) and let the NF labels attach a single annotated worked comparison (the Lesson 3 before/after pair, side by side, with the verb circled) before asking them to read their own plan cold. This is the direct analogue of AIE-102-M03's valgrind-output wall — same shape, different tool."
+        }
+      }
+    },
+    {
+      "id": "AIE-203-M02",
+      "track": "B",
+      "title": "Batch pipelines: ETL, idempotency, orchestration",
+      "summary": "The first pipeline. AIE-203-M01 gave the learner",
+      "credentials": [
+        {
+          "name": "Data Engineering for AI — Batch pipelines: ETL, idempotency, orchestration",
+          "provider": "The AI Engineer Curriculum (first-party)",
+          "kind": "course",
+          "freeToAudit": true,
+          "paidCostUSD": 0
+        }
+      ],
+      "prerequisites": [
+        "AIE-203-M01"
+      ],
+      "buildThread": "AIE-203: The corpus-construction module is the differentiator: no curriculum teaches building a training corpus with provenance, contamination discipline, and consent posture — the exact skill the LLM era actually runs on. Pipelines are graded on failure behavior (replays, duplicates, out-of-order), not happy paths.",
+      "pillars": {
+        "structure": "Map the module before building: One giant transaction.; Autocommit per row.; Chunked transactions plus a checkpoint..",
+        "readingReasoning": "Read each lesson's worked example and named misconceptions; predict what the mechanism does before reading the explanation.",
+        "testing": "Run every lab's Predict step on paper, before Build; verify against the provided tests, not against whether the program merely runs.",
+        "building": "Complete the module's labs (A — Naive ETL, replayed on purpose; B — Make it idempotent, under replay *and* out-of-order arrival; C — The DAG runner: retry, resume, and idempotent re-invocation) and the module assessment."
+      },
+      "tiers": {
+        "materialGround": "A duplicate-row bug from a replayed batch is not an abstraction — it is a duplicate charge on a real invoice, a second copy of a shipping notification, a customer support ticket that says \"why was I billed twice.\" An out-of-order overwrite that loses a legitimate update is a customer's corrected address silently reverting to the wrong one, with no error logged anywhere, because nothing about that overwrite looked like a failure to the system that performed it. These are documented, recurring categories of production incident, not hypotheticals invented for this module.",
+        "observerReading": "\"The pipeline is idempotent\" gets used as a talisman — once a team says it, the conversation about *what specifically happens on conflict* usually stops, as if idempotency were a single yes/no property rather than a specific, chosen rule. But `WHERE excluded.updated_at > orders.updated_at` is a policy decision — *whose write wins a tie, and by what evidence* — made once, in one line of SQL, by one engineer, and then applied without re-examination to every future conflict the table will ever see. Calling that \"just idempotency\" hides that a governance choice was made and never revisited.",
+        "sitWithThis": "You now have the exact mechanism that decides which of two conflicting writes survives. Put a person on one side of it: a user submits a data-deletion request. At nearly the same moment, a delayed upstream batch — queued behind a slow retry, carrying a system clock's `updated_at` you don't control — replays their last known profile update, timestamped *before* the deletion request. Your ordering guard is about to pick a winner between \"delete this person's data\" and \"restore their last known state.\" Which one wins under the rule you wrote in Lesson 2, and did you choose that on purpose — or did you just call it idempotent and move on?"
+      },
+      "adaptation": {
+        "pacing": {
+          "minHoursPerWeek": 8,
+          "targetHoursPerWeek": 10,
+          "maxHoursPerWeek": 12,
+          "targetWeeks": 2
+        },
+        "watchFor": [
+          "struggle-blocked",
+          "struggle-productive",
+          "pace-ahead",
+          "mastery-early",
+          "shallow-completion"
+        ],
+        "moves": {
+          "accelerate": "A learner who gets both right on the first attempt has",
+          "reinforce": "Re-anchor in the module's own worked examples before adding new material; struggle here is expected to be productive, not blocked.",
+          "reroute": "hand-trace three rows through the SQL on\n  paper — write out, row by row, whether `ON CONFLICT` fires and whether the `WHERE`\n  passes — before returning to the keyboard. This isolates the syntax wall from a\n  conceptual one and usually resolves it in one pass. have them\n  compute, concretely, the redo cost of a crash at row 9,999 of 10,000 under a single\n  transaction vs. 500-row chunks, before reading Lesson 3's prose. The arithmetic (redo\n  9,999 rows vs. redo at most 500) does the persuading; the lesson text is confirmation,\n  not the argument."
+        }
+      }
+    },
+    {
+      "id": "AIE-203-M03",
+      "track": "B",
+      "title": "Streaming: logs, exactly-once illusions, real-time ingestion",
+      "summary": "The second pipeline, and the harder one.",
+      "credentials": [
+        {
+          "name": "Data Engineering for AI — Streaming: logs, exactly-once illusions, real-time ingestion",
+          "provider": "The AI Engineer Curriculum (first-party)",
+          "kind": "course",
+          "freeToAudit": true,
+          "paidCostUSD": 0
+        }
+      ],
+      "prerequisites": [
+        "AIE-203-M02"
+      ],
+      "buildThread": "AIE-203: The corpus-construction module is the differentiator: no curriculum teaches building a training corpus with provenance, contamination discipline, and consent posture — the exact skill the LLM era actually runs on. Pipelines are graded on failure behavior (replays, duplicates, out-of-order), not happy paths.",
+      "pillars": {
+        "structure": "Map the module before building: At-most-once.; At-least-once.; Exactly-once..",
+        "readingReasoning": "Read each lesson's worked example and named misconceptions; predict what the mechanism does before reading the explanation.",
+        "testing": "Run every lab's Predict step on paper, before Build; verify against the provided tests, not against whether the program merely runs.",
+        "building": "Complete the module's labs (A — Build the log, and prove the duplicate is real; B — Make it effectively-once, and find the boundary of the fix; C — Watermarks: produce a late event on purpose, and handle it) and the module assessment."
+      },
+      "tiers": {
+        "materialGround": "Duplicate and lost events from streaming systems are not academic. A duplicated at-least-once delivery with no dedup key is a second copy of a fraud alert, a doubled inventory decrement, a customer billed twice for one purchase. A watermark set too aggressively is a fraud-detection window that closes before the slower, and often more suspicious, transaction pattern finishes arriving — closing early because closing early is cheap, not because the data was actually done arriving. These are documented, recurring categories of production incident, not hypotheticals invented for this module.",
+        "observerReading": "\"Our platform guarantees exactly-once\" is marketing shorthand for a real, narrow, internal guarantee (Lesson 2's Kafka-to-Kafka scoping) that gets quietly generalized, in conversation and in architecture diagrams, to cover effects it was never designed to reach. The suppression is not that the claim is a lie — it's technically true, inside its scope — it's that saying \"exactly-once\" out loud tends to end the conversation about where that scope stops, exactly at the point where the actual engineering (an idempotency key, sent one hop further, by a human who has to decide to do it) still has to happen.",
+        "sitWithThis": "`allowed_lateness` is a number you pick, and it decides whose events count. A person on a slow or intermittent connection — a rural signal, an older device, a shared computer at a shelter with a queue for the terminal — is structurally more likely to have their events arrive after the watermark has already moved on. Their action still happened. Your system will not report an error, will not flag an anomaly, will not tell anyone it happened and was dropped — because, by the definition your `allowed_lateness` wrote, it wasn't late in a way the system considers wrong. It was late in a way the system considers *finished*. You already have the exact mechanism that decides this. When you set that number, on purpose, for a real system — whose lateness are you willing to let the watermark erase, and would you still set it the same way if you had to say that sentence to the person it erased?"
+      },
+      "adaptation": {
+        "pacing": {
+          "minHoursPerWeek": 8,
+          "targetHoursPerWeek": 10,
+          "maxHoursPerWeek": 12,
+          "targetWeeks": 2
+        },
+        "watchFor": [
+          "struggle-blocked",
+          "struggle-productive",
+          "pace-ahead",
+          "mastery-early",
+          "shallow-completion"
+        ],
+        "moves": {
+          "accelerate": "A learner who gets both right on the first",
+          "reinforce": "Re-anchor in the module's own worked examples before adding new material; struggle here is expected to be productive, not blocked.",
+          "reroute": "before touching the test file, have them\n  circle, line by line in the starter `apply_fn`, which statements are SQL (protected)\n  and which are plain Python (not). This is a five-minute exercise that resolves the wall\n  almost every time — it is a boundary-of-the-mechanism question, not a hard concept. the seven-event table in the lab's Predict\n  step is designed to be hand-traceable in one pass — insist the full table (all seven\n  rows, watermark column filled in) is on paper before any code is touched. A learner who\n  tries to skip straight to code on this lab reliably produces an off-by-one and burns\n  more time debugging it than the trace would have cost."
+        }
+      }
+    },
+    {
+      "id": "AIE-203-M04",
+      "track": "B",
+      "title": "Data quality engineering: expectations, lineage, monitoring",
+      "summary": "The pipes now carry data that must be *trusted*,",
+      "credentials": [
+        {
+          "name": "Data Engineering for AI — Data quality engineering: expectations, lineage, monitoring",
+          "provider": "The AI Engineer Curriculum (first-party)",
+          "kind": "course",
+          "freeToAudit": true,
+          "paidCostUSD": 0
+        }
+      ],
+      "prerequisites": [
+        "AIE-203-M03"
+      ],
+      "buildThread": "AIE-203: The corpus-construction module is the differentiator: no curriculum teaches building a training corpus with provenance, contamination discipline, and consent posture — the exact skill the LLM era actually runs on. Pipelines are graded on failure behavior (replays, duplicates, out-of-order), not happy paths.",
+      "pillars": {
+        "structure": "Map the module before building: Schema; Range; Null-rate; Referential.",
+        "readingReasoning": "Read each lesson's worked example and named misconceptions; predict what the mechanism does before reading the explanation.",
+        "testing": "Run every lab's Predict step on paper, before Build; verify against the provided tests, not against whether the program merely runs.",
+        "building": "Complete the module's labs (A — An expectations suite, and the bug it can't catch; B — A lineage tracker across a join and an aggregate; C — Monitoring: baseline, drift, and the cold start) and the module assessment."
+      },
+      "tiers": {
+        "materialGround": "A null-rate spike or a silently dropped column that reaches a downstream consumer unflagged is not an abstraction: it is a fraud model retrained on quietly corrupted labels, a metrics dashboard a team is evaluated against silently under- or over-reporting, a partner's feed change that nobody noticed for three weeks. These are documented, recurring categories of production incident, not hypotheticals invented for this module — and every one of them was, at the moment it happened, sitting behind a system somebody described as having \"data quality checks.\"",
+        "observerReading": "\"We have monitoring\" functions as a talisman the same way \"the pipeline is idempotent\" did in AIE-203-M02 — once said, the conversation about *what threshold, chosen by whom, tolerating how much* usually stops. But `max_rate=0.05` and `z_threshold=3.0` are not neutral defaults; they are policy decisions about how much silent wrongness is acceptable before a human is told, made once, by one engineer, on one day, and then applied without re-examination to every future batch the pipeline will ever see. And this module's own Lesson 4 proves the suppression runs deeper than tuning: a defect present since the pipeline's first day is invisible to *every* drift-based monitor by construction, no matter how well-tuned — a dashboard that has been \"all green\" since launch can mean \"stable\" and not \"correct,\" and the field's language rarely distinguishes the two out loud.",
+        "sitWithThis": "The lineage tracker you built in Lab M04-B answers \"which raw source produced this row\" — a debugging question. The exact same graph, walked in the same direction, answers a different question with different stakes: \"which downstream artifacts did this one person's record produce.\" Someone will eventually ask you to build lineage tracking \"for data quality,\" and someone else — a compliance team, a person exercising a deletion request, a subpoena — will ask to query that same tracker for a different reason. Is that the same request wearing two names, or two different requests that happen to run on the same code? You will be the one who knows, because you will be the one who built the graph — and the answer you give will already be running in production before most of the people affected by it ever learn the graph exists."
+      },
+      "adaptation": {
+        "pacing": {
+          "minHoursPerWeek": 8,
+          "targetHoursPerWeek": 10,
+          "maxHoursPerWeek": 12,
+          "targetWeeks": 1
+        },
+        "watchFor": [
+          "struggle-blocked",
+          "struggle-productive",
+          "pace-ahead",
+          "mastery-early",
+          "shallow-completion"
+        ],
+        "moves": {
+          "accelerate": "A learner who correctly predicts both \"missed by",
+          "reinforce": "Re-anchor in the module's own worked examples before adding new material; struggle here is expected to be productive, not blocked.",
+          "reroute": "have them run the type-\n  drift test have them compute, by hand, what `(latest - mean) / stdev` evaluates to\n  when `stdev = 0` before showing them the guard — the `ZeroDivisionError` they predict\n  themselves lands harder than reading it in a docstring."
+        }
+      }
+    },
+    {
+      "id": "AIE-203-M05",
+      "track": "B",
+      "title": "Corpus construction: provenance, dedup, filtering, contamination",
+      "summary": "The deepest point of the course. AIE-203-M04 taught",
+      "credentials": [
+        {
+          "name": "Data Engineering for AI — Corpus construction: provenance, dedup, filtering, contamination",
+          "provider": "The AI Engineer Curriculum (first-party)",
+          "kind": "course",
+          "freeToAudit": true,
+          "paidCostUSD": 0
+        }
+      ],
+      "prerequisites": [
+        "AIE-203-M04"
+      ],
+      "buildThread": "AIE-203: The corpus-construction module is the differentiator: no curriculum teaches building a training corpus with provenance, contamination discipline, and consent posture — the exact skill the LLM era actually runs on. Pipelines are graded on failure behavior (replays, duplicates, out-of-order), not happy paths.",
+      "pillars": {
+        "structure": "Map the module before building: Quality heuristics; Language identification; PII screens; Toxicity screens.",
+        "readingReasoning": "Read each lesson's worked example and named misconceptions; predict what the mechanism does before reading the explanation.",
+        "testing": "Run every lab's Predict step on paper, before Build; verify against the provided tests, not against whether the program merely runs.",
+        "building": "Complete the module's labs (A — Deduplication: exact hashing and MinHash near-duplicates; B — A filtering pipeline and its documented false positives/negatives; C — Contamination check and the provenance manifest) and the module assessment."
+      },
+      "tiers": {
+        "materialGround": "Every document your `ProvenanceRecord` describes as \"kept\" was, before it was a row in a manifest, something a person wrote — a forum answer typed at 1am to help a stranger, a blog post, a photo caption, a comment they assumed would be read by the dozen people who followed that account. Scraping's legal status is actively, currently contested in courts on multiple continents at the time of this writing — not settled precedent you can cite once and stop thinking about, but live litigation whose outcome could retroactively change what \"licensed\" or \"fair use\" means for data you've already trained on. Treat every `license_or_consent` field in your manifest as a claim you might have to defend, because you might.",
+        "observerReading": "This module's own filters have a vocabulary problem worth sitting with: `identify_language`, `pii_scan`, and `toxicity_scan` all return confident-sounding structured output — a language code, a match, a keyword hit — and structured output *reads* as settled. \"Publicly available\" has the same shape of false settledness: it is a true, checkable fact about *access* (nothing stopped you from downloading it) wearing the clothes of a moral fact about *permission* (someone agreed to this use). Nobody who posted an answer on a help forum in 2015, under that platform's 2015 norms, consented to that answer being one of billions of examples teaching a 2026 model how to write. Availability was never consent — the field's language quietly lets the first fact stand in for the second, and this module's consent-posture template exists specifically to force the two apart, in writing, source by source, instead of letting \"we scraped it and it was public\" answer a question it was never actually an answer to.",
+        "sitWithThis": "Lab C's own `check_contamination` and `filter_document` have a property you built and verified yourself: every one of them has a real, provable blind spot — a paraphrase that evades n-gram matching, a spelled-out number that evades a regex, a keyword list that misses hostility phrased differently. Your corpus almost certainly contains, right now, at least one document from someone who — if you could ask them, individually, today — would say no. You cannot identify who. No filter in this module, or in any real production pipeline, will find them for you; that is not a gap in your implementation, it is a structural limit of every technique this lesson taught, stated honestly instead of quietly assumed away. You will train anyway, or you will not — and \"the pipeline didn't flag anything\" is not the same claim as \"no one would object,\" no matter how satisfying a clean `corpus_summary` feels to look at. Decide which one you're actually claiming, and write it down in the consent posture where the next person to touch this corpus — quite possibly a version of you, in AIE-301, who no longer has the raw sources open in another tab — can find it."
+      },
+      "adaptation": {
+        "pacing": {
+          "minHoursPerWeek": 8,
+          "targetHoursPerWeek": 10,
+          "maxHoursPerWeek": 12,
+          "targetWeeks": 2
+        },
+        "watchFor": [
+          "struggle-blocked",
+          "struggle-productive",
+          "pace-ahead",
+          "mastery-early",
+          "shallow-completion"
+        ],
+        "moves": {
+          "accelerate": "A learner who nails both has internalized the \"a filter's claim is",
+          "reinforce": "Re-anchor in the module's own worked examples before adding new material; struggle here is expected to be productive, not blocked.",
+          "reroute": "have them raise `num_hashes` from 64 to 256 and watch the gap shrink, then\n  drop it to 8 and watch the gap widen dramatically — the relationship between signature\n  length and estimate quality needs to be ask them to predict what that exact\n  change does to a corpus containing a"
+        }
+      }
+    },
+    {
+      "id": "AIE-203-M06",
+      "track": "B",
+      "title": "Storage economics: formats, lakes, warehouses, cost",
+      "summary": "The last module, and the one that puts a dollar",
+      "credentials": [
+        {
+          "name": "Data Engineering for AI — Storage economics: formats, lakes, warehouses, cost",
+          "provider": "The AI Engineer Curriculum (first-party)",
+          "kind": "course",
+          "freeToAudit": true,
+          "paidCostUSD": 0
+        }
+      ],
+      "prerequisites": [
+        "AIE-203-M05"
+      ],
+      "buildThread": "AIE-203: The corpus-construction module is the differentiator: no curriculum teaches building a training corpus with provenance, contamination discipline, and consent posture — the exact skill the LLM era actually runs on. Pipelines are graded on failure behavior (replays, duplicates, out-of-order), not happy paths.",
+      "pillars": {
+        "structure": "Map Storage economics: formats, lakes, warehouses, cost's structure before starting any lab.",
+        "readingReasoning": "Read each lesson's worked example and named misconceptions; predict what the mechanism does before reading the explanation.",
+        "testing": "Run every lab's Predict step on paper, before Build; verify against the provided tests, not against whether the program merely runs.",
+        "building": "Complete the module's labs (A — Build a row store and a column store, and measure the real byte gap; B — Dictionary-encode a column, and find where it stops helping; C — Compute the storage-tier crossover, by hand and by search) and the module assessment."
+      },
+      "tiers": {
+        "materialGround": "Bytes-scanned billing is a documented, recurring source of real financial surprise: an unbounded query — a `SELECT *` or an unfiltered join against a large table, run against a pay-per-scan engine — has produced real, five- and six-figure single-query bills at real organizations, discovered only when the invoice arrived. This is not a hypothetical this module invented to motivate Lesson 4; it is the reason every real bytes-scanned query engine now ships a \"preview the bytes this query will scan before you run it\" feature as a first-class safety control, not an afterthought.",
+        "observerReading": "\"Storage is basically free\" is true, narrowly, about the price of a gigabyte sitting idle — and that narrow truth gets generalized, in planning conversations, into \"so keep everything.\" What that generalization hides is a second, harder fact this module's own architecture surfaces without meaning to: column-major, compressed, often append-only formats — the exact formats Lessons 1 and 2 spent this whole module recommending, for good, real, load-bearing reasons — make deleting *one specific row* structurally expensive in a way a row-major OLTP table never was. An OLTP database deletes one customer's row with a point `DELETE` in milliseconds. A Parquet file, or a lakehouse table built on one, generally cannot cheaply remove one row in place — the row lives inside a compressed column-chunk shared with thousands of others, and \"delete this one\" usually means rewriting the file, or the row-group, or waiting for the table format's own compaction to catch up. The same physical layout that makes storage and querying cheap makes *targeted deletion* comparatively expensive engineering work — and that asymmetry is rarely said out loud in the same breath as \"storage is basically free,\" because it complicates the pitch.",
+        "sitWithThis": "You now know, from this module, that keeping a corpus in cold storage costs a few tenths of a cent per gigabyte per month, and that actually deleting one person's record out of a compressed, column-oriented file costs real engineering hours you'd otherwise spend on something else. Someone will eventually ask you — a person exercising a deletion request, a policy your team wrote and now has to honor, your own future self doing a compliance pass — to remove one person's data from a corpus built on the formats this module just taught you to prefer. The honest technical answer, most of the time, will be: it is cheaper, in dollars and in your own time, to just leave it there, quietly, in the tier that costs almost nothing to keep paying for, than to do the actual work of taking it out. You built the cost model. You know the exact number that makes \"keep it\" the path of least resistance. When that number is real and the request is real, does the fact that deletion costs *you* more than retention costs *the invoice* change what you do — and if you keep the record because removing it is inconvenient rather than because removing it is wrong, is that a decision you could defend out loud to the person who asked?"
+      },
+      "adaptation": {
+        "pacing": {
+          "minHoursPerWeek": 8,
+          "targetHoursPerWeek": 10,
+          "maxHoursPerWeek": 12,
+          "targetWeeks": 1
+        },
+        "watchFor": [
+          "struggle-blocked",
+          "struggle-productive",
+          "pace-ahead",
+          "mastery-early",
+          "shallow-completion"
+        ],
+        "moves": {
+          "accelerate": "A learner who gets both right on the first attempt",
+          "reinforce": "Re-anchor in the module's own worked examples before adding new material; struggle here is expected to be productive, not blocked.",
+          "reroute": "before touching `cost_model.py`, have them write both numbers side by side\n  for the worked CSV-vs-Parquet example and circle which formula each one feeds — `gb_stored`\n  appears only in `storage_cost`; `gb_scanned_per_query` appears only in `query_cost`. If\n  they can't say which query behavior (full scan vs. column-pruned scan) produced each\n  number, the wall isn't the arithmetic, it's this distinction, and no amount of formula\n  practice fixes it until the distinction is named out loud. before running the test file, have them\n  compute `dictionary_size_bytes` by hand for a column they pick themselves with\n  cardinality equal to row count (their own name repeated zero times — every row unique)\n  and watch the table cost exceed the raw cost in their own numbers, not just the lab's\n  provided `content_hash` example. Self-generated counterexamples close this wall faster\n  than a second look at the given one."
+        }
+      }
     }
   ],
   "spines": [
@@ -2876,7 +3183,7 @@ export const aiEngineerCurriculumCourse: Course = {
   ],
   "credentialModel": {
     "sealedReading": "One three-tier observer reading (material ground / what the field suppresses / sit-with-this) sealed per module, plus a course-close synthesis per completed course.",
-    "corpusSize": 63,
+    "corpusSize": 70,
     "demonstrates": "Structural understanding at a depth no exam measures — this program's version of the alternative credentialing model: the sealed corpus, not the certificate, is what a learner has actually earned."
   },
   "costModel": {
