@@ -10,7 +10,7 @@ export const aiEngineerCurriculumCourse: Course = {
   "title": "The AI Engineer Curriculum",
   "version": "1.0.0",
   "mission": "A complete, first-party path from zero to production AI engineer, built on a philosophy rather than inherited from how these subjects have been taught. In every course the learner descends below the abstraction to the substrate where the thing actually lives, builds it there by hand, and re-ascends to command the high-level tool as an instrument rather than invoke it as a mystery. Verification is taught before generation; evaluation runs as a spine, not a module; ethics carries structural teeth; the durable core is separated from the swappable tool surface so the material outlasts the tools. Every module is assessed by judgment demonstrated, never by content retained — and the whole program is run adaptively, and witnessed, by Elle.",
-  "durationMonths": 16,
+  "durationMonths": 21,
   "tracks": [
     {
       "id": "A",
@@ -31,7 +31,7 @@ export const aiEngineerCurriculumCourse: Course = {
       "title": "Foundations — AIE-100, AIE-101, AIE-102, AIE-104, AIE-103, AIE-110",
       "months": [
         1,
-        8
+        11
       ],
       "theme": "Foundations tier of the AI Engineer Curriculum: Working With AI Without Outsourcing Judgment; Python and Software Craft; Down to the Metal: C, and the Machine Under Python; The Machine at Scale: Linux, Networks, Concurrency, Containers; Mathematics for AI, Taught as Instruments; Data Structures, Algorithms, and Scale.",
       "unitIds": [
@@ -78,12 +78,12 @@ export const aiEngineerCurriculumCourse: Course = {
     },
     {
       "id": "p-core",
-      "title": "Core — AIE-201",
+      "title": "Core — AIE-201, AIE-202",
       "months": [
-        9,
-        16
+        12,
+        21
       ],
-      "theme": "Core tier of the AI Engineer Curriculum: Machine Learning from First Principles.",
+      "theme": "Core tier of the AI Engineer Curriculum: Machine Learning from First Principles; Deep Learning: Autograd to Transformers.",
       "unitIds": [
         "AIE-201-M01",
         "AIE-201-M02",
@@ -92,7 +92,15 @@ export const aiEngineerCurriculumCourse: Course = {
         "AIE-201-M05",
         "AIE-201-M06",
         "AIE-201-M07",
-        "AIE-201-M08"
+        "AIE-201-M08",
+        "AIE-202-M01",
+        "AIE-202-M02",
+        "AIE-202-M03",
+        "AIE-202-M04",
+        "AIE-202-M05",
+        "AIE-202-M06",
+        "AIE-202-M07",
+        "AIE-202-M08"
       ]
     }
   ],
@@ -2444,6 +2452,406 @@ export const aiEngineerCurriculumCourse: Course = {
           "reroute": "run\n  the assessment's rung-3-justified scenario (or an equivalent) hand back the\n  memo with one question — \"which rung did you actually run the paired test against?\" — before any\n  content correction; usually the gap is procedural, not conceptual."
         }
       }
+    },
+    {
+      "id": "AIE-202-M01",
+      "track": "B",
+      "title": "Autograd from scratch: the tape and the chain rule",
+      "summary": "The floor of this course. A scalar `Value` engine, pure standard-library Python, and the chain rule you already derived by hand.",
+      "credentials": [
+        {
+          "name": "Deep Learning: Autograd to Transformers — Autograd from scratch: the tape and the chain rule",
+          "provider": "The AI Engineer Curriculum (first-party)",
+          "kind": "course",
+          "freeToAudit": true,
+          "paidCostUSD": 0
+        }
+      ],
+      "prerequisites": [
+        "AIE-201-M08"
+      ],
+      "buildThread": "AIE-202: The Karpathy build-it-yourself ethos with what Zero-to-Hero lacks: assessment, ablation discipline, debugging drills on deliberately broken training runs, and a straight line into the LLM and production courses. Every architecture is earned by building, then made fluent in PyTorch.",
+      "pillars": {
+        "structure": "Map Autograd from scratch: the tape and the chain rule's structure before starting any lab.",
+        "readingReasoning": "Read each lesson's worked example and named misconceptions; predict what the mechanism does before reading the explanation.",
+        "testing": "Run every lab's Predict step on paper, before Build; verify against the provided tests, not against whether the program merely runs.",
+        "building": "Complete the module's labs (A — Build the `Value` engine and its own referee; B — Break it on purpose; C — Train something with the engine you built and prove it) and the module assessment."
+      },
+      "tiers": {
+        "materialGround": "Reverse-mode automatic differentiation is not a heuristic or an approximation — it computes exact derivatives (to floating-point precision) at a cost of roughly one extra pass over the graph, independent of the number of parameters being differentiated with respect to. This is precisely why training a network with a hundred million parameters against one scalar loss is tractable at all: forward-mode differentiation would cost one full pass *per parameter*. This asymmetry is documented in the field's own literature on automatic differentiation (surveyed comprehensively in Baydin, Pearlmutter, Radul & Siskind, \"Automatic Differentiation in Machine Learning: a Survey,\" 2018), not a claim original to this course.",
+        "observerReading": "\"We built the engine, we understand it\" quietly elides a gap. Passing gradcheck proves the *mechanism* is correct — that the machine implements calculus faithfully on the graph you handed it. It proves nothing about whether that graph — the architecture, the loss function you wired it to — encodes the objective you actually intend. A perfectly correct autograd engine will backpropagate flawlessly into a subtly wrong loss function and hand you exact, confident, entirely correct gradients pointed at the wrong target, with no error anywhere in the chain to warn you. The field's language around \"interpretable,\" \"well-understood\" architecture routinely collapses these two very different kinds of correctness into one reassuring sentence.",
+        "sitWithThis": "From this module forward, you will trust `.backward()` — first the one you wrote, then PyTorch's, for the rest of this course and probably your career — the same way you trust `+`. You verified this one, once, by hand, against finite differences that you also had to decide to trust. Every architecture built on top of this module inherits that single act of verification and does not repeat it. At what point in that stack does \"I verified this\" stop being a true sentence you could actually still defend if asked — and once you've passed that point, what exactly are you trusting instead?"
+      },
+      "adaptation": {
+        "pacing": {
+          "minHoursPerWeek": 10,
+          "targetHoursPerWeek": 12,
+          "maxHoursPerWeek": 14,
+          "targetWeeks": 2
+        },
+        "watchFor": [
+          "struggle-blocked",
+          "struggle-productive",
+          "pace-ahead",
+          "mastery-early",
+          "shallow-completion"
+        ],
+        "moves": {
+          "accelerate": "Such a learner can skip writing Lab M01-C's `Neuron`/`Layer`/`MLP` boilerplate from scratch and instead be handed the starter with those three classes pre-filled, spending the saved time extending `Value` with an operation not covered in this module (e.g. `log`, or `sigmoid` as a composition rather than a primitive) and gradchecking it themselves — same rigor, less repetition of a pattern already demonstrated as mastered.",
+          "reinforce": "Hold before advancing: Do not accelerate past Lab M01-B under any circumstance**, even for a learner who aces Lab M01-A instantly. A learner who has never watched this specific engine lie to them will trust `.backward()` uncritically starting in M02, and the entire course's assessment spine — broken-run clinics — depends on that trust having been earned skeptically here first.",
+          "reroute": "have the learner add a `print(f\"backward of {self._op} node, out.grad={out.grad}\")` inside one `_backward` closure and trace, by hand, the order those prints appear in during Lab M01-A's first test — seeing the actual call order collapses the confusion faster than more explanation does. do not explain further in the abstract; jump straight to the diamond worked example (`b = a"
+        }
+      }
+    },
+    {
+      "id": "AIE-202-M02",
+      "track": "B",
+      "title": "Training dynamics: init, normalization, optimizers, schedules",
+      "summary": "one level up from the floor. `.backward()` is no longer the question — you gradcheck-verified it in M01. The question now is why a network built on a *correct* engine still refuses to train, and what four specific, composable fixes do about it.",
+      "credentials": [
+        {
+          "name": "Deep Learning: Autograd to Transformers — Training dynamics: init, normalization, optimizers, schedules",
+          "provider": "The AI Engineer Curriculum (first-party)",
+          "kind": "course",
+          "freeToAudit": true,
+          "paidCostUSD": 0
+        }
+      ],
+      "prerequisites": [
+        "AIE-202-M01"
+      ],
+      "buildThread": "AIE-202: The Karpathy build-it-yourself ethos with what Zero-to-Hero lacks: assessment, ablation discipline, debugging drills on deliberately broken training runs, and a straight line into the LLM and production courses. Every architecture is earned by building, then made fluent in PyTorch.",
+      "pillars": {
+        "structure": "Map Training dynamics: init, normalization, optimizers, schedules's structure before starting any lab.",
+        "readingReasoning": "Read each lesson's worked example and named misconceptions; predict what the mechanism does before reading the explanation.",
+        "testing": "Run every lab's Predict step on paper, before Build; verify against the provided tests, not against whether the program merely runs.",
+        "building": "Complete the module's labs (A — Break init on purpose; B — BatchNorm1d from scratch; C — Momentum, Adam, and a schedule: derived, then raced) and the module assessment."
+      },
+      "tiers": {
+        "materialGround": "Every technique in this module was adopted into standard practice well before — sometimes years before — the field had a rigorous account of *why* it works. He initialization (2015) and Xavier initialization (2010) both have real derivations, reproduced in Lesson 1, and both derivations are documented in the field's own peer-reviewed literature, not proprietary or contested. Batch normalization (Ioffe & Szegedy, 2015) was adopted essentially immediately upon publication and is standard in production architectures to this day.",
+        "observerReading": "Batch normalization's *own paper* proposed a specific mechanism for why it works — \"internal covariate shift,\" the idea that normalizing layer inputs reduces the degree to which each layer has to continuously readjust to a shifting input distribution during training. A widely cited follow-up study (Santurkar, Tsipras, Ilyas & Madry, \"How Does Batch Normalization Help Optimization?\", 2018) ran controlled experiments and found this explanation does not hold up — batch norm helps for reasons closer to smoothing the optimization landscape than to the covariate-shift story its own inventors proposed, and the field kept using batch norm at full confidence throughout the years between the original explanation and its correction. This is not a story about a bad technique — batch norm works, robustly, exactly as this module's worked example demonstrated. It is a story about a good technique whose *justification*, confidently stated by its own inventors and taught for years, was empirically wrong, and about how little that turned out to matter for whether practitioners kept shipping it. \"We understand why this works\" and \"this reliably works\" are different claims, and the field's own history in this exact module's subject matter is the demonstration, not an abstract worry imported from elsewhere.",
+        "sitWithThis": "By the end of this module you will have derived every fix in it, gradchecked the ones that touch the backward pass, and watched each one turn a broken training curve into a working one, on evidence you produced yourself. That is a real, earned form of confidence — stronger than \"I read that batch norm helps.\" But batch normalization's own inventors had exactly that kind of derivation-and-evidence confidence in *their* explanation too, for years, and were specifically wrong about the mechanism while being completely right about the outcome. If you can be right that a fix works and wrong about why, and ship it anyway because it works — which is exactly what the field did with batch norm for three years — what should that cost your confidence the next time you explain, to someone else, why one of *your* models does what it does?"
+      },
+      "adaptation": {
+        "pacing": {
+          "minHoursPerWeek": 10,
+          "targetHoursPerWeek": 12,
+          "maxHoursPerWeek": 14,
+          "targetWeeks": 2
+        },
+        "watchFor": [
+          "struggle-blocked",
+          "struggle-productive",
+          "pace-ahead",
+          "mastery-early",
+          "shallow-completion"
+        ],
+        "moves": {
+          "accelerate": "Such a learner can skip re-deriving `Adam`'s update equations from the skeleton in Lab M02-C and instead be handed the fully-implemented `Adam`, spending the saved time implementing **RMSProp** (Adam without the first-moment/momentum term — just the adaptive per-parameter scaling) from the same lesson-3 reasoning, and comparing it against both SGD and full Adam on the same ill-conditioned bowl. Same rigor, extends a pattern already demonstrated as mastered rather than repeating it.",
+          "reinforce": "Hold before advancing: Do not accelerate past Lab M02-B's gradcheck test under any circumstance**, even for a learner who visually confirms the training curves recover correctly. A learner who trusts `BatchNorm1d`'s backward pass because the loss went down, without gradchecking it, has un-learned the exact lesson M01 spent an entire module establishing — and every normalization layer built for the rest of this course (LayerNorm in M05, and beyond) inherits that same \"trust the mechanism, not the symptom\" discipline from here.",
+          "reroute": "do not re-explain the math first — have the learner print the ask them directly, \"what would go wrong if `BatchNorm1d.eval()` recomputed batch statistics from a batch of size 1?\" and do not move on until they can answer without hinting."
+        }
+      }
+    },
+    {
+      "id": "AIE-202-M03",
+      "track": "B",
+      "title": "CNNs and representation learning",
+      "summary": "The first architecture built on the engine, not the engine itself. You bring a working `Tensor` (M01's scalar `Value`, vectorized in M02 into NumPy-array form) into contact with an image for the first time.",
+      "credentials": [
+        {
+          "name": "Deep Learning: Autograd to Transformers — CNNs and representation learning",
+          "provider": "The AI Engineer Curriculum (first-party)",
+          "kind": "course",
+          "freeToAudit": true,
+          "paidCostUSD": 0
+        }
+      ],
+      "prerequisites": [
+        "AIE-202-M02"
+      ],
+      "buildThread": "AIE-202: The Karpathy build-it-yourself ethos with what Zero-to-Hero lacks: assessment, ablation discipline, debugging drills on deliberately broken training runs, and a straight line into the LLM and production courses. Every architecture is earned by building, then made fluent in PyTorch.",
+      "pillars": {
+        "structure": "Map CNNs and representation learning's structure before starting any lab.",
+        "readingReasoning": "Read each lesson's worked example and named misconceptions; predict what the mechanism does before reading the explanation.",
+        "testing": "Run every lab's Predict step on paper, before Build; verify against the provided tests, not against whether the program merely runs.",
+        "building": "Complete the module's labs (A — Naive sliding-window conv2d, verified by hand; B — im2col: vectorize it, prove it's the same operation; C — Train a CNN, visualize its filters, and catch it lying to you) and the module assessment."
+      },
+      "tiers": {
+        "materialGround": "Trained first-layer convolutional filters converging to oriented-edge and color-blob detectors is a documented, widely replicated empirical result, not a claim original to this course — first shown clearly at scale in Krizhevsky, Sutskever & Hinton's AlexNet paper (2012), and made further visible through deconvnet reconstructions by Zeiler & Fergus (2014), which additionally showed later layers combining early edge-detectors into progressively more complex, more object-part-like patterns. This hierarchy is real and reproducible — you should expect to observe a milder version of it yourself in Lab M03-C, at far smaller scale.",
+        "observerReading": "\"We can visualize the filters, so we understand the representation\" quietly collapses two very different claims into one reassuring sentence, the same collapse M01's Tier 2 named for gradients. A first-layer filter visualization is genuine evidence about that filter's own linear response function — and it is close to zero evidence about how the next several layers combine, gate, and recombine that response into the network's actual decision. The field's own interpretability literature documents this gap directly: attribution and saliency methods built on exactly this kind of visualization have been shown to be unreliable and, in some cases, insensitive to the model's actual parameters (Adebayo et al., \"Sanity Checks for Saliency Maps,\" NeurIPS 2018, showed several popular saliency methods produce visually similar output even when the model's weights are randomized) — a finding from inside the field, not a critique imported from outside it. Architecture visibility and behavioral understanding are not the same evidence, and the CNN literature's own sanity-check results are the proof.",
+        "sitWithThis": "You can now point to a specific filter and say, correctly, \"this one responds to a diagonal edge.\" You cannot point to any filter, or any small set of filters, and say with equal confidence \"this is why the network classified this specific image as a cross rather than a ring.\" The gap between those two sentences does not close as networks get larger — it widens, because there are more filters, more layers, more combinations to account for, even as each individual filter stays exactly as visualizable as this module's four 3×3 grayscale images. If a network you build in this course, or after it, does something that surprises you in production — not a bug, a genuine capability or failure mode nobody on the team predicted — and you can show every filter, every weight, every line of the architecture that produced it: at what point does \"I can see the whole architecture\" stop functioning as \"I understand what it does,\" and once you've located that point, whose responsibility is what's on the far side of it?"
+      },
+      "adaptation": {
+        "pacing": {
+          "minHoursPerWeek": 10,
+          "targetHoursPerWeek": 12,
+          "maxHoursPerWeek": 14,
+          "targetWeeks": 2
+        },
+        "watchFor": [
+          "struggle-blocked",
+          "struggle-productive",
+          "pace-ahead",
+          "mastery-early",
+          "shallow-completion"
+        ],
+        "moves": {
+          "accelerate": "Such a learner can skip re-deriving `maxpool2d`'s given backward from scratch and instead be handed the assessment's four bug-family variants as a self-directed exercise before the formal exam — implement each variant, run gradcheck against each, and produce their own report table — turning the assessment's diagnostic skill into deliberate practice rather than first exposure under evaluation.",
+          "reinforce": "Hold before advancing: Do not accelerate past Lab M03-C's `zero_grad_bug=True` run under any circumstance**, even for a learner who visibly understands the concept already. Watching *this specific network*, on *this specific task*, collapse to chance accuracy from a one-line omission is what makes \"always zero your grads\" a reflex instead of a fact the learner has heard and could recite. A learner who skips watching it happen here will hit the same bug again in M04 or M05 with no scar tissue telling them what it looks like when it happens.",
+          "reroute": "ask the learner to name, out loud or in writing, which primitive operation in the `Tensor` API implements \"pick the largest of these numbers and remember which one\" — there isn't one, and the absence is the whole answer. Do not explain further in the abstract; have them grep the given `tensor.py` for anything resembling argmax and watch them find nothing. do not hand them the correct axis order. Have them write out, on paper, the shape after `Tensor.stack` (`(kh"
+        }
+      }
+    },
+    {
+      "id": "AIE-202-M04",
+      "track": "B",
+      "title": "Sequences: RNNs to attention",
+      "summary": "The temporal turn. M01-M02 built and trained a network with no notion of order — every example was independent. M03 gave the network eyes (convolution, spatial structure, built on raw NumPy arrays). This module gives it a sense of *before and after* — and then breaks that sense on purpose, live, before replacing it with something structurally different.",
+      "credentials": [
+        {
+          "name": "Deep Learning: Autograd to Transformers — Sequences: RNNs to attention",
+          "provider": "The AI Engineer Curriculum (first-party)",
+          "kind": "course",
+          "freeToAudit": true,
+          "paidCostUSD": 0
+        }
+      ],
+      "prerequisites": [
+        "AIE-202-M03"
+      ],
+      "buildThread": "AIE-202: The Karpathy build-it-yourself ethos with what Zero-to-Hero lacks: assessment, ablation discipline, debugging drills on deliberately broken training runs, and a straight line into the LLM and production courses. Every architecture is earned by building, then made fluent in PyTorch.",
+      "pillars": {
+        "structure": "Map Sequences: RNNs to attention's structure before starting any lab.",
+        "readingReasoning": "Read each lesson's worked example and named misconceptions; predict what the mechanism does before reading the explanation.",
+        "testing": "Run every lab's Predict step on paper, before Build; verify against the provided tests, not against whether the program merely runs.",
+        "building": "Complete the module's labs (A — Build the RNN and watch it vanish; B — Minimal self-attention, built and gradchecked; C — Debugging drill: the missing scale factor) and the module assessment."
+      },
+      "tiers": {
+        "materialGround": "The vanishing-gradient problem in recurrent networks is not folklore — it is documented in the field's own foundational literature (Hochreiter's 1991 diploma thesis; Bengio, Simard & Frasconi, \"Learning Long-Term Dependencies with Gradient Descent is Difficult,\" 1994), well before attention existed as a fix. Attention itself was introduced to address a sequence-modeling bottleneck years before the word \"transformer\" existed: Bahdanau, Cho & Bengio's 2014 \"Neural Machine Translation by Jointly Learning to Align and Translate\" attached an attention mechanism to an encoder-decoder RNN specifically to let the decoder access distant source words directly, without funneling everything through one fixed-size hidden state. The mechanism this module built from scratch — a query, a set of keys and values, a softmax-weighted sum — is that same idea, minimal and unmodified, three years before \"Attention Is All You Need\" (Vaswani et al., 2017) removed the RNN entirely and built a whole architecture on nothing but attention.",
+        "observerReading": "\"Attention solves the long-range dependency problem\" is the sentence that gets repeated; this module's own Lab M04-B numbers are the counter-evidence sitting right next to it. Attention's gradient at `T=80` was **not** the same as at `T=2` — it was roughly `1,000`x smaller, a real, measured, and *structurally distinct* decay from the RNN's exponential collapse, but a decay nonetheless. The field's popular narrative compresses \"attention removes the specific multiplicative chain-of-Jacobians mechanism\" into \"attention has no long-range problem,\" and that compression has real consequences: production transformer systems, at far larger scale than this module's toy, still show measurable degradation in how well they use information from very distant parts of a long context — a phenomenon documented under names like \"lost in the middle\" in later scaling and evaluation literature. This module's own softmax-dilution number, small as it is, is the same story in miniature: fixing one specific, nameable bottleneck is not the same claim as removing every bottleneck, and the field's shorthand for what attention accomplished has, at times, quietly elided the difference.",
+        "sitWithThis": "You built attention because it fixes a specific, provable failure — you watched the RNN's gradient collapse by 27 orders of magnitude and then watched attention not do that, on numbers you generated yourself. That is real, earned understanding of *why* attention was worth building. But the field that built it did not, from the equation alone, predict everything that followed from removing the sequential bottleneck: architectures built on attention turned out to support behaviors — in-context learning chief among them — that nobody derived on paper from \"queries, keys, values, softmax\" before they were observed empirically in trained models, years later, at scale nobody had tried before. You understand the mechanism you built completely: every weight, every gradient, every line. The course's own thread has been asking, since M01, what \"understanding the architecture\" does and doesn't buy you. Here is the sharpest version yet: if the fix for one well-understood, precisely diagnosed problem (vanishing gradients over sequences) turned out to unlock capabilities nobody derived from the fix itself — what should that tell you to expect, and to guard against, the next time you ship a fix for a problem you understand perfectly?"
+      },
+      "adaptation": {
+        "pacing": {
+          "minHoursPerWeek": 10,
+          "targetHoursPerWeek": 12,
+          "maxHoursPerWeek": 14,
+          "targetWeeks": 2
+        },
+        "watchFor": [
+          "struggle-blocked",
+          "struggle-productive",
+          "pace-ahead",
+          "mastery-early",
+          "shallow-completion"
+        ],
+        "moves": {
+          "accelerate": "Such a learner can skip re-deriving `TinyAttention` from the Lab M04-B skeleton and instead be handed the completed implementation, spending the saved time extending it to **multiple simultaneous queries** (one per input position, not just the last) — the exact generalization M05 needs for full self-attention — and predicting, before building, whether the vanishing-gradient comparison from Lesson 3 should look any different with every position attending rather than just one. Same rigor, extends a pattern already demonstrated as mastered.",
+          "reinforce": "Hold before advancing: Do not accelerate past Lab M04-B's gradcheck test under any circumstance**, even for a learner whose attention-based training curve looks visibly better than their RNN's. `.exp()` is a new primitive this module adds to an engine that has been trusted, gradchecked operation by operation, since M01 — a learner who accepts a new op into that engine on the strength of \"the numbers came out looking reasonable\" has un-learned the exact discipline M01 Lesson 4 spent a whole lesson establishing, and every subsequent module (M05's softmax-heavy transformer, above all) inherits whatever sloppiness gets normalized here.",
+          "reroute": "before touching code, have the learner write out `Wxh`'s shape, `Whh`'s shape, and `h`'s shape on paper for a concrete `(input_size=1, hidden_size=4)` example and confirm `matvec(Whh, h)` produces something the same shape as `h` — a dimension-labeling pass, not a re-explanation of the recurrence formula. do not re-explain the Jacobian-product argument first — have them print `x_values[0].grad` directly, immediately, before any further theory. Seeing `3.9e-29` next to a perfectly reasonable-looking `h_79` collapses the misconception faster than another pass at the math."
+        }
+      }
+    },
+    {
+      "id": "AIE-202-M05",
+      "track": "B",
+      "title": "The transformer, from the paper",
+      "summary": "The capstone build. M01 gave you an engine. M02 trained on it. M03 gave the network eyes. M04 gave it a sense of order, broke that sense on purpose, and replaced it with attention — a lookup, not a chain. This module takes every one of those pieces and assembles them, in the paper's own order, into the architecture that now sits underneath almost everything else this curriculum will touch. Nothing here is new mathematics. Multi-head self-attention is M04 Lesson 3's mechanism, run with every position as a query instead of one, split into parallel subspaces. The feed-forward sublayer is M03's weight-sharing story, on a new axis. Layer normalization is M02's BatchNorm1d, moved to a new axis for a specific, provable reason. Positional encoding is the one genuinely new idea — and it exists to patch a property this module makes you *prove* attention does not have on its own. By the end, you will have built `Attention(Q,K,V) = softmax(QK^T/√d_k)V`, multi-head projection, sinusoidal positional encoding, `LayerNorm(x + Sublayer(x))`, and the position-wise FFN — every equation in Vaswani et al. (2017) Section 3 — on the same from-scratch engine you have gradchecked since M01, and you will have watched it train, however modestly, on a toy sequence task.",
+      "credentials": [
+        {
+          "name": "Deep Learning: Autograd to Transformers — The transformer, from the paper",
+          "provider": "The AI Engineer Curriculum (first-party)",
+          "kind": "course",
+          "freeToAudit": true,
+          "paidCostUSD": 0
+        }
+      ],
+      "prerequisites": [
+        "AIE-202-M04"
+      ],
+      "buildThread": "AIE-202: The Karpathy build-it-yourself ethos with what Zero-to-Hero lacks: assessment, ablation discipline, debugging drills on deliberately broken training runs, and a straight line into the LLM and production courses. Every architecture is earned by building, then made fluent in PyTorch.",
+      "pillars": {
+        "structure": "Map The transformer, from the paper's structure before starting any lab.",
+        "readingReasoning": "Read each lesson's worked example and named misconceptions; predict what the mechanism does before reading the explanation.",
+        "testing": "Run every lab's Predict step on paper, before Build; verify against the provided tests, not against whether the program merely runs.",
+        "building": "Complete the module's labs (A — Positional encoding: proving order was never there for free; B — Multi-head self-attention, gradchecked; C — The full encoder block: shapes, gradient flow, and a debugging drill) and the module assessment."
+      },
+      "tiers": {
+        "materialGround": "\"Attention Is All You Need\" (Vaswani et al., 2017) is the paper this module builds, equation by equation: scaled dot-product attention (Eq. 1), multi-head attention as `h` parallel projections concatenated and mixed by `W^O` (Eq. 2, Sec. 3.2.2), the position-wise feed-forward network (Eq. 2 of Sec. 3.3), sinusoidal positional encoding (Eq. 3-4 of Sec. 3.5, including the paper's own stated reason for choosing it — extrapolation to sequence lengths not seen in training), and the residual-plus-LayerNorm wrapping of each sublayer (Sec. 3.1's own sentence, quoted in this module's Lesson 3, is `LayerNorm(x + Sublayer(x))` — Post-LN, exactly as this module builds it). Every one of these choices is documented, in the original paper, with the specific problem it was designed to solve — none of it is folklore, and this module's own Lessons re-derive or re-measure every one of the paper's central claims rather than asking you to take them on the authors' word.",
+        "observerReading": "\"The transformer replaced recurrence because self-attention is a categorically better architecture\" compresses a real, specific, measured tradeoff (M04's own numbers: attention's gradient-to-distance decay is roughly `2.97 million / 41 ≈ 72,000` times gentler than an RNN's, not zero) into an unqualified superiority claim the paper's own abstract does not make — Vaswani et al. present the transformer as faster to train (no sequential dependency across timesteps, so positions parallelize) and empirically better on the specific translation benchmarks tested, not as solving sequence modeling in general. The gap between \"won on these benchmarks, trains faster\" and \"is simply the correct architecture for sequences\" is exactly the gap this course's field-replication thread (Tier 1 of the course-level ethics arc) keeps returning to: the paper that displaced RNNs did so by a specific, measured margin, on specific tasks, in 2017 — and the field's retrospective narrative has, at times, smoothed a contingent, benchmark-specific victory into an inevitability it was not, at the time, guaranteed to be. This module's own Post-LN vs. Pre-LN numbers (Lesson 3) are a small, present-day echo of the same pattern: the paper's own architectural choice (Post-LN) turned out, empirically, three years later (Xiong et al., 2020), to have a specific, measurable training-stability cost the original paper did not flag — \"the architecture from the paper\" and \"the architecture the field actually trains today\" have already, quietly, diverged on a single load-bearing detail, and most implementations you will encounter outside this course default to the paper's *not*-quite-original choice without saying so.",
+        "sitWithThis": "You have now built, from its own equations, on your own engine, gradchecked and shape-verified, the specific architecture that every large language model in current production is a scaled-up descendant of. You can explain every operation: why the `1/√d_k` scale exists, why positional encoding is necessary and what specific property the sinusoidal form buys over a learned table, why the residual connection is there and what floor it guarantees, why LayerNorm normalizes the axis it does and not the other one. This is real, complete, mechanism-level understanding of the *architecture* — more complete, if this module did its job, than most people who use these models professionally ever acquire. Here is the question the course's own ethics thread has been sharpening since M01, now aimed at its hardest target: the architecture you just built, scaled by roughly six orders of magnitude in parameter count and trained on a correspondingly larger fraction of the written internet, is the substrate underneath systems that display behaviors — in-context learning, chain-of-thought reasoning, emergent capabilities that appear discontinuously at certain scales — that no one derived from Eq. 1 through Eq. 4 of the paper you just implemented. You understand the mechanism completely. The mechanism, run at scale, produced things its own designers did not predict from the mechanism. If \"I built it, I understand every line\" is not sufficient grounds to predict what a sufficiently scaled version of your own working code will do — what *is* sufficient, and who is responsible for finding out before it ships, rather than after?"
+      },
+      "adaptation": {
+        "pacing": {
+          "minHoursPerWeek": 10,
+          "targetHoursPerWeek": 12,
+          "maxHoursPerWeek": 14,
+          "targetWeeks": 2
+        },
+        "watchFor": [
+          "struggle-blocked",
+          "struggle-productive",
+          "pace-ahead",
+          "mastery-early",
+          "shallow-completion"
+        ],
+        "moves": {
+          "accelerate": "Such a learner has demonstrated the exact \"symptom-first\" diagnostic reasoning this module's Assessment grades directly — they can skip re-deriving `TransformerEncoder` from the Lab M05-C skeleton and instead be handed the completed reference implementation, spending the saved time extending it to a **causal mask** (restricting each position's attention to only earlier positions — the one mechanical piece separating an encoder block from a decoder block, and the piece M06's PyTorch-based generation work will need) and predicting, before building, which entries of the `(T,T)` score matrix should be set to `-∞` before the softmax, and why `-∞` specifically rather than `0`.",
+          "reinforce": "Hold before advancing: Do not accelerate past Lab M05-B's or M05-C's gradcheck tests under any circumstance**, even for a learner whose toy-task training curve looks visibly healthy. `softmax` and `layernorm` are **fused** ops this module adds — their backward formulas were hand-derived, not composed from smaller already-trusted primitives, which is a strictly higher-risk change to an engine that has been trusted, gradchecked operation by operation, since M01. A learner who accepts a fused op's backward pass on the strength of \"the training loss went down\" has skipped the exact verification step that would catch a subtly wrong Jacobian-vector product — one that could still, by coincidence, point loss downward for many steps before compounding into a training run that quietly fails to converge as well as it should have. M06 inherits whatever verification habits get normalized here, at the exact moment the safety net of hand-derivable backward passes disappears into `autograd`.",
+          "reroute": "before touching code, have the learner write out, for a concrete tiny example (`seq=2, d_model=4, h=2`), which specific numbers from the original `(seq, d_model)` array end up in `split_heads(x, h)[0, 0, :]` — not the shape, the actual index mapping — and confirm by hand before trusting the code. before touching any backward-pass code, have them rerun the identical gradcheck at two or three different `eps` values (`1e-4`, `1e-5`, `1e-6`) and look for a U-shape in the error — if the error is"
+        }
+      }
+    },
+    {
+      "id": "AIE-202-M06",
+      "track": "B",
+      "title": "PyTorch fluency and the modern stack",
+      "summary": "The re-ascent begins. M01 built the autograd engine from raw arrays; M02 trained on it; M03 gave it eyes; M04 gave it a sense of order and then a way around that order's failure mode; M05 assembled all of it into a transformer, still on the M01/M03 machinery, never once importing a deep learning framework. This module is the turn upward — not because the from-scratch engine was a toy to be discarded, but because everything PyTorch does from this page forward is a claim you are now equipped to check.",
+      "credentials": [
+        {
+          "name": "Deep Learning: Autograd to Transformers — PyTorch fluency and the modern stack",
+          "provider": "The AI Engineer Curriculum (first-party)",
+          "kind": "course",
+          "freeToAudit": true,
+          "paidCostUSD": 0
+        }
+      ],
+      "prerequisites": [
+        "AIE-202-M05"
+      ],
+      "buildThread": "AIE-202: The Karpathy build-it-yourself ethos with what Zero-to-Hero lacks: assessment, ablation discipline, debugging drills on deliberately broken training runs, and a straight line into the LLM and production courses. Every architecture is earned by building, then made fluent in PyTorch.",
+      "pillars": {
+        "structure": "Map PyTorch fluency and the modern stack's structure before starting any lab.",
+        "readingReasoning": "Read each lesson's worked example and named misconceptions; predict what the mechanism does before reading the explanation.",
+        "testing": "Run every lab's Predict step on paper, before Build; verify against the provided tests, not against whether the program merely runs.",
+        "building": "Complete the module's labs (A — Gradient parity: prove `.backward()` computes what you already derived; B — Benchmark: measure the \"just fast infrastructure\" claim on your own machine; C — Rebuild and audit: attention parity, then break it on purpose) and the module assessment."
+      },
+      "tiers": {
+        "materialGround": "Framework-driven speedups are not folklore; they are a direct, measurable consequence of moving batched numerical operations from a Python-level interpreter loop into compiled, vendor-tuned kernels (BLAS/MKL on CPU, cuBLAS/cuDNN on GPU), exactly as this module's own benchmark labs measured on real hardware, not asserted from a marketing table. This is also why \"the framework got faster\" and \"the model got better\" are independent claims that the field keeps conflating in public discourse: a 10× throughput improvement from a new kernel library changes nothing about what any given trained model has learned to do — it only changes how quickly you can run the identical computation. Every parity check this module runs (Lab A's gradient diff, Lab B's output diff, Lab C's weight-copy diff) is evidence of exactly one thing: architectural equivalence between a hand-rolled implementation and a library one, verified numerically rather than assumed. **Tier 2 — what the field doesn't say out loud.** The industry's benchmarking and \"framework fluency\" culture routinely substitutes *architecture parity* for *understanding*, in both directions, and both substitutions are load-bearing lies of convenience. In one direction: a huge number of practicing engineers can call `nn.MultiheadAttention`, `nn.Conv2d`, and `torch.optim.Adam` fluently, ship production models with them, and have never once derived the backward pass those calls perform — \"I use it correctly\" is treated, tacitly, as equivalent to \"I understand it,\" and the gap rarely surfaces until something breaks in a way no StackOverflow answer covers, at which point the gap is suddenly very expensive. In the other direction — the one this module's own pedagogy has to guard against in itself — a learner who *has* rebuilt every layer from scratch and verified numerical parity against the library version can walk away with an equally false confidence: \"I built the architecture, therefore I understand what a trained instance of it will do.\" Lesson 4's Named Misconception 3 and Lab M06-C's ablation exist because that confidence is exactly as unearned as the first kind. Architecture parity is a claim about a *fixed set of weights* producing the *same output* through the *same graph* — it says nothing about what a different set of weights, learned from data nobody hand-picked, will do with that same graph. The field's benchmarking practice — comparing model architectures on leaderboards, publishing ablation tables, citing parameter-matched baselines — runs on exactly this substitution, silently, at scale, and mostly gets away with it because \"the architecture is well-understood\" reads, to a reader skimming a paper's methods section, as \"the model's behavior is well-understood.\" It is not the same claim. **Tier 3 — sit with this, don't resolve it.** You can now, in this module, take any PyTorch layer apart, load your own weights into it, and prove — not assert, prove, with a diff on screen — that it computes exactly the function you already understood before you ever imported `torch`. That is real, earned fluency, and it is also, deliberately, the *last* thing this course lets you fully verify. Starting in M07, you will debug pathological *trained* models — models whose architecture you can audit completely and whose behavior you cannot predict from that audit alone. Here is the question this module leaves open, on purpose, for you to keep carrying rather than answer today: when a system's architecture is fully known, fully rebuildable, fully verified down to the sixteenth decimal digit — and its trained behavior still surprises the people who built it — where does that surprise actually live? Is it a temporary gap, one better tooling or a more careful audit will eventually close? Or is \"the weights learned something the architecture doesn't predict and the builder didn't intend\" simply what training *is*, permanently, no matter how well you understand every operation in the graph? You will not need to answer this to pass M07's debugging labs. You will need to have asked it honestly, here, before the debugging starts to feel like it should have a tidy resolution.",
+        "observerReading": "The industry's benchmarking and \"framework fluency\" culture routinely substitutes *architecture parity* for *understanding*, in both directions, and both substitutions are load-bearing lies of convenience. In one direction: a huge number of practicing engineers can call `nn.MultiheadAttention`, `nn.Conv2d`, and `torch.optim.Adam` fluently, ship production models with them, and have never once derived the backward pass those calls perform — \"I use it correctly\" is treated, tacitly, as equivalent to \"I understand it,\" and the gap rarely surfaces until something breaks in a way no StackOverflow answer covers, at which point the gap is suddenly very expensive. In the other direction — the one this module's own pedagogy has to guard against in itself — a learner who *has* rebuilt every layer from scratch and verified numerical parity against the library version can walk away with an equally false confidence: \"I built the architecture, therefore I understand what a trained instance of it will do.\" Lesson 4's Named Misconception 3 and Lab M06-C's ablation exist because that confidence is exactly as unearned as the first kind. Architecture parity is a claim about a *fixed set of weights* producing the *same output* through the *same graph* — it says nothing about what a different set of weights, learned from data nobody hand-picked, will do with that same graph. The field's benchmarking practice — comparing model architectures on leaderboards, publishing ablation tables, citing parameter-matched baselines — runs on exactly this substitution, silently, at scale, and mostly gets away with it because \"the architecture is well-understood\" reads, to a reader skimming a paper's methods section, as \"the model's behavior is well-understood.\" It is not the same claim. **Tier 3 — sit with this, don't resolve it.** You can now, in this module, take any PyTorch layer apart, load your own weights into it, and prove — not assert, prove, with a diff on screen — that it computes exactly the function you already understood before you ever imported `torch`. That is real, earned fluency, and it is also, deliberately, the *last* thing this course lets you fully verify. Starting in M07, you will debug pathological *trained* models — models whose architecture you can audit completely and whose behavior you cannot predict from that audit alone. Here is the question this module leaves open, on purpose, for you to keep carrying rather than answer today: when a system's architecture is fully known, fully rebuildable, fully verified down to the sixteenth decimal digit — and its trained behavior still surprises the people who built it — where does that surprise actually live? Is it a temporary gap, one better tooling or a more careful audit will eventually close? Or is \"the weights learned something the architecture doesn't predict and the builder didn't intend\" simply what training *is*, permanently, no matter how well you understand every operation in the graph? You will not need to answer this to pass M07's debugging labs. You will need to have asked it honestly, here, before the debugging starts to feel like it should have a tidy resolution.",
+        "sitWithThis": "You can now, in this module, take any PyTorch layer apart, load your own weights into it, and prove — not assert, prove, with a diff on screen — that it computes exactly the function you already understood before you ever imported `torch`. That is real, earned fluency, and it is also, deliberately, the *last* thing this course lets you fully verify. Starting in M07, you will debug pathological *trained* models — models whose architecture you can audit completely and whose behavior you cannot predict from that audit alone. Here is the question this module leaves open, on purpose, for you to keep carrying rather than answer today: when a system's architecture is fully known, fully rebuildable, fully verified down to the sixteenth decimal digit — and its trained behavior still surprises the people who built it — where does that surprise actually live? Is it a temporary gap, one better tooling or a more careful audit will eventually close? Or is \"the weights learned something the architecture doesn't predict and the builder didn't intend\" simply what training *is*, permanently, no matter how well you understand every operation in the graph? You will not need to answer this to pass M07's debugging labs. You will need to have asked it honestly, here, before the debugging starts to feel like it should have a tidy resolution."
+      },
+      "adaptation": {
+        "pacing": {
+          "minHoursPerWeek": 10,
+          "targetHoursPerWeek": 12,
+          "maxHoursPerWeek": 14,
+          "targetWeeks": 2
+        },
+        "watchFor": [
+          "struggle-blocked",
+          "struggle-productive",
+          "pace-ahead",
+          "mastery-early",
+          "shallow-completion"
+        ],
+        "moves": {
+          "accelerate": "A learner who finishes Lab M06-A's four tests without needing the misconception callouts, and whose written prediction for Lab M06-C item (2) derives the uniform-softmax result correctly *before* running anything, is ready to skip straight to the Assessment without doing Lab M06-B's benchmark first — the benchmark lab's core insight (vectorization is dispatch, not new math) was already fully demonstrated in Lesson 2's worked example, and a learner who has internalized Lab A and predicted Lab C correctly has shown they don't need a third rep of the same underlying claim before tackling the debugging assessment. Do not let this substitute for the Assessment itself, which tests a materially different skill (locating a planted defect under a misleadingly smooth-looking early trajectory) than either lab does.",
+          "reinforce": "Re-anchor in the module's own worked examples before adding new material; struggle here is expected to be productive, not blocked.",
+          "reroute": "If blocked two sessions on the same wall, switch modality — worked example first, then return to the lab."
+        }
+      }
+    },
+    {
+      "id": "AIE-202-M07",
+      "track": "B",
+      "title": "Debugging training: the pathology clinic",
+      "summary": "The re-ascent continues, now aimed at someone else's mistakes instead of your own understanding. M06 proved, with a diff on screen, that PyTorch computes exactly what your M01–M05 engines already computed — architecture parity, checked, not assumed. M06's closing question was left open on purpose: architecture parity is not behavior parity, and a fully-auditable graph can still produce trained behavior nobody predicted. This module does not resolve that question. It hands you five ways a training run can go wrong that have nothing to do with the architecture being unfamiliar, and everything to do with a mismatch between what the code says and what actually happens when it runs — and it makes you find each one the way you will actually find them later: from telemetry, before source.",
+      "credentials": [
+        {
+          "name": "Deep Learning: Autograd to Transformers — Debugging training: the pathology clinic",
+          "provider": "The AI Engineer Curriculum (first-party)",
+          "kind": "course",
+          "freeToAudit": true,
+          "paidCostUSD": 0
+        }
+      ],
+      "prerequisites": [
+        "AIE-202-M06"
+      ],
+      "buildThread": "AIE-202: The Karpathy build-it-yourself ethos with what Zero-to-Hero lacks: assessment, ablation discipline, debugging drills on deliberately broken training runs, and a straight line into the LLM and production courses. Every architecture is earned by building, then made fluent in PyTorch.",
+      "pillars": {
+        "structure": "Map the module before building: Smooth, roughly monotone decrease.; Divergence — growing, and increasingly volatile.; A plateau at a suspicious constant.; Train loss fine, validation loss/accuracy wrong from the very first epoch.",
+        "readingReasoning": "Read each lesson's worked example and named misconceptions; predict what the mechanism does before reading the explanation.",
+        "testing": "Run every lab's Predict step on paper, before Build; verify against the provided tests, not against whether the program merely runs.",
+        "building": "Complete the module's labs (A — Diagnose from curves alone; B — Build the harness yourself, then point it at a run you can't see the source of; C — The full pathology clinic: predict, locate, fix, prove) and the module assessment."
+      },
+      "tiers": {
+        "materialGround": "Every failure family this module built is a documented, named, widely-replicated phenomenon in the literature, not a pedagogical invention. Exploding (and vanishing) gradients in deep and recurrent networks, along with gradient clipping as the standard mitigation, are characterized directly in Pascanu, Mikolov & Bengio's \"On the difficulty of training recurrent neural networks\" (ICML 2013). BatchNorm's dependence on train/eval-mode statistics — and the specific failure mode this module's normalization-mistake family plants — follows directly from the mechanism specified in Ioffe & Szegedy's original Batch Normalization paper (ICML 2015): the layer's contract is a claim about *training-time* batch statistics, and eval-mode substitutes a different, separately-tracked statistic by design, which is exactly the substitution this module's bug exploits by accident. Silent data-pairing errors — the family Lab M07-A and this module's Assessment both center — are documented at production scale, not just as a toy-scale curiosity: Sambasivan et al.'s \"Everyone wants to do the model work, not the data work\" (CHI 2021) surveys ML practitioners across industry finding data-quality and data-pipeline defects to be pervasive, systemically under-invested-in, and specifically hard to detect because a data-pairing bug produces a model that *trains successfully* — no crash, no obviously-wrong number, exactly this module's silent-data-bug signature, at real scale, not a constructed classroom example.",
+        "observerReading": "\"The training run completed without errors, the loss went down, and the tests pass\" is treated, in a huge amount of day-to-day ML engineering practice, as sufficient evidence to ship — and this module just spent five labs proving that exact bar is clearable by at least three of its four broken families. A frozen layer clears it. A silent data bug clears it, and clears a \"loss went down\" bar too, provided nobody checks *how far* down or *toward what floor*. A model stuck normalizing against stale statistics for its first several epochs, if the bug is later fixed mid-training-run (a very real production pattern — a config change deployed between checkpoints) can clear it while still having learned something quietly worse than intended for the epochs it ran broken. The field's own postmortem culture — incident reviews, \"what we learned\" retrospectives from ML teams at companies large and small — repeatedly documents this same category of failure being caught only after a downstream harm surfaced, not during training, because training-time monitoring across the industry disproportionately watches the single number (loss, or accuracy) that this module's four families were specifically chosen to demonstrate is the least discriminating signal available. The gap isn't that the diagnostics in this module are secret or hard to build — you built all of them, in under twenty hours, from a stated specification. The gap is that watching them is not yet the default, and \"it trained, the number went down\" keeps functioning as a social permission slip to stop looking, in exactly the way this module's own rubrics were built to refuse.",
+        "sitWithThis": "You can now take a training run and prove, mechanically, that it is sound — every layer receives a real gradient, every normalization layer's invariant holds, the loss is heading somewhere other than a chance-level floor for a real reason. That is a genuine, checkable, gradcheck-grade claim, and everything in this module was built to let you make it honestly instead of by vibes. Here is what that proof does not cover, and does not get smaller as you get better at this: a training run can pass every diagnostic in this module — clean grad norms, clean activation statistics, a loss curve that heads decisively away from chance for a real, checkable reason — and still learn a function that does something in deployment nobody who watched those diagnostics predicted, wanted, or would have signed off on if they'd seen it coming. Mechanical soundness is a claim about *how* the model got where it's going. It is not a claim about *where that turned out to be*. M06 left you with a question about architecture and behavior; this module hands you the tools to prove the training *process* was correct, and deliberately does not extend those tools to prove the training *outcome* was the one you wanted. So: once you can show, on a diff, on a log, on a gradcheck report, that nothing was wrong with how a model was trained — at what point does a surprising, unwanted capability stop being a bug you failed to catch, and start being simply what a correctly-run training process, on real data, with real labels, was always going to produce? You do not get to answer this by building a sixth diagnostic. Sit with why not."
+      },
+      "adaptation": {
+        "pacing": {
+          "minHoursPerWeek": 10,
+          "targetHoursPerWeek": 12,
+          "maxHoursPerWeek": 14,
+          "targetWeeks": 2
+        },
+        "watchFor": [
+          "struggle-blocked",
+          "struggle-productive",
+          "pace-ahead",
+          "mastery-early",
+          "shallow-completion"
+        ],
+        "moves": {
+          "accelerate": "A learner who completes Lab M07-A without needing the `bn3_sd`/`ln(2)` hints spelled out (i.e., wrote a correct `normalization_mistake` and `silent_data_bug` branch from Lesson 3's table alone, no re-explanation needed) and whose Lab M07-B written hypothesis for `B_mystery` correctly named `exploding` with the right mechanism before checking Lab M07-C's answer key, may skip re-deriving the exploding-loss fix in Lab M07-C and move directly to the frozen-layer and normalization-mistake fixes plus the Assessment — the exploding-loss family's diagnostic signature was already fully demonstrated twice (Lab A's classifier, Lab B's hypothesis) before Lab C's third rep, and a learner who's shown they don't need it doesn't benefit from a fourth.",
+          "reinforce": "Hold before advancing: Do not accelerate past watching `test_normbug_fix_actually_updates_running_statistics` fail against the unfixed script, under any circumstance**, even for a learner who is clearly ahead. What it fails on isn't a suspicious-looking continuous number — it's an exact integer, `num_batches_tracked == 0`, after eight full epochs of otherwise plausible-looking training with no error and no exception anywhere. That's this module's most counterintuitive result precisely because it's a discrete, forensic trace (a counter that never once incremented) surviving underneath a run that, on loss curve alone, looks merely slow rather than structurally broken. A learner who skips watching that `0` happen here will, later, be the engineer who sees a flat-but-stable loss curve and assumes \"just needs more epochs\" instead of checking the one invariant that would have caught it in thirty seconds.",
+          "reroute": "do not explain the distinction in the abstract again — Lesson 2 already stated it once. Instead ask the learner to predict, before rerunning, what `model.fc2.weight.grad` actually equals in Python (not what `.norm()` of it equals) when `requires_grad=False` — the answer is the object `None` itself, not a zero tensor, and once a learner has said that sentence out loud the bug in their own `grad_norms()` becomes obvious to them without further hinting. have them count, out loud, exactly how many times `.train()` is called versus how many times `.eval()` is called across their full 8-epoch loop — the two counts must both be present once per epoch, in the right order, or some epoch's training forward pass runs in the wrong mode."
+        }
+      }
+    },
+    {
+      "id": "AIE-202-M08",
+      "track": "B",
+      "title": "Ablation and attribution",
+      "summary": "The last stop before the re-ascent hands off to AIE-204. M01 built the machine; M02 trained on it; M03-M05 built CNN, RNN/attention, and transformer, each earned from scratch; M06 re-ascended into PyTorch and proved, by diffing outputs, that the library layers compute the identical functions you already derived; M07 taught you to find a planted *bug* — a wrong line, a missing call — from the symptom it leaves in a loss curve. This module asks a harder question of a model that has **no bug**: it trained, it works, it hits its target metric. Which of its parts is *why*? \"Ablation and attribution\" is the discipline of answering that question with an experiment a skeptical reader would trust, instead of with a plausible story about what an attention-weight heatmap seems to show.",
+      "credentials": [
+        {
+          "name": "Deep Learning: Autograd to Transformers — Ablation and attribution",
+          "provider": "The AI Engineer Curriculum (first-party)",
+          "kind": "course",
+          "freeToAudit": true,
+          "paidCostUSD": 0
+        }
+      ],
+      "prerequisites": [
+        "AIE-202-M07"
+      ],
+      "buildThread": "AIE-202: The Karpathy build-it-yourself ethos with what Zero-to-Hero lacks: assessment, ablation discipline, debugging drills on deliberately broken training runs, and a straight line into the LLM and production courses. Every architecture is earned by building, then made fluent in PyTorch.",
+      "pillars": {
+        "structure": "Map Ablation and attribution's structure before starting any lab.",
+        "readingReasoning": "Read each lesson's worked example and named misconceptions; predict what the mechanism does before reading the explanation.",
+        "testing": "Run every lab's Predict step on paper, before Build; verify against the provided tests, not against whether the program merely runs.",
+        "building": "Complete the module's labs (A — Zero-ablation vs. mean-ablation, and what \"off-distribution\" costs; B — Redundancy: single-ablation lies, pairwise ablation tells the truth; C — Structural ablation: post-hoc surgery vs. retraining without) and the module assessment."
+      },
+      "tiers": {
+        "materialGround": "Ablation-based attribution is standard, load-bearing methodology across the interpretability literature — from early lesion-style studies in neuroscience it borrows its logic from, through the transformer circuits and causal-tracing work this module's pairwise and post-hoc-vs-retrained distinctions echo. It is also, documented by the field's own methodology critiques (not this course's opinion), routinely under-controlled in published work: single-seed reports, single-ablation-method reports, and post-hoc/retrained conflations of exactly the kind this module's labs are built to catch all appear regularly in peer-reviewed ablation tables, not just informal blog-post interpretability claims. **Tier 2 — what the field doesn't say out loud.** An ablation table with one clean number and no control condition, no seed variance, and no stated falsification condition is not automatically dishonest — it is frequently just what got past review, because \"we ablated X and performance dropped by Y%\" reads as rigorous *empirical* work in a field where a lot of competing claims are purely architectural or purely theoretical, and a number with an error bar looks, to a skimming reader, barely different from a number without one. The gap this module keeps closing — is the effect distinctive from a matched control, does it survive a second seed, does it survive a second ablation method, is \"necessary\" a claim about this trained instance or the whole architecture — is exactly the gap that \"we ran an ablation study\" tends to paper over in both directions: boosters cite a favorable ablation table as proof a component is essential without checking whether *any* comparable ablation would have looked similarly bad; critics cite an unfavorable one as proof a component is vestigial without checking whether redundancy, not irrelevance, explains a small single-ablation delta. The tooling to check either claim is exactly what this module built. Most published ablation tables were not built with it, and most readers of those tables have no way to tell which ones were. **Tier 3 — sit with this, don't resolve it.** You can now design an ablation study a genuinely skeptical reader — one who knows about redundancy, distributional shift, and the post-hoc/retrained distinction — would trust. Most of the ablation claims that justify real decisions about real deployed models were not built to that standard, and you now have enough of this module's own numbers to know exactly how much that can matter: a single-seed report would have named a different head as \"the important one\" in three of your five training runs, and a single-ablation report would have called head 1 harmless when it was a load-bearing partner in the model's two worst failure modes. When someone tells you \"we ablated the component responsible for this behavior and removed it, so the behavior is fixed,\" you now know the specific list of questions that determine whether that sentence is evidence or narrative: Which ablation method? How many seeds? Was a redundant partner checked? Was this the trained model, or a retrained one? Most of the time, when that sentence is said about a system whose behavior actually matters, you will not get to ask. Sit with what your confidence in that sentence should be anyway — and with whether \"we understand which part does this\" was ever a claim about the architecture, or always, secretly, a claim about how much anyone had checked.",
+        "observerReading": "An ablation table with one clean number and no control condition, no seed variance, and no stated falsification condition is not automatically dishonest — it is frequently just what got past review, because \"we ablated X and performance dropped by Y%\" reads as rigorous *empirical* work in a field where a lot of competing claims are purely architectural or purely theoretical, and a number with an error bar looks, to a skimming reader, barely different from a number without one. The gap this module keeps closing — is the effect distinctive from a matched control, does it survive a second seed, does it survive a second ablation method, is \"necessary\" a claim about this trained instance or the whole architecture — is exactly the gap that \"we ran an ablation study\" tends to paper over in both directions: boosters cite a favorable ablation table as proof a component is essential without checking whether *any* comparable ablation would have looked similarly bad; critics cite an unfavorable one as proof a component is vestigial without checking whether redundancy, not irrelevance, explains a small single-ablation delta. The tooling to check either claim is exactly what this module built. Most published ablation tables were not built with it, and most readers of those tables have no way to tell which ones were. **Tier 3 — sit with this, don't resolve it.** You can now design an ablation study a genuinely skeptical reader — one who knows about redundancy, distributional shift, and the post-hoc/retrained distinction — would trust. Most of the ablation claims that justify real decisions about real deployed models were not built to that standard, and you now have enough of this module's own numbers to know exactly how much that can matter: a single-seed report would have named a different head as \"the important one\" in three of your five training runs, and a single-ablation report would have called head 1 harmless when it was a load-bearing partner in the model's two worst failure modes. When someone tells you \"we ablated the component responsible for this behavior and removed it, so the behavior is fixed,\" you now know the specific list of questions that determine whether that sentence is evidence or narrative: Which ablation method? How many seeds? Was a redundant partner checked? Was this the trained model, or a retrained one? Most of the time, when that sentence is said about a system whose behavior actually matters, you will not get to ask. Sit with what your confidence in that sentence should be anyway — and with whether \"we understand which part does this\" was ever a claim about the architecture, or always, secretly, a claim about how much anyone had checked.",
+        "sitWithThis": "You can now design an ablation study a genuinely skeptical reader — one who knows about redundancy, distributional shift, and the post-hoc/retrained distinction — would trust. Most of the ablation claims that justify real decisions about real deployed models were not built to that standard, and you now have enough of this module's own numbers to know exactly how much that can matter: a single-seed report would have named a different head as \"the important one\" in three of your five training runs, and a single-ablation report would have called head 1 harmless when it was a load-bearing partner in the model's two worst failure modes. When someone tells you \"we ablated the component responsible for this behavior and removed it, so the behavior is fixed,\" you now know the specific list of questions that determine whether that sentence is evidence or narrative: Which ablation method? How many seeds? Was a redundant partner checked? Was this the trained model, or a retrained one? Most of the time, when that sentence is said about a system whose behavior actually matters, you will not get to ask. Sit with what your confidence in that sentence should be anyway — and with whether \"we understand which part does this\" was ever a claim about the architecture, or always, secretly, a claim about how much anyone had checked."
+      },
+      "adaptation": {
+        "pacing": {
+          "minHoursPerWeek": 10,
+          "targetHoursPerWeek": 12,
+          "maxHoursPerWeek": 14,
+          "targetWeeks": 1
+        },
+        "watchFor": [
+          "struggle-blocked",
+          "struggle-productive",
+          "pace-ahead",
+          "mastery-early",
+          "shallow-completion"
+        ],
+        "moves": {
+          "accelerate": "A learner whose Lab A write-up already states, unprompted, \"I should check whether a near-zero head here is actually redundant before concluding it doesn't matter\" — i.e., who imports Lesson 2's caution into Lab A before being told to — can skip Lab B's guided pairwise walkthrough and go straight to designing their own combinatorial check as part of the Assessment. Do not let this substitute for Lab C, though: the post-hoc-vs-retrained distinction is architecturally distinct from the redundancy material and has its own failure mode (misconception 2) that nothing in Labs A/B exercises.",
+          "reinforce": "Re-anchor in the module's own worked examples before adding new material; struggle here is expected to be productive, not blocked.",
+          "reroute": "If blocked two sessions on the same wall, switch modality — worked example first, then return to the lab."
+        }
+      }
     }
   ],
   "spines": [
@@ -2468,7 +2876,7 @@ export const aiEngineerCurriculumCourse: Course = {
   ],
   "credentialModel": {
     "sealedReading": "One three-tier observer reading (material ground / what the field suppresses / sit-with-this) sealed per module, plus a course-close synthesis per completed course.",
-    "corpusSize": 54,
+    "corpusSize": 63,
     "demonstrates": "Structural understanding at a depth no exam measures — this program's version of the alternative credentialing model: the sealed corpus, not the certificate, is what a learner has actually earned."
   },
   "costModel": {
