@@ -114,15 +114,25 @@ npm run elle -- brief stewart   # contract move quotes THAT module's own pacing 
 
 ### The Worker
 
-`src/worker.ts` is a minimal Cloudflare Worker (deployed as `customcoursebuilder`) that serves
-the same course data as a read-only HTTP API — it imports the checked-in TS course sources
-directly (the same ones `src/build.ts` compiles), so it never depends on the gitignored
-`dist/courses/*.json` build output being present at deploy time.
+`src/worker.ts` is a Cloudflare Worker (deployed as `customcoursebuilder`) that ingests and
+maintains course data in its own D1 database (`customcoursebuilder-courses`, binding `DB`),
+and serves it as a read API. It imports the checked-in TS course sources directly (the same
+ones `src/build.ts` compiles), so a deploy's D1 rows are always ingestable from what's actually
+bundled — it never depends on the gitignored `dist/courses/*.json` build output existing at
+deploy time. Other services (e.g. elle-worker) read course data by calling this API rather than
+vendoring a static JSON copy that goes stale as new courses land.
 
 ```
-GET /courses         -> [{ id, title, version, durationMonths, unitCount }, ...]
-GET /courses/:id      -> the full Course JSON (e.g. /courses/ai-engineer-curriculum)
+GET  /courses         -> [{ id, title, version, durationMonths, unitCount }, ...]
+GET  /courses/:id      -> the full Course JSON (e.g. /courses/ai-engineer-curriculum)
+POST /ingest           -> force re-ingest every course from the current deploy into D1
 ```
+
+Every `GET` route self-heals: if a course is missing from D1, or the stored row's version
+doesn't match the currently-bundled course, it's re-ingested before the read runs — so a fresh
+deploy with updated course content stays in sync with no manual step required. `POST /ingest`
+is for explicit maintenance (e.g. warming the cache right after a deploy, or from a cron
+trigger) — it re-ingests unconditionally, regardless of version match.
 
 ```bash
 npm run worker:dev    # wrangler dev, local
