@@ -23,9 +23,9 @@ The repo holds three things, at three different stages of completeness:
    (`courses/ai-engineer-stack/`) and an executable markdown curriculum run live by an agent
    (`courses/ai-coding-101/`).
 3. **A first-party curriculum** (`curriculum/ai-engineer/`) — a 15-course, 100-module
-   program the project authors and teaches itself, with 9 of those 15 courses — the whole
-   foundation tier plus three core-tier courses — fully authored and quality-gated so far
-   (see [Curriculum authoring status](#curriculum-authoring-status)).
+   program the project authors and teaches itself, with 10 of those 15 courses (the whole
+   foundation tier plus the whole core tier) fully
+   authored and quality-gated so far (see [Curriculum authoring status](#curriculum-authoring-status)).
 
 ## The courses and curricula
 
@@ -33,7 +33,7 @@ The repo holds three things, at three different stages of completeness:
 |---|---|---|---|
 | AI Coding 101 | [`courses/ai-coding-101/`](courses/ai-coding-101/) | Executable markdown curriculum, run by an agent | v0.2 spec complete; unvalidated against real learners |
 | AI Engineer Stack | [`courses/ai-engineer-stack/`](courses/ai-engineer-stack/) | Typed course data → JSON | 21 units, 4 phases, 5 tracks, 26 external credentials — type-checks and validates clean |
-| AI Engineer Curriculum | [`curriculum/ai-engineer/`](curriculum/ai-engineer/) | Typed manifest + first-party markdown material, generated into a runnable `Course` | 15 courses / 100 module packets defined and validated; 9 courses — 61 packets — fully authored, quality-gated, and enrollable (the whole foundation tier plus AIE-201/202/203); AIE-204 in progress (2/7 packets drafted); 5 courses still scaffold-only |
+| AI Engineer Curriculum | [`curriculum/ai-engineer/`](curriculum/ai-engineer/) | Typed manifest + first-party markdown material, generated into a runnable `Course` | 15 courses / 100 module packets defined and validated; the foundation and core tiers — 10 courses, 68 packets — fully authored, quality-gated, and enrollable; 5 specialization/capstone courses still scaffold-only |
 
 **AI Coding 101** is the on-ramp. Its thesis: *the AI can write the code; it cannot hold the
 responsibility.* It teaches reading, verification, and ownership of AI-written software before
@@ -112,6 +112,33 @@ npm run elle -- log stewart --unit AIE-100-M01 --minutes 45 \
 npm run elle -- brief stewart   # contract move quotes THAT module's own pacing notes, verbatim
 ```
 
+### The Worker
+
+`src/worker.ts` is a Cloudflare Worker (deployed as `customcoursebuilder`) that ingests and
+maintains course data in its own D1 database (`customcoursebuilder-courses`, binding `DB`),
+and serves it as a read API. It imports the checked-in TS course sources directly (the same
+ones `src/build.ts` compiles), so a deploy's D1 rows are always ingestable from what's actually
+bundled — it never depends on the gitignored `dist/courses/*.json` build output existing at
+deploy time. Other services (e.g. elle-worker) read course data by calling this API rather than
+vendoring a static JSON copy that goes stale as new courses land.
+
+```
+GET  /courses         -> [{ id, title, version, durationMonths, unitCount }, ...]
+GET  /courses/:id      -> the full Course JSON (e.g. /courses/ai-engineer-curriculum)
+POST /ingest           -> force re-ingest every course from the current deploy into D1
+```
+
+Every `GET` route self-heals: if a course is missing from D1, or the stored row's version
+doesn't match the currently-bundled course, it's re-ingested before the read runs — so a fresh
+deploy with updated course content stays in sync with no manual step required. `POST /ingest`
+is for explicit maintenance (e.g. warming the cache right after a deploy, or from a cron
+trigger) — it re-ingests unconditionally, regardless of version match.
+
+```bash
+npm run worker:dev    # wrangler dev, local
+npm run deploy        # wrangler deploy
+```
+
 `elle brief` is the bridge to Elle's voice: it packages the engine's decisions (contract
 moves with verbatim instructions and evidence), ethics-spine obligations (owed weekly
 readings open the session), phase-boundary flags, and corpus integrity into one markdown
@@ -127,7 +154,7 @@ descent arc or ethics thread is a placeholder). That validation passes today. Wh
 *not* check is whether a module's teaching content has actually been written — that's a
 separate, manual process:
 
-- **Fully authored and quality-gated — 61/100 packets across 9 courses**
+- **Fully authored and quality-gated — the entire foundation and core tiers, 68/68 packets**
   (lesson notes, labs with starter/solution/tests, assessment + rubric, Elle pacing notes,
   three-tier reading — one file per module under `curriculum/ai-engineer/materials/<CODE>/`,
   each carrying its own in-file gate report):
@@ -140,14 +167,13 @@ separate, manual process:
   - `AIE-201` — Machine Learning from First Principles (8/8 packets)
   - `AIE-202` — Deep Learning: Autograd to Transformers (8/8 packets)
   - `AIE-203` — Data Engineering for AI (6/6 packets)
-  These 61 packets are also **generated into a real, enrollable `Course`**
+  - `AIE-204` — Evaluation and Experimentation (7/7 packets)
+  These 68 packets are also **generated into a real, enrollable `Course`**
   (`courses/ai-engineer-curriculum/`, `dist/courses/ai-engineer-curriculum.json`) — see
   [The runtime](#the-runtime) above.
-- **In progress** — `AIE-204` (Evaluation and Experimentation): 2/7 packets drafted
-  (`AIE-204-M01`, `AIE-204-M02`), not yet through the gate pass, so not yet in the
-  generated `Course`.
 - **Scaffold only** (a generated syllabus with course metadata, outcomes, and the assessment
-  table, but no module-level lesson/lab/assessment content yet): the remaining 5 courses —
+  table, but no module-level lesson/lab/assessment content yet): the remaining 5
+  specialization/capstone courses —
   `AIE-301`, `AIE-302`, `AIE-303`, `AIE-304`, `AIE-401`.
 
 Every packet is checked against four quality gates before it counts as done — technical

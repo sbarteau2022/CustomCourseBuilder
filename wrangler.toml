@@ -1,0 +1,13 @@
+name = "customcoursebuilder"
+main = "src/worker.ts"
+compatibility_date = "2026-07-31"
+
+# Course content, ingested from the checked-in TS course sources via
+# POST /ingest and served from here on GET — see src/worker.ts. This
+# Worker is the ingester and maintainer of this database; elle-worker
+# reads course data by calling this Worker's API rather than vendoring
+# a static JSON copy.
+[[d1_databases]]
+binding = "DB"
+database_name = "customcoursebuilder-courses"
+database_id = "aae1a7a5-4723-495d-9e52-910d72fddc84"

@@ -1,4 +1,5 @@
 node_modules/
 dist/
+.wrangler/
 state/*.json
 courses/ai-coding-101/state/*.json

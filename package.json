@@ -10,11 +10,15 @@
     "validate": "node --experimental-strip-types src/validate.ts",
     "test": "node --experimental-strip-types --test test/*.test.ts",
     "elle": "node --experimental-strip-types src/cli.ts",
-    "validate:curriculum": "node --experimental-strip-types src/validate-curriculum.ts"
+    "validate:curriculum": "node --experimental-strip-types src/validate-curriculum.ts",
+    "worker:dev": "wrangler dev",
+    "deploy": "wrangler deploy"
   },
   "devDependencies": {
+    "@cloudflare/workers-types": "^5.20260731.1",
     "@types/node": "^26.1.1",
-    "typescript": "^5.5.0"
+    "typescript": "^5.5.0",
+    "wrangler": "^4.116.0"
   },
   "engines": {
     "node": ">=22.6"
