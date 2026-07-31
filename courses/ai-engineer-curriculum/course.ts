@@ -10,7 +10,7 @@ export const aiEngineerCurriculumCourse: Course = {
   "title": "The AI Engineer Curriculum",
   "version": "1.0.0",
   "mission": "A complete, first-party path from zero to production AI engineer, built on a philosophy rather than inherited from how these subjects have been taught. In every course the learner descends below the abstraction to the substrate where the thing actually lives, builds it there by hand, and re-ascends to command the high-level tool as an instrument rather than invoke it as a mystery. Verification is taught before generation; evaluation runs as a spine, not a module; ethics carries structural teeth; the durable core is separated from the swappable tool surface so the material outlasts the tools. Every module is assessed by judgment demonstrated, never by content retained — and the whole program is run adaptively, and witnessed, by Elle.",
-  "durationMonths": 23,
+  "durationMonths": 26,
   "tracks": [
     {
       "id": "A",
@@ -31,7 +31,7 @@ export const aiEngineerCurriculumCourse: Course = {
       "title": "Foundations — AIE-100, AIE-101, AIE-102, AIE-104, AIE-103, AIE-110",
       "months": [
         1,
-        12
+        13
       ],
       "theme": "Foundations tier of the AI Engineer Curriculum: Working With AI Without Outsourcing Judgment; Python and Software Craft; Down to the Metal: C, and the Machine Under Python; The Machine at Scale: Linux, Networks, Concurrency, Containers; Mathematics for AI, Taught as Instruments; Data Structures, Algorithms, and Scale.",
       "unitIds": [
@@ -78,12 +78,12 @@ export const aiEngineerCurriculumCourse: Course = {
     },
     {
       "id": "p-core",
-      "title": "Core — AIE-201, AIE-202, AIE-203",
+      "title": "Core — AIE-201, AIE-202, AIE-203, AIE-204",
       "months": [
-        13,
-        23
+        14,
+        26
       ],
-      "theme": "Core tier of the AI Engineer Curriculum: Machine Learning from First Principles; Deep Learning: Autograd to Transformers; Data Engineering for AI.",
+      "theme": "Core tier of the AI Engineer Curriculum: Machine Learning from First Principles; Deep Learning: Autograd to Transformers; Data Engineering for AI; Evaluation and Experimentation.",
       "unitIds": [
         "AIE-201-M01",
         "AIE-201-M02",
@@ -106,7 +106,14 @@ export const aiEngineerCurriculumCourse: Course = {
         "AIE-203-M03",
         "AIE-203-M04",
         "AIE-203-M05",
-        "AIE-203-M06"
+        "AIE-203-M06",
+        "AIE-204-M01",
+        "AIE-204-M02",
+        "AIE-204-M03",
+        "AIE-204-M04",
+        "AIE-204-M05",
+        "AIE-204-M06",
+        "AIE-204-M07"
       ]
     }
   ],
@@ -3159,6 +3166,356 @@ export const aiEngineerCurriculumCourse: Course = {
           "reroute": "before touching `cost_model.py`, have them write both numbers side by side\n  for the worked CSV-vs-Parquet example and circle which formula each one feeds — `gb_stored`\n  appears only in `storage_cost`; `gb_scanned_per_query` appears only in `query_cost`. If\n  they can't say which query behavior (full scan vs. column-pruned scan) produced each\n  number, the wall isn't the arithmetic, it's this distinction, and no amount of formula\n  practice fixes it until the distinction is named out loud. before running the test file, have them\n  compute `dictionary_size_bytes` by hand for a column they pick themselves with\n  cardinality equal to row count (their own name repeated zero times — every row unique)\n  and watch the table cost exceed the raw cost in their own numbers, not just the lab's\n  provided `content_hash` example. Self-generated counterexamples close this wall faster\n  than a second look at the given one."
         }
       }
+    },
+    {
+      "id": "AIE-204-M01",
+      "track": "B",
+      "title": "Why evals precede systems",
+      "summary": "Why evals precede systems — one module of Evaluation and Experimentation.",
+      "credentials": [
+        {
+          "name": "Evaluation and Experimentation — Why evals precede systems",
+          "provider": "The AI Engineer Curriculum (first-party)",
+          "kind": "course",
+          "freeToAudit": true,
+          "paidCostUSD": 0
+        }
+      ],
+      "prerequisites": [
+        "AIE-201-M08"
+      ],
+      "buildThread": "AIE-204: Evaluation as a full course, positioned BEFORE the LLM tier — the single largest gap in every competitor. The 2025-26 industry lesson (evals are the core discipline of AI engineering) made structural: nothing in later courses ships without an eval, because the learners already know how to build one.",
+      "pillars": {
+        "structure": "Map the module before building: Selection.; No denominator.; No adversary.; Task definition.; Gold set.; Metric.; Decision rule.; Statistic..",
+        "readingReasoning": "Read each lesson's worked example and named misconceptions; predict what the mechanism does before reading the explanation.",
+        "testing": "Run every lab's Predict step on paper, before Build; verify against the provided tests, not against whether the program merely runs.",
+        "building": "Complete the module's labs (Measure the gap a demo hides; Reproduce eval-order bias with a controlled leniency simulation; Build a metric, then break it on purpose) and the module assessment."
+      },
+      "tiers": {
+        "materialGround": "Every number in this module's worked examples is a property of code you can re-run: the router's 100%-demo-vs-82.5%-honest gap, the 12.5-point hindsight-leniency gap, the `naive_recall`-vs-`f1` ranking reversal are all reproducible to the third decimal place from the labs' own solution code. None of this is a matter of interpretation — a metric either did or did not rank System B above System A, and you can check. This grounding is the whole reason the module opens with a demo rather than a lecture: the claim \"a demo is not evidence\" is not asked to be taken on faith, it is handed to you as a specific, falsifiable, 17.5-point number. **Tier 2 — what a passing eval suppresses.** A system that clears every commitment this module teaches — a gold set built blind, before exposure; a metric pressure-tested against an adversary; a decision rule cleared by a real margin — has still only answered the question its task definition and gold-set sampling plan decided to ask. The router in Lesson 2's \"five-commitment version\" table is graded against \"the category a trained support lead would assign, working from the ticket text alone\" — a definition that quietly excludes every case where the right routing actually depends on account history, prior tickets, or context the text alone can't carry. That exclusion is not a flaw in the methodology this module teaches; it's a choice, made once, by whoever wrote the task definition, and a clean, honest, gaming-resistant eval built on top of a narrow task definition will report a number that is completely true and still describes a narrower claim than \"this system handles support tickets.\" The industry-scale version of this is exactly what this course's ethics thread names: benchmark leaderboards report real, honestly-computed, hard-fought numbers on specific, narrowly defined tasks, and the gap between *that specific measured task* and the broader capability claim made about a model in a press release or a sales deck is not a leak in the benchmark's methodology — it is a choice about scope, made once, upstream of every number that follows, and rarely stated as loudly as the number itself. **Tier 3 — sit with this.** Every discipline in this module — commit before exposure, grade blind, test your metric against an adversary — defends against your eval being *wrong*. None of it defends against your eval being *right* and someone asking you to make it say yes anyway: narrow the task definition until an unflattering case falls outside scope; pick the gold set that happens to undersample the category your system handles worst; choose the metric, honestly, from among several defensible options, because it's the one most likely to clear the bar this quarter. Every one of those moves can be executed by someone who has read this entire module, agrees with every word of it, and still, under real pressure, makes the choice that flatters the number rather than the one that best answers the question a deployment actually needs answered. The tools in this module catch a leaked gold set, a gamed metric, a demo mistaken for evidence — they were built to, and they work. They were never built to catch, and cannot catch, a technically clean eval aimed at the wrong question on purpose. You will, at some point, build an eval exactly this clean, and someone will ask you to point it somewhere friendlier. Decide now — before the system exists, before anyone is watching, while it costs you nothing — what your number is not for sale for.",
+        "observerReading": "A system that clears every commitment this module teaches — a gold set built blind, before exposure; a metric pressure-tested against an adversary; a decision rule cleared by a real margin — has still only answered the question its task definition and gold-set sampling plan decided to ask. The router in Lesson 2's \"five-commitment version\" table is graded against \"the category a trained support lead would assign, working from the ticket text alone\" — a definition that quietly excludes every case where the right routing actually depends on account history, prior tickets, or context the text alone can't carry. That exclusion is not a flaw in the methodology this module teaches; it's a choice, made once, by whoever wrote the task definition, and a clean, honest, gaming-resistant eval built on top of a narrow task definition will report a number that is completely true and still describes a narrower claim than \"this system handles support tickets.\" The industry-scale version of this is exactly what this course's ethics thread names: benchmark leaderboards report real, honestly-computed, hard-fought numbers on specific, narrowly defined tasks, and the gap between *that specific measured task* and the broader capability claim made about a model in a press release or a sales deck is not a leak in the benchmark's methodology — it is a choice about scope, made once, upstream of every number that follows, and rarely stated as loudly as the number itself. **Tier 3 — sit with this.** Every discipline in this module — commit before exposure, grade blind, test your metric against an adversary — defends against your eval being *wrong*. None of it defends against your eval being *right* and someone asking you to make it say yes anyway: narrow the task definition until an unflattering case falls outside scope; pick the gold set that happens to undersample the category your system handles worst; choose the metric, honestly, from among several defensible options, because it's the one most likely to clear the bar this quarter. Every one of those moves can be executed by someone who has read this entire module, agrees with every word of it, and still, under real pressure, makes the choice that flatters the number rather than the one that best answers the question a deployment actually needs answered. The tools in this module catch a leaked gold set, a gamed metric, a demo mistaken for evidence — they were built to, and they work. They were never built to catch, and cannot catch, a technically clean eval aimed at the wrong question on purpose. You will, at some point, build an eval exactly this clean, and someone will ask you to point it somewhere friendlier. Decide now — before the system exists, before anyone is watching, while it costs you nothing — what your number is not for sale for.",
+        "sitWithThis": "Every discipline in this module — commit before exposure, grade blind, test your metric against an adversary — defends against your eval being *wrong*. None of it defends against your eval being *right* and someone asking you to make it say yes anyway: narrow the task definition until an unflattering case falls outside scope; pick the gold set that happens to undersample the category your system handles worst; choose the metric, honestly, from among several defensible options, because it's the one most likely to clear the bar this quarter. Every one of those moves can be executed by someone who has read this entire module, agrees with every word of it, and still, under real pressure, makes the choice that flatters the number rather than the one that best answers the question a deployment actually needs answered. The tools in this module catch a leaked gold set, a gamed metric, a demo mistaken for evidence — they were built to, and they work. They were never built to catch, and cannot catch, a technically clean eval aimed at the wrong question on purpose. You will, at some point, build an eval exactly this clean, and someone will ask you to point it somewhere friendlier. Decide now — before the system exists, before anyone is watching, while it costs you nothing — what your number is not for sale for."
+      },
+      "adaptation": {
+        "pacing": {
+          "minHoursPerWeek": 8,
+          "targetHoursPerWeek": 10,
+          "maxHoursPerWeek": 12,
+          "targetWeeks": 1
+        },
+        "watchFor": [
+          "struggle-blocked",
+          "struggle-productive",
+          "pace-ahead",
+          "mastery-early",
+          "shallow-completion"
+        ],
+        "moves": {
+          "accelerate": "A learner who, in Lab 3's Predict step, correctly names in advance that",
+          "reinforce": "Re-anchor in the module's own worked examples before adding new material; struggle here is expected to be productive, not blocked.",
+          "reroute": "do not argue the demo was fake or dishonest. Instead, ask the learner to\ncompute, on paper, what accuracy the point directly back to AIE-201-M05's \"test\nis touched exactly once\" clause — this is not a new rule, it's the same rule, and the learner already\nbuilt the muscle for it in the prerequisite module; the task here is transfer, not re-learning.\nNaming the parallel explicitly is usually enough; if it isn't, have the learner re-derive Lab 2's\n12.5-point gap by hand, tracing exactly which of the seven mispredicted tickets got rubber-stamped and\nwhy — seeing the specific mechanism operate on specific tickets closes the gap between \"I'm told this\nmatters\" and \"I can see why.\""
+        }
+      }
+    },
+    {
+      "id": "AIE-204-M02",
+      "track": "B",
+      "title": "Gold sets, metrics, and gaming resistance",
+      "summary": "The first real build. AIE-204-M01 argued that evals must",
+      "credentials": [
+        {
+          "name": "Evaluation and Experimentation — Gold sets, metrics, and gaming resistance",
+          "provider": "The AI Engineer Curriculum (first-party)",
+          "kind": "course",
+          "freeToAudit": true,
+          "paidCostUSD": 0
+        }
+      ],
+      "prerequisites": [
+        "AIE-204-M01"
+      ],
+      "buildThread": "AIE-204: Evaluation as a full course, positioned BEFORE the LLM tier — the single largest gap in every competitor. The 2025-26 industry lesson (evals are the core discipline of AI engineering) made structural: nothing in later courses ships without an eval, because the learners already know how to build one.",
+      "pillars": {
+        "structure": "Map the module before building: Written labeling criteria; Measured agreement; Deliberately included edge cases; Single-class recall, gamed by over-predicting that class.; Coverage or overlap metrics, gamed by copying the source.; Accuracy under class imbalance, gamed by the majority-class constant predictor..",
+        "readingReasoning": "Read each lesson's worked example and named misconceptions; predict what the mechanism does before reading the explanation.",
+        "testing": "Run every lab's Predict step on paper, before Build; verify against the provided tests, not against whether the program merely runs.",
+        "building": "Complete the module's labs (A — Build a gold set by hand for ticket-urgency triage; B — Predict the gaming exploit, then break the metric; C — Fix the metric, prove the exploit no longer wins) and the module assessment."
+      },
+      "tiers": {
+        "materialGround": "The single most common quietly-omitted baseline in published eval tables is the constant/majority-class predictor: if a result reports \"94% accuracy\" on an imbalanced benchmark without stating what a constant predictor would score, the number cannot be read as evidence of capability — this is a mechanical fact about the arithmetic of imbalanced accuracy (Lesson 4), not a matter of interpretation.",
+        "observerReading": "Every \"high-quality human-labeled gold set\" claim implicitly asserts an inter-annotator agreement figure — and most public benchmark papers report none at all, or report only raw percent agreement, which Lesson 2 showed can look reassuring on a skewed label set even when the chance-corrected number is close to zero. The distance between \"we had humans label this\" and \"we measured whether the humans agreed\" is exactly where a benchmark's authority gets borrowed without being earned.",
+        "sitWithThis": "You build a gold set for your team's system. On the first pass, your own κ against the second labeler you recruited comes back at 0.31 — fair agreement, not substantial. You have real options: report it and let the release slow down; recruit a different second labeler and don't mention the first attempt; or quietly relabel the disagreements yourself until the number looks better. Every one of those has actually been chosen, by someone, at a real company, under real deadline pressure. Which one do you take — and what, specifically, do you write in the eval report about how you arrived at the number you shipped with?"
+      },
+      "adaptation": {
+        "pacing": {
+          "minHoursPerWeek": 8,
+          "targetHoursPerWeek": 10,
+          "maxHoursPerWeek": 12,
+          "targetWeeks": 2
+        },
+        "watchFor": [
+          "struggle-blocked",
+          "struggle-productive",
+          "pace-ahead",
+          "mastery-early",
+          "shallow-completion"
+        ],
+        "moves": {
+          "accelerate": "They may skip Lab M02-C's Build step for the exploit half and move straight to comparing",
+          "reinforce": "Re-anchor in the module's own worked examples before adding new material; struggle here is expected to be productive, not blocked.",
+          "reroute": "timebox it — 90 seconds per ticket,\n  first-instinct label, revisit only the ones flagged as hard afterward. The κ number, not any\n  individual label, is what's graded. force the Lesson 2 toy confusion matrix to\n  be computed by hand — `p_o`, `p_e`, `κ` — before touching code. A learner who can't reach 0.6429\n  on paper shouldn't be trusted with the code version yet."
+        }
+      }
+    },
+    {
+      "id": "AIE-204-M03",
+      "track": "B",
+      "title": "Experiment statistics: power, significance, honest inference",
+      "summary": "Experiment statistics: power, significance, honest inference — one module of Evaluation and Experimentation.",
+      "credentials": [
+        {
+          "name": "Evaluation and Experimentation — Experiment statistics: power, significance, honest inference",
+          "provider": "The AI Engineer Curriculum (first-party)",
+          "kind": "course",
+          "freeToAudit": true,
+          "paidCostUSD": 0
+        }
+      ],
+      "prerequisites": [
+        "AIE-204-M02"
+      ],
+      "buildThread": "AIE-204: Evaluation as a full course, positioned BEFORE the LLM tier — the single largest gap in every competitor. The 2025-26 industry lesson (evals are the core discipline of AI engineering) made structural: nothing in later courses ships without an eval, because the learners already know how to build one.",
+      "pillars": {
+        "structure": "Map the module before building: α (alpha), the false-positive rate you'll tolerate; The effect size you actually care about detecting; Power (1 − β), the probability of detecting that effect if it's really there; n, the sample size per arm..",
+        "readingReasoning": "Read each lesson's worked example and named misconceptions; predict what the mechanism does before reading the explanation.",
+        "testing": "Run every lab's Predict step on paper, before Build; verify against the provided tests, not against whether the program merely runs.",
+        "building": "Complete the module's labs (Power analysis, by hand and in code; Build a p-hacking simulator, then close it with a correction; Regression to the mean, live on an engineered dataset) and the module assessment."
+      },
+      "tiers": {
+        "materialGround": "Every number in this module's worked examples is reproducible from the labs' own seeded code: the 220.75-vs-221.71 hand-vs-exact sample size, the 64.15% family-wise error rate, the 19–20% peeking-inflated false-positive rate, the 23.5-vs-25.0-second regression- to-the-mean match, the 2.5× winner's-curse inflation factor. None of these are estimates from a textbook or a citation to trust secondhand — they are outputs of code you can re-run tonight with the seeds given, and they will land within the stated tolerance every time, because the mechanisms producing them (sampling variance, the union bound, conditional selection) are exact mathematical properties, not empirical tendencies that sometimes hold. **Tier 2 — what a passing p-value suppresses.** Every technique this module teaches is aimed at a study that is *statistically* wrong — underpowered, uncorrected, confounded by selection. A study that clears every bar this module sets — properly powered in advance, one pre-registered metric, a real control group, a reported confidence interval instead of a bare point estimate — can still be answering a question chosen because it was likely to produce a flattering number. Nothing in a power calculation checks whether the *effect size you powered for* was chosen honestly, or chosen because it was the smallest effect that would still make a good headline once you knew roughly what the pilot data looked like. Nothing in a multiple-comparisons correction checks whether the *one pre-registered metric* was picked before or after a quick, informal look at which metric seemed likely to move. This is the same gap AIE-204-M01 named at the level of gold sets and metrics — a completely honest number can describe a completely honest answer to a subtly self-serving question — and it is why the discipline in this module (power, correction, control groups) is necessary and not sufficient: it guarantees the arithmetic is trustworthy, and guarantees nothing at all about who chose what to measure, and why. **Tier 3 — sit with this.** You will, at some point, run an experiment that comes back with p = 0.09 — not significant, a real, honestly non-significant result — on a launch that has already been announced internally, that a team has already been staffed to ship, that someone above you is already expecting good news from by Friday. Every tool in this module is available to you at that moment, and every one of them can be pointed either way. You can peek at a later checkpoint because \"the experiment's still running anyway.\" You can report the best of the six metrics you happened to also track, and mention the others only if someone asks. You can notice that the worst-performing segment improved after the launch and write that up as a win, quietly leaving out that you selected on that segment being worst in the first place. None of these require you to compute anything incorrectly — every p-value, every interval, every reported metric can be completely honest arithmetic, run by someone who has read this entire module and agrees with every formula in it, deployed in service of an answer chosen in advance. The discipline in this module cannot stop you from doing this. It can only make sure that, in the quiet moment before you decide which metric to lead with, you already know precisely what you would be doing, and precisely how to check whether someone else has done it to you. Decide now, before the Friday deadline exists, what number you are not willing to produce.",
+        "observerReading": "Every technique this module teaches is aimed at a study that is *statistically* wrong — underpowered, uncorrected, confounded by selection. A study that clears every bar this module sets — properly powered in advance, one pre-registered metric, a real control group, a reported confidence interval instead of a bare point estimate — can still be answering a question chosen because it was likely to produce a flattering number. Nothing in a power calculation checks whether the *effect size you powered for* was chosen honestly, or chosen because it was the smallest effect that would still make a good headline once you knew roughly what the pilot data looked like. Nothing in a multiple-comparisons correction checks whether the *one pre-registered metric* was picked before or after a quick, informal look at which metric seemed likely to move. This is the same gap AIE-204-M01 named at the level of gold sets and metrics — a completely honest number can describe a completely honest answer to a subtly self-serving question — and it is why the discipline in this module (power, correction, control groups) is necessary and not sufficient: it guarantees the arithmetic is trustworthy, and guarantees nothing at all about who chose what to measure, and why. **Tier 3 — sit with this.** You will, at some point, run an experiment that comes back with p = 0.09 — not significant, a real, honestly non-significant result — on a launch that has already been announced internally, that a team has already been staffed to ship, that someone above you is already expecting good news from by Friday. Every tool in this module is available to you at that moment, and every one of them can be pointed either way. You can peek at a later checkpoint because \"the experiment's still running anyway.\" You can report the best of the six metrics you happened to also track, and mention the others only if someone asks. You can notice that the worst-performing segment improved after the launch and write that up as a win, quietly leaving out that you selected on that segment being worst in the first place. None of these require you to compute anything incorrectly — every p-value, every interval, every reported metric can be completely honest arithmetic, run by someone who has read this entire module and agrees with every formula in it, deployed in service of an answer chosen in advance. The discipline in this module cannot stop you from doing this. It can only make sure that, in the quiet moment before you decide which metric to lead with, you already know precisely what you would be doing, and precisely how to check whether someone else has done it to you. Decide now, before the Friday deadline exists, what number you are not willing to produce.",
+        "sitWithThis": "You will, at some point, run an experiment that comes back with p = 0.09 — not significant, a real, honestly non-significant result — on a launch that has already been announced internally, that a team has already been staffed to ship, that someone above you is already expecting good news from by Friday. Every tool in this module is available to you at that moment, and every one of them can be pointed either way. You can peek at a later checkpoint because \"the experiment's still running anyway.\" You can report the best of the six metrics you happened to also track, and mention the others only if someone asks. You can notice that the worst-performing segment improved after the launch and write that up as a win, quietly leaving out that you selected on that segment being worst in the first place. None of these require you to compute anything incorrectly — every p-value, every interval, every reported metric can be completely honest arithmetic, run by someone who has read this entire module and agrees with every formula in it, deployed in service of an answer chosen in advance. The discipline in this module cannot stop you from doing this. It can only make sure that, in the quiet moment before you decide which metric to lead with, you already know precisely what you would be doing, and precisely how to check whether someone else has done it to you. Decide now, before the Friday deadline exists, what number you are not willing to produce."
+      },
+      "adaptation": {
+        "pacing": {
+          "minHoursPerWeek": 8,
+          "targetHoursPerWeek": 10,
+          "maxHoursPerWeek": 12,
+          "targetWeeks": 2
+        },
+        "watchFor": [
+          "struggle-blocked",
+          "struggle-productive",
+          "pace-ahead",
+          "mastery-early",
+          "shallow-completion"
+        ],
+        "moves": {
+          "accelerate": "A learner who, in Lab 2's Predict step, correctly derives",
+          "reinforce": "Re-anchor in the module's own worked examples before adding new material; struggle here is expected to be productive, not blocked.",
+          "reroute": "do not derive the formula from first principles on a first pass. Have the learner\ntreat `n = 2·(z_{α/2}+z_β)²/d²` as a tool with four labeled slots, plug in the latency\nworked example's numbers by hand once, and confirm the arithmetic lands on 220.75 before asking\n\"why\" at all. Mechanical fluency with the plug-and-compute step, reached first, makes the \"why\"\nland faster on a second pass than trying to build the derivation from scratch under stall\npressure. do not re-explain the winner's curse abstractly a second time. Have the\nlearner run Lesson 4's exact 200,000-replication simulation themselves, with the true effect\nfixed at 5pp, and read off the two numbers directly: mean observed lift across"
+        }
+      }
+    },
+    {
+      "id": "AIE-204-M04",
+      "track": "B",
+      "title": "Evaluating generative systems: rubrics, pairwise, LLM-as-judge",
+      "summary": "The first module where the *thing being measured* is itself a generative",
+      "credentials": [
+        {
+          "name": "Evaluation and Experimentation — Evaluating generative systems: rubrics, pairwise, LLM-as-judge",
+          "provider": "The AI Engineer Curriculum (first-party)",
+          "kind": "course",
+          "freeToAudit": true,
+          "paidCostUSD": 0
+        }
+      ],
+      "prerequisites": [
+        "AIE-204-M03"
+      ],
+      "buildThread": "AIE-204: Evaluation as a full course, positioned BEFORE the LLM tier — the single largest gap in every competitor. The 2025-26 industry lesson (evals are the core discipline of AI engineering) made structural: nothing in later courses ships without an eval, because the learners already know how to build one.",
+      "pillars": {
+        "structure": "Map Evaluating generative systems: rubrics, pairwise, LLM-as-judge's structure before starting any lab.",
+        "readingReasoning": "Read each lesson's worked example and named misconceptions; predict what the mechanism does before reading the explanation.",
+        "testing": "Run every lab's Predict step on paper, before Build; verify against the provided tests, not against whether the program merely runs.",
+        "building": "Complete the module's labs (A — Build a rubric-based judge for ticket-resolution summaries; B — Detect position bias, then aggregate with Bradley-Terry; C — Validate the judge against real human-labeled disagreement) and the module assessment."
+      },
+      "tiers": {
+        "materialGround": "LLM-as-judge methodology is now used to gate production releases and to produce leaderboard rankings that drive real deployment decisions. Published research on these pipelines has documented specific, reproducible judge failure modes — position bias (preferring whichever response is shown first, independent of content), verbosity bias (preferring longer answers independent of quality), and self-preference bias (a model favoring outputs from its own model family). Lab M04-B's flip-rate exercise is a hand-built instance of the first of these, not a hypothetical.",
+        "observerReading": "A reported \"our judge agrees with human raters 85% of the time\" is, in practice, frequently the *only* number a vendor or paper publishes. The confusion matrix and the subgroup breakdown — exactly what Lab M04-C's whole payoff depends on computing — are almost never disclosed alongside the headline agreement figure. Without them, a reader cannot tell whether that remaining 15% of disagreement is spread randomly across the eval set or concentrated precisely on the highest-stakes failure category, which is the only version of that question that actually matters for a shipping decision.",
+        "sitWithThis": "Your team's judge validates at 0.84 weighted kappa against a human-reconciled gold set — \"almost perfect\" on the standard scale. The confusion matrix shows it is specifically, systematically blind to plausible-sounding fabrications: the exact failure mode the rubric was built to catch. Leadership wants to ship on the strength of the headline number, which is real and not fabricated. What is the smallest, most honest change you could make to the validation report that would put the actual decision in front of the people making it — and are you the one who insists it gets made, knowing the number that ships without it is not a lie, just an incomplete truth someone else will read as a complete one?"
+      },
+      "adaptation": {
+        "pacing": {
+          "minHoursPerWeek": 8,
+          "targetHoursPerWeek": 10,
+          "maxHoursPerWeek": 12,
+          "targetWeeks": 2
+        },
+        "watchFor": [
+          "struggle-blocked",
+          "struggle-productive",
+          "pace-ahead",
+          "mastery-early",
+          "shallow-completion"
+        ],
+        "moves": {
+          "accelerate": "Clean predictions plus correct reasoning on the first labs may skip straight to the module assessment.",
+          "reinforce": "Re-anchor in the module's own worked examples before adding new material; struggle here is expected to be productive, not blocked.",
+          "reroute": "force a literal lookup against the anchor\n  table for each criterion before allowing a number to be written down — no scoring \"by feel\" until\n  the anchors have been used at least once, deliberately, slowly. confirm the malformed text is the intended input\n  before debugging further, then implement the repair-prompt path — don't hand over the regex, walk\n  them to \"what would you literally ask the model to do differently on a second try?\""
+        }
+      }
+    },
+    {
+      "id": "AIE-204-M05",
+      "track": "B",
+      "title": "Contamination, Goodharting, and benchmark forensics",
+      "summary": "The module where the learner stops trusting a number because it is",
+      "credentials": [
+        {
+          "name": "Evaluation and Experimentation — Contamination, Goodharting, and benchmark forensics",
+          "provider": "The AI Engineer Curriculum (first-party)",
+          "kind": "course",
+          "freeToAudit": true,
+          "paidCostUSD": 0
+        }
+      ],
+      "prerequisites": [
+        "AIE-204-M04"
+      ],
+      "buildThread": "AIE-204: Evaluation as a full course, positioned BEFORE the LLM tier — the single largest gap in every competitor. The 2025-26 industry lesson (evals are the core discipline of AI engineering) made structural: nothing in later courses ships without an eval, because the learners already know how to build one.",
+      "pillars": {
+        "structure": "Map the module before building: Exact-duplicate contamination.; Near-duplicate / paraphrase contamination..",
+        "readingReasoning": "Read each lesson's worked example and named misconceptions; predict what the mechanism does before reading the explanation.",
+        "testing": "Run every lab's Predict step on paper, before Build; verify against the provided tests, not against whether the program merely runs.",
+        "building": "Complete the module's labs (A — Detect contamination in a provided eval set; B — Goodhart it yourself: hill-climb a metric and watch the paired proxy diverge) and the module assessment."
+      },
+      "tiers": {
+        "materialGround": "Benchmark contamination is documented, not speculative: eval sets built from public web text routinely turn out to overlap with the pretraining corpora of the systems later scored against them, a finding that has recurred across enough independently reported cases to be treated as an expected property of any benchmark assembled from web-scale data, not a rare accident. Goodhart's Law predates modern machine learning by decades, but it is now a *named, expected* failure mode specifically because so much of a modern system's behavior is shaped by direct optimization against a chosen metric — a leaderboard score, a reward model, an automated tuning objective — with a search process, not a person, doing the optimizing.",
+        "observerReading": "A published leaderboard entry routinely discloses exactly one number: the final score. It essentially never discloses the per-item contamination audit (Lesson 2), the selection or tuning trajectory that produced the checkpoint that shipped (Lesson 3), or the per-slice breakdown that would let a reader tell \"genuinely strong on novel material\" apart from \"strong on the blend this particular benchmark happens to contain.\" Every one of those three is fully computable by whoever trained the system. None of them is the leaderboard's job to require, so almost none of them get published.",
+        "sitWithThis": "You have, right now, the actual technique — canonicalize, shingle, compute containment; sweep a metric and watch its paired proxy — to find the gap between a measured task and a claimed capability, in your own systems, before anyone outside your team asks the question. The number that ships without that check is not a lie; it is exactly as true as its authors believe it to be, which is a different thing from being complete. You will, at some point, be the person in the room who ran this check and found the gap, while a deadline and a genuinely good-faith colleague both want to ship the headline number as-is. What is the smallest, most honest disclosure you would insist travels with that number — and have you decided that before the room, the deadline, and the colleague are real?"
+      },
+      "adaptation": {
+        "pacing": {
+          "minHoursPerWeek": 8,
+          "targetHoursPerWeek": 10,
+          "maxHoursPerWeek": 12,
+          "targetWeeks": 2
+        },
+        "watchFor": [
+          "struggle-blocked",
+          "struggle-productive",
+          "pace-ahead",
+          "mastery-early",
+          "shallow-completion"
+        ],
+        "moves": {
+          "accelerate": "Clean predictions plus correct reasoning on the first labs may skip straight to the module assessment.",
+          "reinforce": "Re-anchor in the module's own worked examples before adding new material; struggle here is expected to be productive, not blocked.",
+          "reroute": "ask directly, \"does your detector currently have any way to\n  catch a reworded copy?\" — don't answer it for them; let them re-read `exact_match`'s docstring\n  and notice it can't, by construction. point back\n  at what the number is actually a claim about — \"this document was scraped from the eval set\" vs.\n  \"these two texts independently use a common phrase\" — and ask what more evidence (not more\n  decimal places) would distinguish the two."
+        }
+      }
+    },
+    {
+      "id": "AIE-204-M06",
+      "track": "B",
+      "title": "Error analysis as a practice: reading transcripts, taxonomy building",
+      "summary": "The module where \"read the failures yourself\" stops being",
+      "credentials": [
+        {
+          "name": "Evaluation and Experimentation — Error analysis as a practice: reading transcripts, taxonomy building",
+          "provider": "The AI Engineer Curriculum (first-party)",
+          "kind": "course",
+          "freeToAudit": true,
+          "paidCostUSD": 0
+        }
+      ],
+      "prerequisites": [
+        "AIE-204-M05"
+      ],
+      "buildThread": "AIE-204: Evaluation as a full course, positioned BEFORE the LLM tier — the single largest gap in every competitor. The 2025-26 industry lesson (evals are the core discipline of AI engineering) made structural: nothing in later courses ships without an eval, because the learners already know how to build one.",
+      "pillars": {
+        "structure": "Map Error analysis as a practice: reading transcripts, taxonomy building's structure before starting any lab.",
+        "readingReasoning": "Read each lesson's worked example and named misconceptions; predict what the mechanism does before reading the explanation.",
+        "testing": "Run every lab's Predict step on paper, before Build; verify against the provided tests, not against whether the program merely runs.",
+        "building": "Complete the module's labs (A — Open code the batch, then build a first taxonomy (V1); B — Revise the taxonomy until a second reader actually agrees with it; C — Quantify which categories actually drive the metric shortfall) and the module assessment."
+      },
+      "tiers": {
+        "materialGround": "Structured error analysis — reading a real batch of failures, coding them, and reporting a category breakdown rather than a single rate — is documented, established practice in incident postmortems and in the (much newer, much less standardized) discipline of LLM system evaluation. A taxonomy's value is inseparable from whether a second person can apply it the same way; this module's Lab M06-A/B pair is a hand-built instance of the exact reliability check that distinguishes a real taxonomy from a plausible-sounding list of category names.",
+        "observerReading": "A reported \"hallucination rate: 4%\" or \"error rate: 8%\" is, in practice, frequently the *only* number a team publishes about its own system's failures. The category breakdown underneath it — which specific failures make up that 4%, and whether a second reader would sort them the same way — is almost never disclosed alongside the headline rate. Without it, a reader cannot tell a taxonomy that was actually checked for reliability from one that was invented by a single person under deadline pressure and never tested against anyone else's reading of the same data — the number looks identical either way.",
+        "sitWithThis": "Your six-category taxonomy is real: it clears κ = 0.90 against an independent second reader, and its shortfall analysis shows `wrong_entity_or_scope` — a category that actively misstates who or how many customers were affected — as the largest driver of the metric's gap from target. Leadership wants the taxonomy compressed to three categories for a slide, and the natural compression collapses `fabricated_consequence` (the rarest category, and the most severe per occurrence) into the same bucket as `buried_lede` (the most common, least severe) under one label: \"quality issues.\" The resulting number will look smaller and vaguer than either category told on its own. What is the smallest, most honest version of that slide you could actually defend — and are you the one who insists it survives contact with the room asking for a smaller number, knowing the three-category version isn't a lie, just a compression that happens to make the worst failure the least visible one?"
+      },
+      "adaptation": {
+        "pacing": {
+          "minHoursPerWeek": 8,
+          "targetHoursPerWeek": 10,
+          "maxHoursPerWeek": 12,
+          "targetWeeks": 2
+        },
+        "watchFor": [
+          "struggle-blocked",
+          "struggle-productive",
+          "pace-ahead",
+          "mastery-early",
+          "shallow-completion"
+        ],
+        "moves": {
+          "accelerate": "They've internalized Lesson 4, not just its vocabulary. They may move",
+          "reinforce": "Re-anchor in the module's own worked examples before adding new material; struggle here is expected to be productive, not blocked.",
+          "reroute": "don't correct it directly — hand them item\n  BL03 (the buried-outage summary) and ask them which of M04's five categories it belongs in. There\n  isn't a defensible answer, and finding that out themselves is the lesson landing. ask, for any two categories that look similar, \"would the"
+        }
+      }
+    },
+    {
+      "id": "AIE-204-M07",
+      "track": "B",
+      "title": "The eval report: writing for a skeptic",
+      "summary": "this is the module where the course stops descending. M01 argued evals",
+      "credentials": [
+        {
+          "name": "Evaluation and Experimentation — The eval report: writing for a skeptic",
+          "provider": "The AI Engineer Curriculum (first-party)",
+          "kind": "course",
+          "freeToAudit": true,
+          "paidCostUSD": 0
+        }
+      ],
+      "prerequisites": [
+        "AIE-204-M06"
+      ],
+      "buildThread": "AIE-204: Evaluation as a full course, positioned BEFORE the LLM tier — the single largest gap in every competitor. The 2025-26 industry lesson (evals are the core discipline of AI engineering) made structural: nothing in later courses ships without an eval, because the learners already know how to build one.",
+      "pillars": {
+        "structure": "Map the module before building: Claim; Method; Evidence, at both levels; Stated confidence; Limitations; A falsification criterion.",
+        "readingReasoning": "Read each lesson's worked example and named misconceptions; predict what the mechanism does before reading the explanation.",
+        "testing": "Run every lab's Predict step on paper, before Build; verify against the provided tests, not against whether the program merely runs.",
+        "building": "Complete the module's labs (A — Build the skeptic's audit tool; B — Write the eval report, then pass your own audit) and the module assessment."
+      },
+      "tiers": {
+        "materialGround": "The eval report is not a hypothetical genre: model cards, incident postmortems, and internal ship/no-ship memos are the real documents this module's format is built from, and they are read by people with real, often adversarial, incentives — a competitor's analyst, a regulator, a board member defending a budget line. A report's actual audience is frequently someone the author never meets and cannot argue with in real time, which is exactly why the document has to answer the skeptic's questions before they're asked, not after.",
+        "observerReading": "Published model cards and benchmark write-ups overwhelmingly report the aggregate favorable number and far more rarely disclose the specific subgroup breakdown, the confidence interval's width, or a real falsification criterion — the exact three elements this module's audit tool checks for, and the exact three elements this module's rubric treats as non-optional. The gap between \"we reported evaluation results\" and \"we wrote a report a skeptic would sign\" is invisible from the outside: both look like a document with numbers in it, and only one of them would survive someone trying to find the hole.",
+        "sitWithThis": "You have written the full report: judge validation with its named blind spot, taxonomy shortfall with its top contributor, a prompt comparison with a confidence interval wide enough to admit the true effect might barely clear the pre-registered floor, and a falsification clause that could actually fire. Leadership reads it and asks you to cut the Limitations section and the falsification clause before it goes to the board — \"the numbers speak for themselves, and the caveats just create doubt where there doesn't need to be any.\" Nothing they're asking you to remove is false; the shortened version would still be a true document, just a less complete one, and the board would have no way to tell the difference between a shortened true report and a shortened one that got that way by omitting something the author knew and chose not to say. This is the moment this course has been building toward since M01: not a test with a right answer graded by a rubric, but the actual room, where the discipline you've spent seven modules earning either survives contact with an incentive to drop it, or it doesn't. What is the smallest cut you would agree to, what is the one you would not, and who finds out the difference between those two answers only after you've already made the call?"
+      },
+      "adaptation": {
+        "pacing": {
+          "minHoursPerWeek": 8,
+          "targetHoursPerWeek": 10,
+          "maxHoursPerWeek": 12,
+          "targetWeeks": 1
+        },
+        "watchFor": [
+          "struggle-blocked",
+          "struggle-productive",
+          "pace-ahead",
+          "mastery-early",
+          "shallow-completion"
+        ],
+        "moves": {
+          "accelerate": "Clean predictions plus correct reasoning on the first labs may skip straight to the module assessment.",
+          "reinforce": "Re-anchor in the module's own worked examples before adding new material; struggle here is expected to be productive, not blocked.",
+          "reroute": "don't accept the green test run as the finish line — ask them to read their own draft as the\n  skeptic from Lesson 1 would, sentence by sentence, and find the one place a follow-up question\n  (\"addressed how, specifically?\") has no real answer. `test_eval_report_is_substantive_not_a_\n  keyword_stuffed_stub`'s length floor exists to force this, but length alone doesn't guarantee\n  substance — the reroute is a real adversarial read, not a longer document. ask for the specific number or finding the sentence\n  is trying to avoid naming — if there isn't one, the section isn't doing its job yet."
+        }
+      }
     }
   ],
   "spines": [
@@ -3183,7 +3540,7 @@ export const aiEngineerCurriculumCourse: Course = {
   ],
   "credentialModel": {
     "sealedReading": "One three-tier observer reading (material ground / what the field suppresses / sit-with-this) sealed per module, plus a course-close synthesis per completed course.",
-    "corpusSize": 70,
+    "corpusSize": 78,
     "demonstrates": "Structural understanding at a depth no exam measures — this program's version of the alternative credentialing model: the sealed corpus, not the certificate, is what a learner has actually earned."
   },
   "costModel": {

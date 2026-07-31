@@ -23,8 +23,8 @@ The repo holds three things, at three different stages of completeness:
    (`courses/ai-engineer-stack/`) and an executable markdown curriculum run live by an agent
    (`courses/ai-coding-101/`).
 3. **A first-party curriculum** (`curriculum/ai-engineer/`) — a 15-course, 100-module
-   program the project authors and teaches itself, with 6 of those 15 courses (the whole
-   foundation tier) fully
+   program the project authors and teaches itself, with 10 of those 15 courses (the whole
+   foundation tier plus the whole core tier) fully
    authored and quality-gated so far (see [Curriculum authoring status](#curriculum-authoring-status)).
 
 ## The courses and curricula
@@ -33,7 +33,7 @@ The repo holds three things, at three different stages of completeness:
 |---|---|---|---|
 | AI Coding 101 | [`courses/ai-coding-101/`](courses/ai-coding-101/) | Executable markdown curriculum, run by an agent | v0.2 spec complete; unvalidated against real learners |
 | AI Engineer Stack | [`courses/ai-engineer-stack/`](courses/ai-engineer-stack/) | Typed course data → JSON | 21 units, 4 phases, 5 tracks, 26 external credentials — type-checks and validates clean |
-| AI Engineer Curriculum | [`curriculum/ai-engineer/`](curriculum/ai-engineer/) | Typed manifest + first-party markdown material, generated into a runnable `Course` | 15 courses / 100 module packets defined and validated; the foundation tier — 6 courses, 39 packets — fully authored, quality-gated, and enrollable; 9 courses still scaffold-only |
+| AI Engineer Curriculum | [`curriculum/ai-engineer/`](curriculum/ai-engineer/) | Typed manifest + first-party markdown material, generated into a runnable `Course` | 15 courses / 100 module packets defined and validated; the foundation and core tiers — 10 courses, 68 packets — fully authored, quality-gated, and enrollable; 5 specialization/capstone courses still scaffold-only |
 
 **AI Coding 101** is the on-ramp. Its thesis: *the AI can write the code; it cannot hold the
 responsibility.* It teaches reading, verification, and ownership of AI-written software before
@@ -127,7 +127,7 @@ descent arc or ethics thread is a placeholder). That validation passes today. Wh
 *not* check is whether a module's teaching content has actually been written — that's a
 separate, manual process:
 
-- **Fully authored and quality-gated — the entire foundation tier, 39/39 packets**
+- **Fully authored and quality-gated — the entire foundation and core tiers, 68/68 packets**
   (lesson notes, labs with starter/solution/tests, assessment + rubric, Elle pacing notes,
   three-tier reading — one file per module under `curriculum/ai-engineer/materials/<CODE>/`,
   each carrying its own in-file gate report):
@@ -137,13 +137,17 @@ separate, manual process:
   - `AIE-103` — Mathematics for AI, Taught as Instruments (7/7 packets)
   - `AIE-104` — The Machine at Scale (5/5 packets)
   - `AIE-110` — Data Structures, Algorithms, and Scale (6/6 packets)
-  These 39 packets are also **generated into a real, enrollable `Course`**
+  - `AIE-201` — Machine Learning from First Principles (8/8 packets)
+  - `AIE-202` — Deep Learning: Autograd to Transformers (8/8 packets)
+  - `AIE-203` — Data Engineering for AI (6/6 packets)
+  - `AIE-204` — Evaluation and Experimentation (7/7 packets)
+  These 68 packets are also **generated into a real, enrollable `Course`**
   (`courses/ai-engineer-curriculum/`, `dist/courses/ai-engineer-curriculum.json`) — see
   [The runtime](#the-runtime) above.
 - **Scaffold only** (a generated syllabus with course metadata, outcomes, and the assessment
-  table, but no module-level lesson/lab/assessment content yet): the remaining 9 courses —
-  `AIE-201`, `AIE-202`, `AIE-203`, `AIE-204`, `AIE-301`, `AIE-302`, `AIE-303`, `AIE-304`,
-  `AIE-401`.
+  table, but no module-level lesson/lab/assessment content yet): the remaining 5
+  specialization/capstone courses —
+  `AIE-301`, `AIE-302`, `AIE-303`, `AIE-304`, `AIE-401`.
 
 Every packet is checked against four quality gates before it counts as done — technical
 (a second agent runs every lab from the materials alone), eval-discipline (can the assessment
