@@ -112,6 +112,23 @@ npm run elle -- log stewart --unit AIE-100-M01 --minutes 45 \
 npm run elle -- brief stewart   # contract move quotes THAT module's own pacing notes, verbatim
 ```
 
+### The Worker
+
+`src/worker.ts` is a minimal Cloudflare Worker (deployed as `customcoursebuilder`) that serves
+the same course data as a read-only HTTP API — it imports the checked-in TS course sources
+directly (the same ones `src/build.ts` compiles), so it never depends on the gitignored
+`dist/courses/*.json` build output being present at deploy time.
+
+```
+GET /courses         -> [{ id, title, version, durationMonths, unitCount }, ...]
+GET /courses/:id      -> the full Course JSON (e.g. /courses/ai-engineer-curriculum)
+```
+
+```bash
+npm run worker:dev    # wrangler dev, local
+npm run deploy        # wrangler deploy
+```
+
 `elle brief` is the bridge to Elle's voice: it packages the engine's decisions (contract
 moves with verbatim instructions and evidence), ethics-spine obligations (owed weekly
 readings open the session), phase-boundary flags, and corpus integrity into one markdown
