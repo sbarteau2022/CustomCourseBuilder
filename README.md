@@ -43,7 +43,7 @@ fresh exercises, grade against rubrics, persist learner state. Start at
 [`courses/ai-coding-101/README.md`](courses/ai-coding-101/README.md).
 
 **The AI Engineer Stack** maps a 12-month, 5-track program (coding, AI/ML, data engineering,
-business/founder, law/IP) over roughly 22 external credentials for $0–$500 total, defined as
+business/founder, law/IP) over 26 external credentials for $0–$500 total, defined as
 typed data in [`course.ts`](courses/ai-engineer-stack/course.ts) and compiled to
 `dist/courses/ai-engineer-stack.json`. Every unit carries:
 
