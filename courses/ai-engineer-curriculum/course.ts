@@ -10,7 +10,7 @@ export const aiEngineerCurriculumCourse: Course = {
   "title": "The AI Engineer Curriculum",
   "version": "1.0.0",
   "mission": "A complete, first-party path from zero to production AI engineer, built on a philosophy rather than inherited from how these subjects have been taught. In every course the learner descends below the abstraction to the substrate where the thing actually lives, builds it there by hand, and re-ascends to command the high-level tool as an instrument rather than invoke it as a mystery. Verification is taught before generation; evaluation runs as a spine, not a module; ethics carries structural teeth; the durable core is separated from the swappable tool surface so the material outlasts the tools. Every module is assessed by judgment demonstrated, never by content retained — and the whole program is run adaptively, and witnessed, by Elle.",
-  "durationMonths": 26,
+  "durationMonths": 29,
   "tracks": [
     {
       "id": "A",
@@ -23,6 +23,12 @@ export const aiEngineerCurriculumCourse: Course = {
       "name": "Core",
       "focus": "Machine Learning from First Principles · Deep Learning: Autograd to Transformers · Data Engineering for AI · Evaluation and Experimentation",
       "color": "#0F6E56"
+    },
+    {
+      "id": "C",
+      "name": "Specialization",
+      "focus": "Large Language Models: Pretraining to Post-Training · Building with Foundation Models: Context, RAG, and Agents · Production AI: Serving, Inference, and Operations · AI Security, Safety, and Governance",
+      "color": "#854F0B"
     }
   ],
   "phases": [
@@ -31,7 +37,7 @@ export const aiEngineerCurriculumCourse: Course = {
       "title": "Foundations — AIE-100, AIE-101, AIE-102, AIE-104, AIE-103, AIE-110",
       "months": [
         1,
-        13
+        10
       ],
       "theme": "Foundations tier of the AI Engineer Curriculum: Working With AI Without Outsourcing Judgment; Python and Software Craft; Down to the Metal: C, and the Machine Under Python; The Machine at Scale: Linux, Networks, Concurrency, Containers; Mathematics for AI, Taught as Instruments; Data Structures, Algorithms, and Scale.",
       "unitIds": [
@@ -80,8 +86,8 @@ export const aiEngineerCurriculumCourse: Course = {
       "id": "p-core",
       "title": "Core — AIE-201, AIE-202, AIE-203, AIE-204",
       "months": [
-        14,
-        26
+        11,
+        19
       ],
       "theme": "Core tier of the AI Engineer Curriculum: Machine Learning from First Principles; Deep Learning: Autograd to Transformers; Data Engineering for AI; Evaluation and Experimentation.",
       "unitIds": [
@@ -114,6 +120,25 @@ export const aiEngineerCurriculumCourse: Course = {
         "AIE-204-M05",
         "AIE-204-M06",
         "AIE-204-M07"
+      ]
+    },
+    {
+      "id": "p-specialization",
+      "title": "Specialization — AIE-301",
+      "months": [
+        20,
+        29
+      ],
+      "theme": "Specialization tier of the AI Engineer Curriculum: Large Language Models: Pretraining to Post-Training.",
+      "unitIds": [
+        "AIE-301-M01",
+        "AIE-301-M02",
+        "AIE-301-M03",
+        "AIE-301-M04",
+        "AIE-301-M05",
+        "AIE-301-M06",
+        "AIE-301-M07",
+        "AIE-301-M08"
       ]
     }
   ],
@@ -3516,6 +3541,409 @@ export const aiEngineerCurriculumCourse: Course = {
           "reroute": "don't accept the green test run as the finish line — ask them to read their own draft as the\n  skeptic from Lesson 1 would, sentence by sentence, and find the one place a follow-up question\n  (\"addressed how, specifically?\") has no real answer. `test_eval_report_is_substantive_not_a_\n  keyword_stuffed_stub`'s length floor exists to force this, but length alone doesn't guarantee\n  substance — the reroute is a real adversarial read, not a longer document. ask for the specific number or finding the sentence\n  is trying to avoid naming — if there isn't one, the section isn't doing its job yet."
         }
       }
+    },
+    {
+      "id": "AIE-301-M01",
+      "track": "C",
+      "title": "Tokenization: BPE from scratch and its politics",
+      "summary": "The entry module of AIE-301, and the first place the course descends below \"call a library tokenizer.\" The learner has a hand-built, provenance-documented corpus from AIE-203 and a hand-built, gradchecked transformer from AIE-202. Neither means anything yet, because neither has touched a single byte of text. This module is where text becomes integers — by an algorithm the learner runs by hand on paper before they run it in Python — and where the module's second half insists that the choice of *which* bytes compress well is not a neutral engineering fact.",
+      "credentials": [
+        {
+          "name": "Large Language Models: Pretraining to Post-Training — Tokenization: BPE from scratch and its politics",
+          "provider": "The AI Engineer Curriculum (first-party)",
+          "kind": "course",
+          "freeToAudit": true,
+          "paidCostUSD": 0
+        }
+      ],
+      "prerequisites": [
+        "AIE-202-M08",
+        "AIE-203-M06",
+        "AIE-204-M07"
+      ],
+      "buildThread": "AIE-301: CS336's from-scratch depth without CS336's assumed background — the ramp is our own foundation tier. Post-training gets equal weight with pretraining (the industry reality no MOOC reflects), and the corpus comes from AIE-203, so the learner has provenance on every token their model saw.",
+      "pillars": {
+        "structure": "Map the module before building: Bytes, not characters — why BPE starts below the abstraction you already have.; The BPE algorithm, hand-traced on four words.; Scaling up — pre-tokenization and the vocabulary-size trade-off.; Failure modes and the politics — whitespace, scripts, digits, and whose text pays..",
+        "readingReasoning": "Read each lesson's worked example and named misconceptions; predict what the mechanism does before reading the explanation.",
+        "testing": "Run every lab's Predict step on paper, before Build; verify against the provided tests, not against whether the program merely runs.",
+        "building": "Complete the module's labs (A — Hand-trace, then implement, `train_bpe` on a tiny corpus *(core)*; B — A byte-level tokenizer on your own corpus: round-trip and compression *(core)*; C — The politics lab: measuring token inequity across scripts *(accelerate-eligible)*) and the module assessment."
+      },
+      "tiers": {
+        "materialGround": "You measured it yourself in Lab M01-C: an English-trained BPE tokenizer applied zero compression to Chinese, Japanese, Russian, Arabic, and Hindi text — every byte of those scripts passed through as its own token, while English compressed nearly 2×. This is not a disputed finding; it is arithmetic you ran, and it is corroborated at real deployment scale by published measurements on commercial tokenizers (Petrov et al., 2023; Ahia et al., 2023) that this module asked you to go verify rather than take on faith.",
+        "observerReading": "\"Tokenization is neutral infrastructure, upstream of where bias actually lives\" is the load-bearing sentence that keeps this cost invisible — repeated by people who benefit from the invisibility and, just as often, believed sincerely by people who never had reason to measure it, because their own language has never paid it. You now have the counter-measurement in your own repository, with your own numbers, and the fix-is-targeted test (Lab M01-C) showing that even a good-faith \"add more multilingual data\" patch helps only the language it targets — leaving every other underrepresented script exactly where it started, still invisible to whoever didn't think to test for it next.",
+        "sitWithThis": "Every training corpus you will ever build — including the one you built yourself in AIE-203 — has a script and language composition that was a decision, whether or not anyone wrote it down as one. You now know exactly how to measure who that decision serves and who it quietly taxes. The question this module leaves you with is not \"will you measure it\" — you now know how, cheaply, in an afternoon. It's whether you will, on the corpora you build after this course stops grading you for it, when no lab is requiring the memo and no test is asserting the gap is real."
+      },
+      "adaptation": {
+        "pacing": {
+          "minHoursPerWeek": 10,
+          "targetHoursPerWeek": 12,
+          "maxHoursPerWeek": 14,
+          "targetWeeks": 1
+        },
+        "watchFor": [
+          "struggle-blocked",
+          "struggle-productive",
+          "pace-ahead",
+          "mastery-early",
+          "shallow-completion"
+        ],
+        "moves": {
+          "accelerate": "Such a learner can treat M01-C as fully accelerate-eligible: submit the sealed predictions and the provenance memo, and skip re-deriving `fix_and_remeasure` from scratch (use the reference solution directly), spending the saved time on a **second** script/language pair of their own choosing beyond the seven given, with its own predicted-then-measured row added to the table.",
+          "reinforce": "Re-anchor in the module's own worked examples before adding new material; struggle here is expected to be productive, not blocked.",
+          "reroute": "have them re-run Lesson 2's trace with the drop back to Lesson 1's `\"café\"` example and have them predict, in writing, `len()` of five more strings (mixed scripts) before touching code again."
+        }
+      }
+    },
+    {
+      "id": "AIE-301-M02",
+      "track": "C",
+      "title": "Pretraining a small LM on your own corpus",
+      "summary": "The module where two other courses' entire output finally gets used for what it was built for. AIE-301-M01 gave you a trained `ByteBPETokenizer` and a corpus of integers instead of a corpus of strings. AIE-202-M05 gave you a hand-built, gradchecked transformer block and AIE-202-M07 gave you the instruments to diagnose one when it misbehaves. Nothing in this module is a new idea — it is the first time all of it has to work *together*, unsupervised, for an hour of wall-clock time, without you watching every step.",
+      "credentials": [
+        {
+          "name": "Large Language Models: Pretraining to Post-Training — Pretraining a small LM on your own corpus",
+          "provider": "The AI Engineer Curriculum (first-party)",
+          "kind": "course",
+          "freeToAudit": true,
+          "paidCostUSD": 0
+        }
+      ],
+      "prerequisites": [
+        "AIE-301-M01"
+      ],
+      "buildThread": "AIE-301: CS336's from-scratch depth without CS336's assumed background — the ramp is our own foundation tier. Post-training gets equal weight with pretraining (the industry reality no MOOC reflects), and the corpus comes from AIE-203, so the learner has provenance on every token their model saw.",
+      "pillars": {
+        "structure": "Map Pretraining a small LM on your own corpus's structure before starting any lab.",
+        "readingReasoning": "Read each lesson's worked example and named misconceptions; predict what the mechanism does before reading the explanation.",
+        "testing": "Run every lab's Predict step on paper, before Build; verify against the provided tests, not against whether the program merely runs.",
+        "building": "Complete the module's labs (A — Pack the manifest into training blocks; B — The training loop's moving parts: schedule, clipping, checkpoint fidelity; C — Predict three checkpoints, train for real, reconcile) and the module assessment."
+      },
+      "tiers": {
+        "materialGround": "Lesson 4's own verification is the fact, not an assertion: this module's 867,072-parameter model, trained on 1,400 documents, produces text that is a checkable recombination of that corpus's own fragments and grammar — never anything genuinely outside it. There is no scale at which this stops being mechanically true; scale changes how *legible* the recombination is to a human reading the output, not whether it is happening.",
+        "observerReading": "The industry narrative that large models \"generalize past their training data\" is told almost entirely by people who cannot enumerate what is *in* their training data the way this module's own learner can enumerate theirs — every one of the 1,400 documents here has a `doc_id`, a `ProvenanceRecord`, and a verifiable presence or absence in any given output. At frontier scale, that same auditability does not exist for almost anyone claiming the generalization story, including many of the people building the models. The field's confidence that \"real understanding\" is happening is least testable exactly where the stakes of being wrong about it are highest — and this module's own toy scale is the one place in the entire curriculum where a learner can actually run the check (Lesson 4's corpus search) rather than take the claim on faith.",
+        "sitWithThis": "You just watched your own model's voice become a measurable, checkable mirror of 1,400 documents you personally wrote the template grammar for, tokenized, packed, and split. The next time you do this — at work, at a company, on a corpus a thousand times this size, assembled by people you'll never meet, filtered by rules you didn't write, containing text you will never personally read start to finish — whose voice will the model be a mirror of, and what, concretely, would you have to do to find out? This module doesn't answer that. It just made sure you know, from having done it once at a scale where checking was actually possible, that the question has a real, checkable answer somewhere — even when nobody hands you the tools to find it."
+      },
+      "adaptation": {
+        "pacing": {
+          "minHoursPerWeek": 10,
+          "targetHoursPerWeek": 12,
+          "maxHoursPerWeek": 14,
+          "targetWeeks": 2
+        },
+        "watchFor": [
+          "struggle-blocked",
+          "struggle-productive",
+          "pace-ahead",
+          "mastery-early",
+          "shallow-completion"
+        ],
+        "moves": {
+          "accelerate": "(not just correct final numbers) can skip running Lab M02-C's full 65-second training locally and instead grade this packet's own reference log and sample-generation tables directly against their own Predict artifact, moving faster to the Assessment. a learner who correctly predicts, unprompted, that a val/train gap *far tighter* than Lesson 3's own reference figure (the Assessment's actual scenario) would be a data-leak signature *before* being told to look for one — during Lesson 3's own gap-reading discussion, as a \"but what if the gap were suspiciously small instead of suspiciously large\" question — has functionally already passed the Assessment's Diagnose step and can move directly to Locate/Fix on the mystery module.",
+          "reinforce": "Re-anchor in the module's own worked examples before adding new material; struggle here is expected to be productive, not blocked.",
+          "reroute": "immediately point back to this module's own design note and Lab M02-C's Verify step (\"order of magnitude and trend, never exact digits\") — a facilitator should intervene fast here, before a learner spirals into \"my code must be broken\" over a `0.24` vs. `0.26` discrepancy that is not evidence of anything. before touching the model, point back to AIE-202-M07's grad-norm harness — instrument first, guess second, exactly the discipline that module built."
+        }
+      }
+    },
+    {
+      "id": "AIE-301-M03",
+      "track": "C",
+      "title": "Scaling: what compute, data, and parameters buy",
+      "summary": "The third module of AIE-301, directly downstream of M02 (pretraining a small LM on your own AIE-203 corpus). M02 answered \"can I train a language model end to end.\" This module answers a harder question the field usually just shows you a chart for: **if I had more of X — parameters, data, compute — how much better would my model get, and how do I know, rather than assume?** Nothing here is new machinery; every experiment in this module reuses M02's training loop, M02's tokenizer, and a corpus in the same family as the one you built in AIE-203. What's new is the discipline of *varying one axis at a time, measuring what happens, fitting a curve to it, and then checking whether that curve was safe to extrapolate* — which is exactly the AIE-204-M03 statistics discipline (power, honest confidence intervals, the danger of a fit that looks great inside its own data and fails outside it), aimed for the first time at a claim about a model instead of an experiment.",
+      "credentials": [
+        {
+          "name": "Large Language Models: Pretraining to Post-Training — Scaling: what compute, data, and parameters buy",
+          "provider": "The AI Engineer Curriculum (first-party)",
+          "kind": "course",
+          "freeToAudit": true,
+          "paidCostUSD": 0
+        }
+      ],
+      "prerequisites": [
+        "AIE-301-M02"
+      ],
+      "buildThread": "AIE-301: CS336's from-scratch depth without CS336's assumed background — the ramp is our own foundation tier. Post-training gets equal weight with pretraining (the industry reality no MOOC reflects), and the corpus comes from AIE-203, so the learner has provenance on every token their model saw.",
+      "pillars": {
+        "structure": "Map the module before building: What more parameters buy — and where \"bigger\" stops being free.; What more data buys — the overfitting gap, measured, not asserted.; What more compute buys — and why \"compute-optimal\" is an allocation problem, not a parameter count.; Fitting a scaling law honestly — and watching your own fit fail outside its range..",
+        "readingReasoning": "Read each lesson's worked example and named misconceptions; predict what the mechanism does before reading the explanation.",
+        "testing": "Run every lab's Predict step on paper, before Build; verify against the provided tests, not against whether the program merely runs.",
+        "building": "Complete the module's labs (A — Parameters: fit a power law, then watch it fail on a held-out width *(core)*; B — Data: measure the overfitting gap on your own AIE-203 corpus slice *(core)*; C — Compute-optimal allocation and honest extrapolation *(certification artifact)*) and the module assessment."
+      },
+      "tiers": {
+        "materialGround": "You fit a power law on six measured points (`n_embd = 8` to `64`), got a log-log R² of 0.98, and used it to predict a seventh point you had not yet trained. The prediction missed by 196% — not because the fit was computed wrong, but because the point sat outside the regime (a stable learning rate) the fit was built inside. This is not a disputed finding; it is arithmetic you ran, on a model you trained, with a mechanism (Lesson 1's fixed-learning-rate instability) you can point to in your own logged runs.",
+        "observerReading": "\"Scaling laws\" are reported, overwhelmingly, as if they were laws of nature — a curve you can trust past its own data because it fit so well inside it. The load-bearing move that makes this feel safe is leaving the fitted range unstated, or stating it once in a methods section and then dropping it from every headline claim built on top of it (\"scale is all you need,\" stated with no scale attached). You now have, in your own repository, a measured demonstration of exactly how that move fails — not hypothetically, on a real fit, with a real number that was wrong by a factor of three. The field's own history contains the large-scale version of this: Kaplan et al. (2020)'s original scaling-law guidance shaped how an entire generation of large models were sized and trained, and Hoffmann et al. (2022) found, at real cost — real GPU-hours, real training runs — that a meaningful fraction of that guidance had been extrapolated past a regime it did not hold in, because a confound (learning-rate and batch-size scheduling across scale) had not been fully controlled for. You reproduced the *shape* of that failure, at a scale you could check in an afternoon; the field's version took years and enormous compute to catch and correct.",
+        "sitWithThis": "Every scaling claim you will ever make about a model you're building — \"this will get better with more data,\" \"we should just make it bigger,\" \"scale will fix this failure mode\" — is, structurally, the same move you just watched fail on a toy transformer: a curve fit inside a regime, extended past it, on the hope that whatever made the curve smooth inside will keep being true outside. Sometimes it will be. You now know, from your own measured miss, that \"the R² was excellent\" is not evidence either way. The question this module leaves you with is not whether scale will keep helping — you cannot know that in general, and neither can anyone who tells you otherwise with total confidence. It's whether, the next time you're the one making a scaling claim that other people's compute budgets, product timelines, or safety arguments will be built on top of, you will state the range it was fit on out loud, in the same sentence as the claim — not in a footnote, not in a methods section nobody reads before the headline gets repeated without it."
+      },
+      "adaptation": {
+        "pacing": {
+          "minHoursPerWeek": 10,
+          "targetHoursPerWeek": 12,
+          "maxHoursPerWeek": 14,
+          "targetWeeks": 1
+        },
+        "watchFor": [
+          "struggle-blocked",
+          "struggle-productive",
+          "pace-ahead",
+          "mastery-early",
+          "shallow-completion"
+        ],
+        "moves": {
+          "accelerate": "Such a learner can extend Lab M03-C: instead of reusing this module's step-budget grid, design and run an actual **FLOPs-matched** grid (choosing `(steps, n_embd)` pairs that land within 10% of a common target FLOPs, not just round step counts) — the harder experimental-design problem this module's own worked example flagged as unattempted, spending the saved time there instead of on a second held-out extrapolation point.",
+          "reinforce": "Re-anchor in the module's own worked examples before adding new material; struggle here is expected to be productive, not blocked.",
+          "reroute": "have them rerun `n_embd=128` with a have them state, out loud or in writing, the exact implicit assumption each fit makes about `L∞` before either is allowed to be called \"the\" answer — the disagreement is the lesson, not a bug to resolve by picking a favorite."
+        }
+      }
+    },
+    {
+      "id": "AIE-301-M04",
+      "track": "C",
+      "title": "SFT: instruction tuning hands-on",
+      "summary": "The module where the model you pretrained in AIE-301-M02 stops being a text-continuation engine and starts being something that answers. Nothing about the transformer changes — the weights you SFT-tune here started as M02's own checkpoint, `CausalSelfAttention` and `Block` unmodified. What changes is the *loss*: which tokens count, and which don't. This module's whole argument is that instruction-following is a narrow, teachable behavior riding on top of whatever the pretraining run already put in the weights — and that the two things people most often confuse (behavior and knowledge) can be told apart with a three-task eval, not a feeling.",
+      "credentials": [
+        {
+          "name": "Large Language Models: Pretraining to Post-Training — SFT: instruction tuning hands-on",
+          "provider": "The AI Engineer Curriculum (first-party)",
+          "kind": "course",
+          "freeToAudit": true,
+          "paidCostUSD": 0
+        }
+      ],
+      "prerequisites": [
+        "AIE-301-M03"
+      ],
+      "buildThread": "AIE-301: CS336's from-scratch depth without CS336's assumed background — the ramp is our own foundation tier. Post-training gets equal weight with pretraining (the industry reality no MOOC reflects), and the corpus comes from AIE-203, so the learner has provenance on every token their model saw.",
+      "pillars": {
+        "structure": "Map SFT: instruction tuning hands-on's structure before starting any lab.",
+        "readingReasoning": "Read each lesson's worked example and named misconceptions; predict what the mechanism does before reading the explanation.",
+        "testing": "Run every lab's Predict step on paper, before Build; verify against the provided tests, not against whether the program merely runs.",
+        "building": "Complete the module's labs (A — Build the masked SFT block, and size your own context window; B — Masked vs. unmasked: predict the ablation before running it; C — The base-vs-SFT eval: predict the capability split, then measure it *(certification lab)*) and the module assessment."
+      },
+      "tiers": {
+        "materialGround": "The instruction/response pairs a model is SFT-tuned on are written by someone — in this module's synthetic pipeline, generated from a fixed template; in every production instruction-tuned model, written or selected by paid annotators (often outsourced, often under specified style guides dictating register, hedging, and refusal phrasing). This is documented, not speculative — the demonstration-data collection process for models like InstructGPT is described in the papers that introduced them, down to annotator instructions and pay structure. Whoever writes the demonstrations is choosing, by hand, what \"the way to respond\" sounds like, before any later reward model or preference-optimization stage (AIE-301-M05) ever enters the picture.",
+        "observerReading": "\"Instruction-following\" and \"helpfulness\" are framed as neutral capability improvements — a strictly-better model that does what you ask. What that framing suppresses is that SFT doesn't just add a capability, it **narrows a distribution**: this module's own catastrophic-forgetting measurement (a 31× loss increase on a task never touched by SFT training) is a small, concrete instance of a much-discussed, much-observed pattern at production scale — instruction-tuned and RLHF'd models converging toward a narrower, more uniform register than their base models had access to, often described (informally, but consistently, across many practitioners' own observation) as sounding like the same kind of careful, hedge-forward, corporate-safe voice regardless of task or provider. The field's marketing vocabulary (\"more helpful,\" \"more aligned\") describes this narrowing only as a gain, never simultaneously as a narrowing — and this module's own measured numbers show both are true of the identical training run, at once, from the same gradient steps.",
+        "sitWithThis": "You just watched your own tiny model lose the ability to simply continue a sentence — not because anything broke, but because you successfully taught it to always answer `SERVICE: <x>` instead. Every larger instruction-tuned model you will ever fine-tune or deploy underwent some version of the same trade, at a scale where nobody can measure the \"before\" as cleanly as this module let you measure it in minutes, on a laptop-scale model, with the receipts. When you SFT a model on someone else's demonstrations — the annotator's phrasing, the annotator's hedges, the annotator's sense of a complete answer — whose voice are you actually shipping under the name of \"the model\"? And when it forgets, in the process, whatever it could do before that specific voice was installed: was that erased capability ever yours to trade away?"
+      },
+      "adaptation": {
+        "pacing": {
+          "minHoursPerWeek": 10,
+          "targetHoursPerWeek": 12,
+          "maxHoursPerWeek": 14,
+          "targetWeeks": 2
+        },
+        "watchFor": [
+          "struggle-blocked",
+          "struggle-productive",
+          "disengagement",
+          "pace-ahead",
+          "mastery-early",
+          "shallow-completion"
+        ],
+        "moves": {
+          "accelerate": "A learner who nails both without struggling can skip the full 20–25 minute Lab M04-C reference-pipeline run and instead work only from this module's own published numbers for the reconciliation exercise — the judgment trail matters more than re-deriving numbers already measured and shown correct.",
+          "reinforce": "Re-anchor in the module's own worked examples before adding new material; struggle here is expected to be productive, not blocked.",
+          "reroute": "before debugging any downstream symptom, have the learner run this module's brute-force `worst_case_prompt_bytes` check on their have the learner hand-trace a 6-token toy example on paper (`p_len=3`) before writing any code, marking which array position predicts which token, before touching `mask[1:]` at all."
+        }
+      }
+    },
+    {
+      "id": "AIE-301-M05",
+      "track": "C",
+      "title": "Preference optimization: RLHF, DPO-family, reward hacking",
+      "summary": "The module where \"alignment\" stops being a word the field uses and starts being a loss function you derived, a reward model you trained on 400 pairwise comparisons, and an exploit you built into that reward model with your own hands. AIE-301-M04 handed you a supervised fine-tuned policy and the reference policy `π_ref` every method below anchors to. This module builds the two dominant ways of turning a pile of \"A is better than B\" judgments into a policy that prefers A — the reward-model-plus-RL pipeline (RLHF) and the direct-loss pipeline (DPO) — traced on a problem small enough to compute exactly, by hand, with zero sampling noise, before either method is ever trusted on a real vocabulary.",
+      "credentials": [
+        {
+          "name": "Large Language Models: Pretraining to Post-Training — Preference optimization: RLHF, DPO-family, reward hacking",
+          "provider": "The AI Engineer Curriculum (first-party)",
+          "kind": "course",
+          "freeToAudit": true,
+          "paidCostUSD": 0
+        }
+      ],
+      "prerequisites": [
+        "AIE-301-M04"
+      ],
+      "buildThread": "AIE-301: CS336's from-scratch depth without CS336's assumed background — the ramp is our own foundation tier. Post-training gets equal weight with pretraining (the industry reality no MOOC reflects), and the corpus comes from AIE-203, so the learner has provenance on every token their model saw.",
+      "pillars": {
+        "structure": "Map Preference optimization: RLHF, DPO-family, reward hacking's structure before starting any lab.",
+        "readingReasoning": "Read each lesson's worked example and named misconceptions; predict what the mechanism does before reading the explanation.",
+        "testing": "Run every lab's Predict step on paper, before Build; verify against the provided tests, not against whether the program merely runs.",
+        "building": "Complete the module's labs (Build the RLHF pipeline: reward model + exact tabular policy optimization *(core)*; Implement DPO from its loss function, verify the RLHF equivalence *(core)*; Induce, diagnose, and fix a reward hack *(certification artifact)*) and the module assessment."
+      },
+      "tiers": {
+        "materialGround": "Reward hacking against a proxy is not a hypothetical risk this module invented for teaching purposes — it is a documented, repeatedly observed failure mode wherever a policy is optimized against a fitted, imperfect stand-in for an unmeasurable true objective (Goodhart's law, operating here on a reward model exactly as AIE-204-M05 shows it operating on a business metric). This module's own numbers make one instance of it fully inspectable: a specific labeling bias (length), a specific reward model it produced (`ρ = −0.800` against gold), and a specific, measured policy collapse (`E[gold]` falling below the do-nothing baseline at every β tested). None of this is metaphorical.",
+        "observerReading": "\"RLHF aligns the model to human preferences\" suppresses the load-bearing question of **which** humans, selected how, instructed with what rubric, paid what, and given how much time per comparison. This module's own toy pipeline makes the mechanism undeniable: the *entire* difference between Lesson 1's usable reward model and Lesson 3's inverted one was not the algorithm — both used identical training code — it was **who effectively did the judging and what they were actually measuring when they thought they were measuring quality**. At production scale, the analogous fact is: a reward model trained on comparisons from a specific labeling vendor, under specific time-per-task incentives, in a specific set of instructions written by a specific product team, becomes \"what the model is aligned to\" — and that chain of specific, contingent choices is precisely the part most public descriptions of \"RLHF-aligned\" models omit, replacing it with the passive, agentless \"aligned to human preferences,\" as if preferences were a single, uncontested thing rather than a chain of choices with a name attached at every link.",
+        "sitWithThis": "You built a reward model that can be gamed by nothing more exotic than a labeler skimming for short answers instead of reading carefully — a bias so mundane it requires no malice, only time pressure, to produce. Every reward signal you will ever train a real policy against was assembled by a real, specific, time-pressured, incentivized set of people, making real, specific, sometimes-invisible-to-themselves judgment calls about what \"better\" meant in that instant. You now have, in your own hands, the tools to fit a policy to whatever that signal turns out to actually encode — correctly, faithfully, and without complaint, exactly as Lesson 3's `none`-collapsing policy did. When you ship a preference-tuned model and call it \"aligned,\" the honest version of that sentence names whose judgment it was fit to, and admits you may not fully know. What do you owe the people whose specific, contingent judgments become, in your hands, \"what the model prefers\" — and what does it cost, to whom, when that chain gets called alignment instead of what it is?"
+      },
+      "adaptation": {
+        "pacing": {
+          "minHoursPerWeek": 10,
+          "targetHoursPerWeek": 12,
+          "maxHoursPerWeek": 14,
+          "targetWeeks": 2
+        },
+        "watchFor": [
+          "struggle-blocked",
+          "struggle-productive",
+          "pace-ahead",
+          "mastery-early",
+          "shallow-completion"
+        ],
+        "moves": {
+          "accelerate": "A learner who passes Lab A and Lab B cleanly on the first attempt, with sealed predictions that correctly anticipated both the RM's bottom-two disagreement and the RLHF/DPO equivalence, may skip Lab C's guided Build scaffolding and go straight to designing their **own** bias mechanism (not length — something they invent) for the module exam's transfer task, submitting their own induced-hack writeup in place of the standard Lab C in full.",
+          "reinforce": "Re-anchor in the module's own worked examples before adding new material; struggle here is expected to be productive, not blocked.",
+          "reroute": "before assigning Lab A's Build step, have the learner hand-compute (on paper, N=5, β=1) the policy that maximizes the objective for just two candidate distributions (uniform vs. a point mass on the top arm) and compare the objective values — this makes the trade-off concrete before code enters the picture. assign the log-2-at-initialization derivation (Lab B, Predict step 1) as a gate before Lab B's Build step — a learner who can't derive that value on paper has not yet internalized the substitution and should revisit Lesson 2's teaching text, not proceed to code."
+        }
+      }
+    },
+    {
+      "id": "AIE-301-M06",
+      "track": "C",
+      "title": "Parameter-efficient fine-tuning: LoRA/QLoRA in anger",
+      "summary": "The module where \"fine-tune it\" stops meaning \"update every weight\" and starts meaning a specific, checkable claim about the *rank* of the update you actually need. AIE-301-M02 gave you `TinyGPT` — an 867,072-parameter decoder-only transformer you pretrained and can name every parameter of. AIE-301-M04 walked the same full-fine-tune SFT arc — adapted end-to-end on instruction/response pairs, every weight touched — but on its *own*, separate reference model: an 88,128-parameter `TinyGPT` (`d_model=48, n_layer=2, n_head=4, d_ff=192, block_size=400`), sized down from M02's architecture for M04's own CPU-feasibility reasons, not the same model this module builds on. This module's own labs re-run that identical arc — pretrain, then full-fine-tune as the expensive baseline — from scratch, directly on M02's 867,072-parameter architecture, so every parameter count and memory figure below stays traceable to one named model rather than importing a checkpoint built at a different scale. This module asks the question a production team asks the moment full fine-tuning stops being affordable: **do you actually need to touch every weight, or does the useful part of the update live in a much smaller space?** You derive the linear-algebra argument for \"much smaller space,\" build the low-rank update by hand, and only then name what Hugging Face's `peft` and `bitsandbytes` add on top — quantization mechanics and memory numbers you compute and, where this module's CPU-only reference machine allows, measure, never numbers you're asked to take on faith.",
+      "credentials": [
+        {
+          "name": "Large Language Models: Pretraining to Post-Training — Parameter-efficient fine-tuning: LoRA/QLoRA in anger",
+          "provider": "The AI Engineer Curriculum (first-party)",
+          "kind": "course",
+          "freeToAudit": true,
+          "paidCostUSD": 0
+        }
+      ],
+      "prerequisites": [
+        "AIE-301-M05"
+      ],
+      "buildThread": "AIE-301: CS336's from-scratch depth without CS336's assumed background — the ramp is our own foundation tier. Post-training gets equal weight with pretraining (the industry reality no MOOC reflects), and the corpus comes from AIE-203, so the learner has provenance on every token their model saw.",
+      "pillars": {
+        "structure": "Map the module before building: Architecture-agnostic `target_modules` matching; `merge_and_unload()`; Adapter-only checkpointing..",
+        "readingReasoning": "Read each lesson's worked example and named misconceptions; predict what the mechanism does before reading the explanation.",
+        "testing": "Run every lab's Predict step on paper, before Build; verify against the provided tests, not against whether the program merely runs.",
+        "building": "Complete the module's labs (A — Build `LoRALinear` from scratch: the zero-init and merge identities; B — Apply LoRA to `TinyGPT`: rank, target modules, and the convergence trade-off; C — Port to `peft`: predict the exact match, then verify it) and the module assessment."
+      },
+      "tiers": {
+        "materialGround": "LoRA reduces the *trainable*-parameter footprint of adapting a model by one to two orders of magnitude at real model scale (this module's own toy measurement: 3.78% of base parameters at $r{=}16$, attention+FFN); QLoRA's NF4 quantization plus double quantization plus paged optimizers make it possible to fine-tune models an order of magnitude larger than would otherwise fit a given GPU's memory (cited: a 65B-parameter model on a single 48GB GPU, Dettmers et al., 2023). These are measured, citable facts about compute cost, not claims about what the resulting fine-tune is good *for*.",
+        "observerReading": "The same mechanism that makes it cheap for a small team to adapt an open model to their own narrow, well-intentioned domain — a few hundred documents, one consumer GPU, an afternoon — makes it exactly as cheap to adapt that same model *away* from whatever safety- or alignment-tuning its publisher shipped it with. A LoRA adapter that steers a model toward compliant behavior and one that steers it toward refusing to refuse are the identical mechanism, differing only in which few thousand parameters got trained and on what data — this module built that mechanism by hand, in Lesson 2, and it does not know or care which direction it's pointed. Vendors who publish a \"safety-tuned\" open-weight model and vendors who publish PEFT tooling both, correctly, describe their own product accurately; neither sentence, said alone, tells you that the second one is a general-purpose tool for undoing the first one's work, at a fraction of the first one's own training cost.",
+        "sitWithThis": "You built, this module, the exact mechanism by which 96% or more of a model's weights can stay frozen — \"the same base model,\" verifiably, by every checksum that matters — while a few thousand adapter parameters quietly determine what it will and won't say. When you are handed a model and told it is \"the aligned version,\" what, precisely, are you being told is fixed, and what are you being told nothing at all about?"
+      },
+      "adaptation": {
+        "pacing": {
+          "minHoursPerWeek": 10,
+          "targetHoursPerWeek": 12,
+          "maxHoursPerWeek": 14,
+          "targetWeeks": 2
+        },
+        "watchFor": [
+          "struggle-blocked",
+          "struggle-productive",
+          "pace-ahead",
+          "mastery-early",
+          "shallow-completion"
+        ],
+        "moves": {
+          "accelerate": "A learner who passes Lab M06-A on the first attempt with correct Predict answers for all four items, *and* whose Lab M06-C Predict item 1 exactly matches `peft`'s reported number before running it, has demonstrated the core mechanism cold. Such a learner can skip re-running Lesson 3's full 60+40-step convergence reproduction for every rank and go straight to the Assessment's written justification memo, using Lesson 3's own published table numbers as their evidence base instead of re-measuring them.",
+          "reinforce": "Re-anchor in the module's own worked examples before adding new material; struggle here is expected to be productive, not blocked.",
+          "reroute": "before touching the timing table, have the learner trace the computational graph by hand for a 2-layer toy case — which nodes need a stored gradient (`requires_grad=True` leaves) versus which nodes gradients merely a single numeric worked example — fix a toy $A$, $B$, compute $\\frac{\\alpha}{r}BA$ at $(\\alpha, r) = (8, 4)$ vs. $(\\alpha, r) = (8, 8)$ vs. $(\\alpha, r) = (16, 8)$ by hand, three concrete matrices, before returning to the code."
+        }
+      }
+    },
+    {
+      "id": "AIE-301-M07",
+      "track": "C",
+      "title": "Reasoning and RL: test-time compute, verifiable rewards",
+      "summary": "The module where \"make the model better\" stops meaning only \"spend more pretraining compute\" and starts meaning two separable levers this module makes you pull by hand: **spend more compute at inference time**, on a fixed model, on a single problem — and **optimize the policy directly against a reward you can check**, not against a corpus of human-written targets. AIE-301-M05 built preference optimization (RLHF, DPO) against *human* preference signal and named reward hacking as the failure mode a learned reward model invites. This module builds the sibling case: reinforcement learning against a **verifiable**, rule-based reward — no learned reward model, no human in the loop, just a checker that can evaluate \"is this answer correct\" mechanically. The central discipline this module teaches is that removing the learned reward model does **not** remove reward hacking; it relocates the attack surface from \"fool a neural reward model\" to \"find the gap between what your verifier checks and what the task actually requires\" — and a rule-based verifier's gaps are exploitable by gradient descent exactly like a learned one's are.",
+      "credentials": [
+        {
+          "name": "Large Language Models: Pretraining to Post-Training — Reasoning and RL: test-time compute, verifiable rewards",
+          "provider": "The AI Engineer Curriculum (first-party)",
+          "kind": "course",
+          "freeToAudit": true,
+          "paidCostUSD": 0
+        }
+      ],
+      "prerequisites": [
+        "AIE-301-M06"
+      ],
+      "buildThread": "AIE-301: CS336's from-scratch depth without CS336's assumed background — the ramp is our own foundation tier. Post-training gets equal weight with pretraining (the industry reality no MOOC reflects), and the corpus comes from AIE-203, so the learner has provenance on every token their model saw.",
+      "pillars": {
+        "structure": "Map the module before building: Rollout.; Reward.; Advantage, via a group-relative baseline.; Policy-gradient update..",
+        "readingReasoning": "Read each lesson's worked example and named misconceptions; predict what the mechanism does before reading the explanation.",
+        "testing": "Run every lab's Predict step on paper, before Build; verify against the provided tests, not against whether the program merely runs.",
+        "building": "Complete the module's labs (A — Best-of-N: measure test-time compute's real, saturating gain; B — Build the RLVR loop: rollout, reward, group-relative advantage, update; C — Audit the verifier: catch the exploit before it contaminates a run) and the module assessment."
+      },
+      "tiers": {
+        "materialGround": "A rule-based verifiable reward removes the *learned-reward-model* attack surface AIE-301-M05 named, and it does not remove reward hacking — this module's own measured `loose_verify` run is a documented, reproducible instance of a policy exploiting a mechanical check's gap between \"passes\" and \"is correct,\" with no human preference data and no neural reward model anywhere in the loop. This is not a hypothetical caution; it is what this module's own training run did, on this module's own hardware, and the code to reproduce it is in Lab M07-C.",
+        "observerReading": "The industry framing of \"RL with verifiable rewards\" (RLVR) markets itself as the *fix* for reward hacking — \"no more gameable reward models, just ground-truth checkable correctness\" — and that framing is doing real rhetorical work to make RLVR sound safer than preference optimization by construction. This module's own measured comparison shows that claim is not automatically true: a verifiable reward is *checkable* (you can, in principle, know exactly what it rewards, by reading its code) but \"checkable\" and \"already checked, adversarially, before you trusted it\" are different properties, and the field's marketing of RLVR leans on the former to imply the latter. The honest version of the pitch is narrower and less exciting: RLVR replaces \"audit a black-box neural reward model's blind spots\" with \"audit a white-box verifier's specification gaps\" — a genuinely easier audit, because the check is readable, not a categorically safer one, because a readable check that nobody actually read adversarially is exactly as exploitable as an unreadable one.",
+        "sitWithThis": "Every verifier this module built — `strict_verify`, `loose_verify`, the canary suite meant to catch the gap between them — is itself a piece of code you wrote, encoding a specific, narrow claim about what \"correct\" means for one toy task with one unambiguous right answer. Real deployed reasoning systems increasingly train against verifiers for tasks that do **not** have one unambiguous right answer — \"is this proof valid,\" \"does this code pass these tests, and are these tests the tests that matter,\" \"is this medical summary faithful to the chart it summarizes\" — where the verifier's own gap between \"passes the check\" and \"did the task\" is not a bug to be patched once and closed, but a permanent, moving target, because the space of things a policy might learn to exploit is at least as large as the space of things the verifier's author didn't think to check. When the reward is verifiable and the verifier is still, unavoidably, a human's incomplete specification of what \"correct\" means — whose incompleteness is it, when the model finds the gap first?"
+      },
+      "adaptation": {
+        "pacing": {
+          "minHoursPerWeek": 10,
+          "targetHoursPerWeek": 12,
+          "maxHoursPerWeek": 14,
+          "targetWeeks": 2
+        },
+        "watchFor": [
+          "struggle-blocked",
+          "struggle-productive",
+          "pace-ahead",
+          "mastery-early",
+          "shallow-completion"
+        ],
+        "moves": {
+          "accelerate": "Such a learner can skip Lab M07-C's Build step for the RL comparison runs (which mostly repeat M07-B's mechanics with a different `verify` function) and go straight to writing their own canary suite and running it against `loose_verify`, submitting only that plus their Predict reasoning.",
+          "reinforce": "Re-anchor in the module's own worked examples before adding new material; struggle here is expected to be productive, not blocked.",
+          "reroute": "set the derivation aside entirely for one session and have the learner trace `rlvr_step` line by line against Lesson 2's four-step description (rollout, reward, advantage, update), confirming each line of code against its named step, before returning to have them remove the `.detach()` and inspect what `loss.backward()` tries to differentiate through when it's absent — the reward computation involves `argmax`/`multinomial` sampling and Python control flow with no gradient defined, and PyTorch will either error or silently produce a nonsensical gradient depending on exactly where the untracked value re-enters the graph. Seeing the concrete failure (not just being told it should fail) is what makes the boilerplate stop looking decorative."
+        }
+      }
+    },
+    {
+      "id": "AIE-301-M08",
+      "track": "C",
+      "title": "Open-weight ecosystem: licenses, model cards, sovereignty",
+      "summary": "The re-ascent, named exactly. AIE-301-M01 through M07 built every mechanism this course claims to teach — tokenizer, pretraining loop, SFT, DPO/RLHF, LoRA, RLVR — from equations to working code, on a model small enough to fully own. This module is where that ownership gets pointed outward, at weights you did not train, released by an organization you do not control, under a license you did not write. The course's own stated outcome — *\"re-ascend able to fine-tune any open model with a reason and an eval proving the delta\"* — is not a metaphor this module illustrates; it is a literal deliverable this module's Lab M08-C produces and the Assessment grades. Everything before this module asked \"can you build it.\" This module asks a different question the field mostly skips: **before you build on it, can you read what you're agreeing to, and can you tell what the people who released it are and are not telling you?**",
+      "credentials": [
+        {
+          "name": "Large Language Models: Pretraining to Post-Training — Open-weight ecosystem: licenses, model cards, sovereignty",
+          "provider": "The AI Engineer Curriculum (first-party)",
+          "kind": "course",
+          "freeToAudit": true,
+          "paidCostUSD": 0
+        }
+      ],
+      "prerequisites": [
+        "AIE-301-M07"
+      ],
+      "buildThread": "AIE-301: CS336's from-scratch depth without CS336's assumed background — the ramp is our own foundation tier. Post-training gets equal weight with pretraining (the industry reality no MOOC reflects), and the corpus comes from AIE-203, so the learner has provenance on every token their model saw.",
+      "pillars": {
+        "structure": "Map the module before building: Names specific sources; States each named source's license or legal basis; Addresses consent; Documents a decontamination method; Names the evaluation sets used; States specific, model-particular limitations; States intended use and out-of-scope use; Provides a contact.",
+        "readingReasoning": "Read each lesson's worked example and named misconceptions; predict what the mechanism does before reading the explanation.",
+        "testing": "Run every lab's Predict step on paper, before Build; verify against the provided tests, not against whether the program merely runs.",
+        "building": "Complete the module's labs (A — Build a license-obligation checker across four real open-weight licenses; B — Audit two model cards against an AIE-203-mapped disclosure checklist; C — The certification fine-tune: LoRA-tune an open model to cite provenance and refuse on unresolved consent, prove the delta) and the module assessment."
+      },
+      "tiers": {
+        "materialGround": "\"Open-weight\" and \"open source\" are different, checkable claims, and the gap is documented in the license text itself, not a matter of interpretation: the Open Source Initiative's own field-of-use-restriction criterion is failed, by the license's own words, by the Llama 3 Community License's 700-million-MAU clause, the Gemma Terms of Use's Prohibited Use Policy, and OpenRAIL-M's Attachment A — three of the highest-profile \"open\" model releases of this era, none of them open source by the term's specific legal meaning. This is verifiable by reading the primary source, the exact discipline Lab M08-A requires and this lesson's own design note admits it cannot substitute for.",
+        "observerReading": "The word \"open\" is used, across nearly every release announcement in this ecosystem, to capture the goodwill, trust, and adoption that \"open source\" earns in developer culture — while the actual legal terms, when they diverge from that meaning, sit several clicks and several thousand words away from the announcement that used the word. This is not a claim that any single organization is lying — every clause in Lesson 1's table is a real, published, findable term. It is a claim about what the field's marketing incentives predictably produce at scale: a gap between the word that drives adoption and the word that would accurately describe the legal terms, left uncorrected, release after release, because correcting it would cost adoption and nothing forces the correction. The same asymmetry runs through model cards: a sparse card is not dishonest in any sentence it contains, and the field has built no norm, no requirement, and only weak reputational pressure to make \"sparse\" cost an organization anything.",
+        "sitWithThis": "Lab M08-C's own fine-tuning task made a decision — yours, running the code, not the module's, though the module wrote the code that made the decision easy not to notice — about which sources count as consented and which don't: `internal-wiki` and `scraped-blog-mirror` were marked `UNKNOWN` in a synthetic stand-in for your own AIE-203 corpus, a label that then became a behavior the fine-tuned model learned to enact, refusing on your behalf, using a rule you set once and never revisited per document. When you point this same pipeline at your own real AIE-203 corpus, and its `licenses.license_code` column has its own real, messier answers — some genuinely unknown, some contested, some technically licensed but never meaningfully consented to by the person who wrote the words — whose determination does the model's refusal actually represent: the original author's, whatever they would have wanted if anyone had asked; yours, the person who ran the fine-tune and picked the threshold; or the license of the *weights* you adapted, which may impose obligations on what you're even allowed to say about how the result was built? The course handed you, in this module, the complete technical capability to enforce an answer to that question at scale, in a model's actual behavior — and no technical component of what you built required you to decide, out loud, whose answer it was."
+      },
+      "adaptation": {
+        "pacing": {
+          "minHoursPerWeek": 10,
+          "targetHoursPerWeek": 12,
+          "maxHoursPerWeek": 14,
+          "targetWeeks": 1
+        },
+        "watchFor": [
+          "struggle-blocked",
+          "struggle-productive",
+          "pace-ahead",
+          "mastery-early",
+          "shallow-completion"
+        ],
+        "moves": {
+          "accelerate": "Such a learner can skip Lab M08-C's Build step for the training loop itself (which mostly reapplies M04/M07's masked-cross-entropy pattern to a new task) and go straight to running the provided solution's fine-tune, focusing their own effort on Predict items 2–4 and a from-scratch adversarial canary of their own design, beyond the one this module already built.",
+          "reinforce": "Re-anchor in the module's own worked examples before adding new material; struggle here is expected to be productive, not blocked.",
+          "reroute": "have the learner search the license text specifically for the words \"except,\" \"provided that,\" and \"MAU\" or \"monthly active users\" before concluding a license is unconditional — a targeted re-read, not a full re-read from the top, usually surfaces the missed clause fast. point directly at the `if tokenizer.pad_token is None: tokenizer.pad_token = tokenizer.eos_token` line in Lesson 3's own code and explain"
+        }
+      }
     }
   ],
   "spines": [
@@ -3540,7 +3968,7 @@ export const aiEngineerCurriculumCourse: Course = {
   ],
   "credentialModel": {
     "sealedReading": "One three-tier observer reading (material ground / what the field suppresses / sit-with-this) sealed per module, plus a course-close synthesis per completed course.",
-    "corpusSize": 78,
+    "corpusSize": 87,
     "demonstrates": "Structural understanding at a depth no exam measures — this program's version of the alternative credentialing model: the sealed corpus, not the certificate, is what a learner has actually earned."
   },
   "costModel": {
