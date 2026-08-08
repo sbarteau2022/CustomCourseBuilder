@@ -10,7 +10,7 @@ export const aiEngineerCurriculumCourse: Course = {
   "title": "The AI Engineer Curriculum",
   "version": "1.0.0",
   "mission": "A complete, first-party path from zero to production AI engineer, built on a philosophy rather than inherited from how these subjects have been taught. In every course the learner descends below the abstraction to the substrate where the thing actually lives, builds it there by hand, and re-ascends to command the high-level tool as an instrument rather than invoke it as a mystery. Verification is taught before generation; evaluation runs as a spine, not a module; ethics carries structural teeth; the durable core is separated from the swappable tool surface so the material outlasts the tools. Every module is assessed by judgment demonstrated, never by content retained — and the whole program is run adaptively, and witnessed, by Elle.",
-  "durationMonths": 29,
+  "durationMonths": 32,
   "tracks": [
     {
       "id": "A",
@@ -37,7 +37,7 @@ export const aiEngineerCurriculumCourse: Course = {
       "title": "Foundations — AIE-100, AIE-101, AIE-102, AIE-104, AIE-103, AIE-110",
       "months": [
         1,
-        10
+        11
       ],
       "theme": "Foundations tier of the AI Engineer Curriculum: Working With AI Without Outsourcing Judgment; Python and Software Craft; Down to the Metal: C, and the Machine Under Python; The Machine at Scale: Linux, Networks, Concurrency, Containers; Mathematics for AI, Taught as Instruments; Data Structures, Algorithms, and Scale.",
       "unitIds": [
@@ -86,8 +86,8 @@ export const aiEngineerCurriculumCourse: Course = {
       "id": "p-core",
       "title": "Core — AIE-201, AIE-202, AIE-203, AIE-204",
       "months": [
-        11,
-        19
+        12,
+        21
       ],
       "theme": "Core tier of the AI Engineer Curriculum: Machine Learning from First Principles; Deep Learning: Autograd to Transformers; Data Engineering for AI; Evaluation and Experimentation.",
       "unitIds": [
@@ -124,12 +124,12 @@ export const aiEngineerCurriculumCourse: Course = {
     },
     {
       "id": "p-specialization",
-      "title": "Specialization — AIE-301",
+      "title": "Specialization — AIE-301, AIE-302",
       "months": [
-        20,
-        29
+        22,
+        32
       ],
-      "theme": "Specialization tier of the AI Engineer Curriculum: Large Language Models: Pretraining to Post-Training.",
+      "theme": "Specialization tier of the AI Engineer Curriculum: Large Language Models: Pretraining to Post-Training; Building with Foundation Models: Context, RAG, and Agents.",
       "unitIds": [
         "AIE-301-M01",
         "AIE-301-M02",
@@ -138,7 +138,14 @@ export const aiEngineerCurriculumCourse: Course = {
         "AIE-301-M05",
         "AIE-301-M06",
         "AIE-301-M07",
-        "AIE-301-M08"
+        "AIE-301-M08",
+        "AIE-302-M01",
+        "AIE-302-M02",
+        "AIE-302-M03",
+        "AIE-302-M04",
+        "AIE-302-M05",
+        "AIE-302-M06",
+        "AIE-302-M07"
       ]
     }
   ],
@@ -3944,6 +3951,356 @@ export const aiEngineerCurriculumCourse: Course = {
           "reroute": "have the learner search the license text specifically for the words \"except,\" \"provided that,\" and \"MAU\" or \"monthly active users\" before concluding a license is unconditional — a targeted re-read, not a full re-read from the top, usually surfaces the missed clause fast. point directly at the `if tokenizer.pad_token is None: tokenizer.pad_token = tokenizer.eos_token` line in Lesson 3's own code and explain"
         }
       }
+    },
+    {
+      "id": "AIE-302-M01",
+      "track": "C",
+      "title": "Context engineering: the model's entire world",
+      "summary": "The opening module of the course. Before any retrieval, chunking, or",
+      "credentials": [
+        {
+          "name": "Building with Foundation Models: Context, RAG, and Agents — Context engineering: the model's entire world",
+          "provider": "The AI Engineer Curriculum (first-party)",
+          "kind": "course",
+          "freeToAudit": true,
+          "paidCostUSD": 0
+        }
+      ],
+      "prerequisites": [
+        "AIE-204-M07"
+      ],
+      "buildThread": "AIE-302: Framework-last: everything is built from primitives first (the learner's own AIE-110 ANN index included), so no abstraction is incantation. Every system ships with the eval discipline of AIE-204 — retrieval measured apart from generation, agent runs traced and scored — which is precisely what the short-course ecosystem never enforces.",
+      "pillars": {
+        "structure": "Map Context engineering: the model's entire world's structure before starting any lab.",
+        "readingReasoning": "Read each lesson's worked example and named misconceptions; predict what the mechanism does before reading the explanation.",
+        "testing": "Run every lab's Predict step on paper, before Build; verify against the provided tests, not against whether the program merely runs.",
+        "building": "Complete the module's labs (A — Build the token budget accountant; B — The assembler that breaks (predict what gets dropped); C — Prompts as versioned specs: build the regression harness) and the module assessment."
+      },
+      "tiers": {
+        "materialGround": "A context window is a hard token budget, and when an assembled context exceeds it, *something* is cut with no exception raised and no field in the API response that says so — the call still returns `200 OK`. This is a mechanical fact, demonstrated directly in Lab M01-B: the naive assembler's output is syntactically fine, token-budget-compliant, and missing the customer's actual question, and nothing about the response signals which of those three is true.",
+        "observerReading": "\"Grounded in your data\" is marketed as though a RAG system faithfully surfaces whatever the corpus says. What that phrase omits is that the assembler sitting between \"the corpus\" and \"the model\" is making continuous, silent editorial decisions — which retrieved chunk survives a budget cut, which historical turn survives, in what priority order — and those decisions are ordinary application code, usually written once, by one engineer, under no particular scrutiny, and then never revisited as the system's usage patterns change. No vendor's marketing page for a \"grounded\" system discloses its truncation policy, and most teams running one could not state their own policy out loud without opening the source.",
+        "sitWithThis": "The fix this module builds works by an explicit priority order: system and tools always survive whole; recent conversation outranks old conversation; the top-ranked retrieved chunk outranks the fifth-ranked one. That ordering is a value judgment, encoded once, in code, applied identically to every customer who ever talks to the system — the customer who writes a long, meandering message is not silently favored or penalized on account of length by this design, but a different, equally reasonable-sounding priority order could easily have chosen otherwise, and would have looked just as correct passing the same tests. You will write a priority order like this one for a real system. When two things a real user needed both couldn't fit and your code chose which one to drop — silently, the way this module's naive assembler did, or openly, the way its fix does — what do you say to the person whose need lost that fight, when they ask why the system never mentioned it was even happening?"
+      },
+      "adaptation": {
+        "pacing": {
+          "minHoursPerWeek": 8,
+          "targetHoursPerWeek": 10,
+          "maxHoursPerWeek": 12,
+          "targetWeeks": 2
+        },
+        "watchFor": [
+          "struggle-blocked",
+          "struggle-productive",
+          "pace-ahead",
+          "mastery-early",
+          "shallow-completion"
+        ],
+        "moves": {
+          "accelerate": "Clean predictions plus correct reasoning on the first labs may skip straight to the module assessment.",
+          "reinforce": "Re-anchor in the module's own worked examples before adding new material; struggle here is expected to be productive, not blocked.",
+          "reroute": "have them run the exact same text through both\n  `ApproxTokenCounter` and (if `tiktoken` is installed) `TiktokenCounter` and watch the two numbers\n  disagree — the counter stops feeling like made-up homework the moment it's clearly measuring a\n  real, disputed quantity, not a fixed fact everyone already agrees on. ask what happens on turn 40 of the same conversation\n  under a bigger window — the same failure recurs at a different threshold unless assembly is\n  unit-aware, and that reframes \"bigger window\" as delaying the bug, not fixing it."
+        }
+      }
+    },
+    {
+      "id": "AIE-302-M02",
+      "track": "C",
+      "title": "Structured output and API discipline",
+      "summary": "immediately after M01 (context engineering — the model's entire world is what you put in the prompt). M02 is the first module where the learner is graded on what comes *back*: a model that reads a well-engineered prompt still returns text, and text is not a data structure. This module is the descent to the layer beneath every \"just parse the JSON\" line of code the learner has ever written without thinking about it.",
+      "credentials": [
+        {
+          "name": "Building with Foundation Models: Context, RAG, and Agents — Structured output and API discipline",
+          "provider": "The AI Engineer Curriculum (first-party)",
+          "kind": "course",
+          "freeToAudit": true,
+          "paidCostUSD": 0
+        }
+      ],
+      "prerequisites": [
+        "AIE-302-M01"
+      ],
+      "buildThread": "AIE-302: Framework-last: everything is built from primitives first (the learner's own AIE-110 ANN index included), so no abstraction is incantation. Every system ships with the eval discipline of AIE-204 — retrieval measured apart from generation, agent runs traced and scored — which is precisely what the short-course ecosystem never enforces.",
+      "pillars": {
+        "structure": "Map Structured output and API discipline's structure before starting any lab.",
+        "readingReasoning": "Read each lesson's worked example and named misconceptions; predict what the mechanism does before reading the explanation.",
+        "testing": "Run every lab's Predict step on paper, before Build; verify against the provided tests, not against whether the program merely runs.",
+        "building": "Complete the module's labs (A — Build a hand-rolled schema validator and a parse-validate-retry loop; B — Layered repair: deterministic fixups before a model retry; C — Measure it: naive prompting vs. schema-constrained, a real run number) and the module assessment."
+      },
+      "tiers": {
+        "materialGround": "A schema constrains *shape*; it has never, on any provider, at any point in this course's toolchain, constrained *truth*. Structural validity and factual correctness are different properties, verifiable independently, and this module's own Lab M02-C measured exactly one case where they came apart — a structurally perfect record with a wrong value. This is documented in the module's own run output, not asserted.",
+        "observerReading": "\"Just use structured outputs\" — the pitch behind every provider's JSON-mode feature and every wrapper library that ships a decorator promising reliable JSON — suppresses that the reliability being sold is a **shape** guarantee marketed with the confidence of a **correctness** guarantee. The marketing rarely says \"your enum will always be one of the values you listed, and that value will still sometimes be wrong\" — it says \"structured outputs\" and lets the reader's own hope fill in the stronger claim. The honest version of the pitch is less exciting and, per this module's own measured numbers, still very much worth having.",
+        "sitWithThis": "Every layer of this module — the validator, the deterministic repair, the bounded retry — exists to make a model's output *safe for code to trust without a human reading it first*. That is the entire design goal: remove the human from the loop for the routine case, because reading every extracted ticket by hand doesn't scale. But the one item in this module's own measured 20 that a structurally perfect response got wrong — the wrong-case severity — is exactly the kind of error that a pipeline built to remove the human from the loop is least likely to have a human still positioned to catch. When you build a system whose entire purpose is \"so nobody has to read this by hand,\" what happens to the one time in twenty it needed a human to read it by hand anyway — and who finds out, and when?"
+      },
+      "adaptation": {
+        "pacing": {
+          "minHoursPerWeek": 8,
+          "targetHoursPerWeek": 10,
+          "maxHoursPerWeek": 12,
+          "targetWeeks": 1
+        },
+        "watchFor": [
+          "struggle-blocked",
+          "struggle-productive",
+          "pace-ahead",
+          "mastery-early",
+          "shallow-completion"
+        ],
+        "moves": {
+          "accelerate": "Such a learner can skip writing Lab M02-C's canned dataset from scratch and instead extend it: add two new incidents of their own design (one naive-path failure, one structured-path failure) and predict/verify those before running the provided 20.",
+          "reinforce": "Re-anchor in the module's own worked examples before adding new material; struggle here is expected to be productive, not blocked.",
+          "reroute": "don't fix the code for them — hand back the `\"urgent\"`-severity `KeyError` example from Lesson 2 and ask them to trace, out loud, where that silent coercion would have hidden the same bug one layer deeper. before letting them add it, have them construct one test case with an apostrophe inside a string value and watch their own regex corrupt it. This should take under two minutes and is worth every one of them — a learner who builds the counterexample themselves stops proposing the fix permanently; a learner who is just told \"don't do that\" proposes it again in Lab M02-C."
+        }
+      }
+    },
+    {
+      "id": "AIE-302-M03",
+      "track": "C",
+      "title": "RAG from primitives: chunking to citation",
+      "summary": "M01 built context engineering; M02 built the discipline of never trusting a completion's shape until something checks it. M03 is the course's central build, and the point where two things the learner has been carrying, unused, finally get a real job. The learner's own `NSWIndex` — hand-built in AIE-110-M05, tested only against synthetic random vectors — is about to hold real text for the first time. And the learner's own AIE-203 corpus — provenance-documented, contamination-checked, used once already in AIE-301 as tokenizer training data — gets its second real downstream use, this time as the thing a system retrieves *from* instead of trains *on*. Chunking, embedding, indexing, reranking, and citation are each built and **measured** separately, so that when M07 finally hands the learner a framework's one-line `.from_documents()` call, they already know, from their own numbers, exactly what four separate jobs that one line is quietly doing.",
+      "credentials": [
+        {
+          "name": "Building with Foundation Models: Context, RAG, and Agents — RAG from primitives: chunking to citation",
+          "provider": "The AI Engineer Curriculum (first-party)",
+          "kind": "course",
+          "freeToAudit": true,
+          "paidCostUSD": 0
+        }
+      ],
+      "prerequisites": [
+        "AIE-302-M02"
+      ],
+      "buildThread": "AIE-302: Framework-last: everything is built from primitives first (the learner's own AIE-110 ANN index included), so no abstraction is incantation. Every system ships with the eval discipline of AIE-204 — retrieval measured apart from generation, agent runs traced and scored — which is precisely what the short-course ecosystem never enforces.",
+      "pillars": {
+        "structure": "Map RAG from primitives: chunking to citation's structure before starting any lab.",
+        "readingReasoning": "Read each lesson's worked example and named misconceptions; predict what the mechanism does before reading the explanation.",
+        "testing": "Run every lab's Predict step on paper, before Build; verify against the provided tests, not against whether the program merely runs.",
+        "building": "Complete the module's labs (A — Three chunkers, one gold set, one measured winner; B — Retrieve broad, rerank narrow: measuring the fix; C — Citation as a hard requirement, checked programmatically) and the module assessment."
+      },
+      "tiers": {
+        "materialGround": "A RAG system cannot answer from anything it cannot retrieve, and chunking decides retrievability at the sentence level. This is not a matter of taste: Lab M03-A measured it directly, on one document, with one gold set — fixed-size chunking scored `0/3` completeness, structural and semantic chunking each scored `3/3`, on the exact same underlying text. The chunking decision, made once, before any embedding call runs, bounded what the system could ever say about that document.",
+        "observerReading": "\"Grounded in your data\" is said as though the corpus were a passive, neutral thing a system simply reads from. It never is. Someone chose the chunk size and the chunking strategy (Lab M03-A). Someone chose which documents entered the corpus at all, and which were left out — that choice was made once already, in AIE-203, long before this module ever ran a query against it. Someone chose the citation threshold that decides `SUPPORTED` versus `UNSUPPORTED` (Lab M03-C's `min_overlap = 0.5` is a number a person picked, not a fact about language). Every one of those choices silently decides which true things the system *can* say and which true things it never had a chance to retrieve in the first place — and \"the system is grounded in the data\" describes none of that history. Retrieval is not a neutral window onto a corpus; it is the end product of a series of editorial decisions, each defensible on its own, whose combined effect nobody downstream of the system ever sees.",
+        "sitWithThis": "You picked `min_overlap = 0.5` in Lab M03-C the way you'd pick any default — it worked on the module's five test cases, so you moved on. Every claim your system will ever mark `SUPPORTED` depends on that one number, chosen once, by you, for reasons that had nothing to do with the specific claim it will someday be asked to judge. Somewhere downstream, someone will trust a citation your threshold approved that isn't actually right — not because the checker is broken, but because it is doing exactly what you told it to do. What number would you have had to set it to before you'd trust your own system with a decision that mattered to *you* — and knowing what that stricter number would have rejected among this module's own five test answers, would you still have shipped `0.5`?"
+      },
+      "adaptation": {
+        "pacing": {
+          "minHoursPerWeek": 8,
+          "targetHoursPerWeek": 10,
+          "maxHoursPerWeek": 12,
+          "targetWeeks": 2
+        },
+        "watchFor": [
+          "struggle-blocked",
+          "struggle-productive",
+          "pace-ahead",
+          "mastery-early",
+          "shallow-completion"
+        ],
+        "moves": {
+          "accelerate": "This learner has understood what the checker actually measures, not just that it catches bad cases. Such a learner can skip re-deriving `check_citations` from scratch for the module exam and move straight to the unseen predict/locate/fix/prove scenario.",
+          "reinforce": "Re-anchor in the module's own worked examples before adding new material; struggle here is expected to be productive, not blocked.",
+          "reroute": "before any code, have them mark by hand, on the printed `DOC_TEXT`, exactly where a chosen `size` would cut — the same exercise Lab M03-A's Predict step requires — and only then let them sweep sizes in code. have them compute, by hand, the cosine similarity of two 5-word sentences under `FakeEmbeddingClient`'s tokenizer (list the shared distinctive words, count them, normalize) before trusting any of the module's printed numbers. A learner who can reproduce 0.535 by hand stops treating the fake as a black box."
+        }
+      }
+    },
+    {
+      "id": "AIE-302-M04",
+      "track": "C",
+      "title": "Evaluating RAG: retrieval and generation apart",
+      "summary": "immediately after M03, where the learner built a RAG system from primitives — chunk, embed, retrieve, rerank — over their own AIE-110 hand-built index. M03 ended with a system that *runs*. This module exists because \"it runs\" and \"it works\" are different claims, and the gap between them is exactly where a RAG system's real failures hide. M04 is the first module in the course where the learner is graded on *measuring* a system they already know how to build, not on building more of it. It sits immediately before M05 (agents), which inherits this module's central discipline unchanged: don't trust a run because it produced an answer — trace which stage of the pipeline is actually responsible for the answer you got.",
+      "credentials": [
+        {
+          "name": "Building with Foundation Models: Context, RAG, and Agents — Evaluating RAG: retrieval and generation apart",
+          "provider": "The AI Engineer Curriculum (first-party)",
+          "kind": "course",
+          "freeToAudit": true,
+          "paidCostUSD": 0
+        }
+      ],
+      "prerequisites": [
+        "AIE-302-M03"
+      ],
+      "buildThread": "AIE-302: Framework-last: everything is built from primitives first (the learner's own AIE-110 ANN index included), so no abstraction is incantation. Every system ships with the eval discipline of AIE-204 — retrieval measured apart from generation, agent runs traced and scored — which is precisely what the short-course ecosystem never enforces.",
+      "pillars": {
+        "structure": "Map Evaluating RAG: retrieval and generation apart's structure before starting any lab.",
+        "readingReasoning": "Read each lesson's worked example and named misconceptions; predict what the mechanism does before reading the explanation.",
+        "testing": "Run every lab's Predict step on paper, before Build; verify against the provided tests, not against whether the program merely runs.",
+        "building": "Complete the module's labs (A — Build a retrieval gold set the AIE-204 way; B — Build precision@k, recall@k, and MRR; run them against real retrieval; C — Oracle vs. pipeline: build the diagnosis) and the module assessment."
+      },
+      "tiers": {
+        "materialGround": "Retrieval quality is empirically bounded by the corpus and the chunking, not by anything downstream. This module's own `Q3` case is the proof, not an opinion: identical generation step, identical judge, only the retrieved context varied between two runs, and completeness dropped from 5 to 2 purely because one chunk never arrived. You cannot prompt your way past a fact your retriever never surfaced.",
+        "observerReading": "The booster pitch — \"add RAG and your model is grounded\" — suppresses that grounding is only as complete and as honest as what the corpus contains and how someone decided to split it into retrievable units. `C08`, `C09`, and `C10` exist as three separate chunks because *someone* chose to split the parental-leave policy that way; that choice, invisible in the system's confident final answer, is the actual reason `Q3` fails. Retrieval is not a neutral lookup — it's an editorial act, performed once at chunking time by a person who is not in the room when the system answers a user months later. The critic's counter-claim — \"RAG doesn't really fix hallucination\" — overcorrects in the opposite direction: this module's own `Q1` case shows generation *can* be faithful and complete even against a noisy, imperfect retrieval, and `Q4` shows generation can be unfaithful even against a perfect one. Neither \"RAG solves grounding\" nor \"RAG doesn't fix hallucination\" survives contact with a system where the two stages are actually measured apart — the honest claim is narrower, and more useful, than either slogan.",
+        "sitWithThis": "Your RAG system will, someday, answer a real user confidently and completely wrong. Your diagnosis matrix will tell you cleanly whether the truth was in your corpus and your system failed to find it, or the truth was handed to the model directly and it said something else anyway. Ask yourself which failure is more forgivable to explain to the person who acted on that wrong answer — and then ask whether the accountability chain you'd actually have to walk them through changes at all based on which one it turns out to be."
+      },
+      "adaptation": {
+        "pacing": {
+          "minHoursPerWeek": 8,
+          "targetHoursPerWeek": 10,
+          "maxHoursPerWeek": 12,
+          "targetWeeks": 2
+        },
+        "watchFor": [
+          "struggle-blocked",
+          "struggle-productive",
+          "pace-ahead",
+          "mastery-early",
+          "shallow-completion"
+        ],
+        "moves": {
+          "accelerate": "A learner clearing both without a single incorrect number has demonstrated the core measurement discipline; they may submit only the diagnosis (not the full harness build) for three of Lab M04-C's six queries, with written reasoning standing in for the other three.",
+          "reinforce": "Re-anchor in the module's own worked examples before adding new material; struggle here is expected to be productive, not blocked.",
+          "reroute": "before more formula practice, walk the `Q1`/`Q3` 2×2 confusion-matrix picture from Lesson 3 by hand, out loud, with the actual retrieved sets in front of them — the formulas stick once the picture does, rarely the other way around. have the learner hand-construct a"
+        }
+      }
+    },
+    {
+      "id": "AIE-302-M05",
+      "track": "C",
+      "title": "Agents: tools, planning, memory, bounded autonomy",
+      "summary": "The first agent module, and the point where the course stops answering questions and starts *acting*. M03 built RAG from primitives; M04 proved retrieval and generation can — and must — be measured apart. This module takes that same discipline up one more layer, to a system that doesn't just produce an answer but takes multiple steps, calls real capabilities, and can do real things if a call is wrong. We descend beneath any agent framework's `AgentExecutor`, beneath any provider's native \"tool use\" API, to the primitive underneath both: literal text the model writes, parsed by code you wrote, dispatched to a Python function, the result concatenated back into the next prompt. Four layers, in order: the tool-call loop itself (Lesson 1), an explicit planning step pulled out of that loop and made inspectable (Lesson 2), a memory mechanism that decides on purpose what survives a turn and what doesn't (Lesson 3), and bounded autonomy — checkpoints, an approval gate, hard ceilings — as a non-negotiable engineering requirement, not a nice-to-have (Lesson 4). Re-ascend able to name exactly what a framework's agent abstraction is doing for you, because you built every layer under it by hand first, and watched — on purpose, in a sandbox — what happens when the last layer is missing.",
+      "credentials": [
+        {
+          "name": "Building with Foundation Models: Context, RAG, and Agents — Agents: tools, planning, memory, bounded autonomy",
+          "provider": "The AI Engineer Curriculum (first-party)",
+          "kind": "course",
+          "freeToAudit": true,
+          "paidCostUSD": 0
+        }
+      ],
+      "prerequisites": [
+        "AIE-302-M04"
+      ],
+      "buildThread": "AIE-302: Framework-last: everything is built from primitives first (the learner's own AIE-110 ANN index included), so no abstraction is incantation. Every system ships with the eval discipline of AIE-204 — retrieval measured apart from generation, agent runs traced and scored — which is precisely what the short-course ecosystem never enforces.",
+      "pillars": {
+        "structure": "Map the module before building: A human-approval checkpoint before any consequential action; A hard step ceiling the agent cannot exceed.; A hard cost ceiling.",
+        "readingReasoning": "Read each lesson's worked example and named misconceptions; predict what the mechanism does before reading the explanation.",
+        "testing": "Run every lab's Predict step on paper, before Build; verify against the provided tests, not against whether the program merely runs.",
+        "building": "Complete the module's labs (A — Build the ReAct tool-call loop from scratch; B — Explicit planning: build the plan, execute it, replan on failure; C — Session memory under a hard token budget; D — Bounded autonomy: predict the ungated failure, then gate it) and the module assessment."
+      },
+      "tiers": {
+        "materialGround": "An agent given a consequential tool and no approval gate will, under entirely ordinary, non-adversarial reasoning, take that action more than once if it has any reason for self-doubt. This module's own test suite proves it with a number, not an anecdote: `test_ungated_agent_files_three_duplicate_requests` reproduces three real, unwanted side effects from a model whose every stated `Thought` is individually reasonable. No jailbreak, no malicious input — ordinary caution, compounding.",
+        "observerReading": "\"Give the agent more autonomy\" boosterism suppresses that autonomy was never a single dial turned up for more capability at no cost — it is a specific, per-tool, per-action decision about who is accountable if the model is wrong, and by default that decision is *made by omission*, by whoever didn't wire an `approval_fn`. The critic's overcorrection — \"agents can't be trusted with any real action, ever\" — is refuted by this same lesson's gated scenario: the identical model, producing the identical uncertain reasoning, reached exactly the right outcome (one filed request, one correctly-recognized duplicate) the moment a human checkpoint existed for it to hit. Neither \"agents are ready to act unsupervised\" nor \"agents can never be trusted to act\" survives contact with a system where the gate is actually built and measured. Autonomy was never binary; it was always a specific, inspectable set of checkpoints someone did or didn't build, and \"the agent decided to\" is a sentence that erases every one of those choices.",
+        "sitWithThis": "You will build an agent, someday, that is given a tool and no approval gate — because gating every tool felt like too much friction for something that \"obviously\" wouldn't need it. When that tool does something consequential and wrong, more than once, for reasons the model can articulate afterward that sound completely reasonable — trace the accountability chain out loud, every link: the model that made the call; the loop that let it retry; the tool's confirmation message that gave it no reason to believe it had already succeeded; the engineer who didn't wire a gate; the reviewer who approved the change that shipped without one; the person who typed the original request and never saw any of this happen. Which of those links had the power to stop it before it happened — and which one is the link your postmortem will actually name?"
+      },
+      "adaptation": {
+        "pacing": {
+          "minHoursPerWeek": 8,
+          "targetHoursPerWeek": 10,
+          "maxHoursPerWeek": 12,
+          "targetWeeks": 2
+        },
+        "watchFor": [
+          "struggle-blocked",
+          "struggle-productive",
+          "pace-ahead",
+          "mastery-early",
+          "shallow-completion"
+        ],
+        "moves": {
+          "accelerate": "Such a learner may build Lab M05-C and Lab M05-D \"tests-first\" — writing their own scripted scenario and canned transcript (in this module's own Predict/Build/Verify discipline) rather than working from the provided fixtures — and may submit that self-authored scenario as their Assessment case instead of the provided one, provided it still plants exactly one of the four named defect classes.",
+          "reinforce": "Re-anchor in the module's own worked examples before adding new material; struggle here is expected to be productive, not blocked.",
+          "reroute": "for a learner visibly stuck here past one session, hand them a working `parse_model_output` and let them focus the rest of Lab M05-A on `run_agent`'s control flow alone; have them return to writing the parser themselves only after the loop's shape has clicked. don't argue it philosophically — run the `LOOPING_CANNED` two-entry script from Lab M05-A's step-ceiling test live, in front of the learner, and let them watch it actually not stop. The abstract question resolves itself once they've seen a concrete transcript refuse to terminate."
+        }
+      }
+    },
+    {
+      "id": "AIE-302-M06",
+      "track": "C",
+      "title": "Multi-agent and orchestration patterns",
+      "summary": "immediately after M05, where the learner built a single agent's tool-call loop by hand — tool definitions, the plan/act/observe shape, bounded autonomy, a human gate. M05 answered \"how do I build an agent.\" M06 asks a question M05 never had to: \"when do I build *more than one*, and what does that actually cost?\" This is the first module in the course where the learner is graded on comparing architectures they already know how to build, not on building a new capability — the same discipline shift M04 made for RAG (measure, don't assume) now applied one level up, to coordination itself. It sits immediately before M07 (frameworks), which does not rerun this module's own coordination comparison — it turns to a narrower, different question: what LangChain's `create_agent` (a single-agent construct), its middleware layer, and its callback-based tracing cost and buy against M05's single hand-built agent and `Governor`, so \"what does the framework actually buy you\" stays an answerable, measured question instead of a marketing claim, on the single-agent ground this course already built by hand.",
+      "credentials": [
+        {
+          "name": "Building with Foundation Models: Context, RAG, and Agents — Multi-agent and orchestration patterns",
+          "provider": "The AI Engineer Curriculum (first-party)",
+          "kind": "course",
+          "freeToAudit": true,
+          "paidCostUSD": 0
+        }
+      ],
+      "prerequisites": [
+        "AIE-302-M05"
+      ],
+      "buildThread": "AIE-302: Framework-last: everything is built from primitives first (the learner's own AIE-110 ANN index included), so no abstraction is incantation. Every system ships with the eval discipline of AIE-204 — retrieval measured apart from generation, agent runs traced and scored — which is precisely what the short-course ecosystem never enforces.",
+      "pillars": {
+        "structure": "Map Multi-agent and orchestration patterns's structure before starting any lab.",
+        "readingReasoning": "Read each lesson's worked example and named misconceptions; predict what the mechanism does before reading the explanation.",
+        "testing": "Run every lab's Predict step on paper, before Build; verify against the provided tests, not against whether the program merely runs.",
+        "building": "Complete the module's labs (A — Build the single-agent baseline; B — Build the supervisor-worker pattern; prove the validation gate; C — Build peer-handoff; run the full comparison; write the verdict) and the module assessment."
+      },
+      "tiers": {
+        "materialGround": "Adding agents to a system does not add capability by default; it adds coordination structure, and that structure has a cost that shows up on more than one axis at once (call count, context volume, and — the one that matters most — whether anything checks a downstream claim before it ships). This module's own numbers are the evidence, not an opinion about them: 12 baseline calls beat 25 supervisor-worker calls on raw count, while 2199 supervisor-worker context characters beat both baseline's 2606 and peer-handoff's 3171 — three real orderings, none of which agree with each other, which is exactly why \"multi-agent costs more\" is too simple a sentence to be useful without specifying more of *what*.",
+        "observerReading": "Multi-agent orchestration is sold, by frameworks and by the vendors metering API calls behind them, as the sophisticated default for anything beyond a toy demo — and a system that costs twice the calls of a single well-scoped agent looks, to a buyer who never saw a same-task baseline, like more serious engineering rather than what this module's own measurement shows it can be: unearned overhead. The economic incentive to sell coordination (more calls metered, more infrastructure licensed, more \"agentic\" in the pitch deck) is not the same incentive as being honest about when a single agent would have done the same job for less, and almost nobody selling an orchestration framework publishes the baseline comparison that would let a buyer tell the difference. You just built that comparison yourself, for one task — most teams never do, for any.",
+        "sitWithThis": "A supervisor's validation gate, in this module, silently repairs a hallucinating worker and the system just... keeps working, correctly, with no visible sign anything went wrong. That's the gate succeeding. Now run the tape forward a year: the gate hasn't fired in production in months, because most days nothing tries to slip past it — and someone on a latency budget notices the extra validation call and quietly removes it, because it \"hasn't caught anything.\" The day it would have caught something, it's already gone, and the wrong number reaches someone's paycheck instead. Now run the *other* tape: a peer-handoff system, no gate to begin with, and the same wrong number reaches the same paycheck — but this time, when someone asks \"whose decision was this,\" the honest answer might be that nobody's name was ever on it, because by the time anyone looked, the context that would explain what happened had already been overwritten by the next handoff. Before you reach for \"no central authority, it's simpler\" on a system whose mistakes reach people: whose hands is that decision actually in, on the day it's wrong — and would you be able to find out?"
+      },
+      "adaptation": {
+        "pacing": {
+          "minHoursPerWeek": 8,
+          "targetHoursPerWeek": 10,
+          "maxHoursPerWeek": 12,
+          "targetWeeks": 2
+        },
+        "watchFor": [
+          "struggle-blocked",
+          "struggle-productive",
+          "pace-ahead",
+          "mastery-early",
+          "shallow-completion"
+        ],
+        "moves": {
+          "accelerate": "Such a learner can skip re-deriving the peer-handoff canned-response fixture from scratch and move directly to `run_full_comparison` plus `VERDICT`, treating the fixture-building code as read-only reference.",
+          "reinforce": "Re-anchor in the module's own worked examples before adding new material; struggle here is expected to be productive, not blocked.",
+          "reroute": "show Lesson 4's full comparison table early, out of order, as a \"here's where this is going\" preview, then return to build up to it properly. have the learner print the exact prompt their solve function builds and the exact keys in their canned dict side by side before debugging further — this is almost always a one-character formatting mismatch, not a logic bug."
+        }
+      }
+    },
+    {
+      "id": "AIE-302-M07",
+      "track": "C",
+      "title": "Frameworks last: what LangChain-shaped tools actually buy",
+      "summary": "The re-ascent, and the course's payoff. Every primitive this course built by hand — chunking and retrieval (M03), retrieval measured apart from generation (M04), the tool-call loop, explicit planning, session memory, and bounded autonomy (M05), multi-agent coordination (M06) — has already been built, broken on purpose, and gated on a judgment trail. This module installs a real framework for the first time in the course and rebuilds a slice of that same work with it, so that \"what does the framework buy you\" stops being a marketing claim you take on faith and becomes a number you produced yourself, against a baseline you already trust because you built it.",
+      "credentials": [
+        {
+          "name": "Building with Foundation Models: Context, RAG, and Agents — Frameworks last: what LangChain-shaped tools actually buy",
+          "provider": "The AI Engineer Curriculum (first-party)",
+          "kind": "course",
+          "freeToAudit": true,
+          "paidCostUSD": 0
+        }
+      ],
+      "prerequisites": [
+        "AIE-302-M06"
+      ],
+      "buildThread": "AIE-302: Framework-last: everything is built from primitives first (the learner's own AIE-110 ANN index included), so no abstraction is incantation. Every system ships with the eval discipline of AIE-204 — retrieval measured apart from generation, agent runs traced and scored — which is precisely what the short-course ecosystem never enforces.",
+      "pillars": {
+        "structure": "Map Frameworks last: what LangChain-shaped tools actually buy's structure before starting any lab.",
+        "readingReasoning": "Read each lesson's worked example and named misconceptions; predict what the mechanism does before reading the explanation.",
+        "testing": "Run every lab's Predict step on paper, before Build; verify against the provided tests, not against whether the program merely runs.",
+        "building": "Complete the module's labs (A — Rebuild the tool-call loop with a real framework; B — Bounded autonomy as middleware, checked against `Governor`; C — Tracing for free, and reading a framework's own traceback) and the module assessment."
+      },
+      "tiers": {
+        "materialGround": "A framework changes *what code you write*, not *what the system does*. This module's own numbers show both halves of that fact at once: the tool-call loop collapses from 101 hand-written lines to 36 — a ~64% reduction (Lesson 1) — while the exact same ungated PTO scenario files real-world duplicate side effects whether or not a framework is installed (Lesson 2, `test_ungated_no_middleware_still_files_three_duplicate_requests`) — because the failure was never in the loop's syntax, it was in the absence of a governance decision, and no framework makes that decision for you by default.",
+        "observerReading": "\"Just use LangChain (or any agent framework), it handles all of this\" suppresses that \"handles\" here means *makes reachable in a few lines*, not *makes automatic* — `middleware=[]` is a valid, silent, unsafe call, and the fastest path through `create_agent`'s own documentation is the ungated one. The opposite overcorrection — \"frameworks are an unnecessary abstraction layer real engineers avoid\" — is refuted by this same module's own numbers: `HumanInTheLoopMiddleware`'s pause-and-resume-in-a-different-process capability is not something `Governor`'s synchronous `approval_fn` can do at all, at any amount of hand-written effort short of rebuilding a comparable chunk of LangGraph. Neither \"frameworks solve this for you\" nor \"frameworks are training wheels\" survives contact with a system where both the win and the gap were actually measured. What a framework buys was never a single yes/no; it is a specific, per-feature ledger — sometimes a real capability gain, sometimes a wrapper tax, sometimes a default that trades your explicit safety net for someone else's implicit one — and \"we use a framework\" is a sentence that, on its own, tells you nothing about which entries are on which side.",
+        "sitWithThis": "You will, someday, choose a framework for a system with a real consequential action in it, and the choice will feel like a productivity decision — fewer lines, a name recruiters recognize, a community with more Stack Overflow answers than your own hand-built loop will ever have. Trace the accountability chain this course has asked you to trace all module long, one more time, at this specific layer: the model that reasoned its way to a duplicate action; the loop — yours or the framework's — that let it retry; the middleware that was or wasn't installed; the engineer who reached for `create_agent(model, tools)` with no `middleware=` argument because the deadline was real and the empty list typechecks; the traceback that took ten frames to explain what went wrong, if anyone ever read that far; the reviewer who approved a PR that swapped a hand-built `Governor` for a framework default without asking whether the default matched the guarantee. A framework does not remove any link in that chain. It changes how many of those links are legible to the person standing at the end of it, holding the postmortem, deciding who's accountable for what a system nobody fully audited did. Which of those links, in your own next project, will you actually go read?"
+      },
+      "adaptation": {
+        "pacing": {
+          "minHoursPerWeek": 8,
+          "targetHoursPerWeek": 10,
+          "maxHoursPerWeek": 12,
+          "targetWeeks": 2
+        },
+        "watchFor": [
+          "struggle-blocked",
+          "struggle-productive",
+          "pace-ahead",
+          "mastery-early",
+          "shallow-completion"
+        ],
+        "moves": {
+          "accelerate": "Such a learner may treat Lab M07-C's Predict step (`bind_tools` vs. `_llm_type`) as a stretch problem once solved: have them confirm the pattern generalizes by deliberately omitting `_generate` instead — the model's actual generation method — and predicting, before running it, whether that also fails immediately at construction (same reasoning: it's declared with the same `abstractmethod` machinery as `_llm_type`) or waits until `agent.invoke(...)` like `bind_tools` does. Then have them state in one sentence the general rule: which category a missing method falls into is decidable from how `BaseChatModel` declares it, not from guessing.",
+          "reinforce": "Re-anchor in the module's own worked examples before adding new material; struggle here is expected to be productive, not blocked.",
+          "reroute": "do not let a learner submit Lab M07-A without the line-count comparison and the `GraphRecursionError`-vs-clean-stop distinction stated in their own words; if they've skipped straight to \"it works,\" hand them Lesson 1's Misconception 2 and have them run the exact `recursion_limit` sweep (2 through 7) themselves before moving on. don't argue the ceremony is simple — argue it's"
+        }
+      }
     }
   ],
   "spines": [
@@ -3968,7 +4325,7 @@ export const aiEngineerCurriculumCourse: Course = {
   ],
   "credentialModel": {
     "sealedReading": "One three-tier observer reading (material ground / what the field suppresses / sit-with-this) sealed per module, plus a course-close synthesis per completed course.",
-    "corpusSize": 87,
+    "corpusSize": 95,
     "demonstrates": "Structural understanding at a depth no exam measures — this program's version of the alternative credentialing model: the sealed corpus, not the certificate, is what a learner has actually earned."
   },
   "costModel": {
